@@ -1,0 +1,25 @@
+{
+  "rules": {
+    "punctual": {
+      "$user_id": {
+        ".read": "auth != null && auth.uid == $user_id",
+        ".write": "auth != null && auth.uid == $user_id",
+        ".indexOn": [
+          "date"
+        ]
+      }
+    },
+    "recurrent": {
+      "$user_id": {
+        ".read": "auth != null && auth.uid == $user_id",
+        ".write": "auth != null && auth.uid == $user_id"
+      }
+    },
+    "settings": {
+      "$user_id": {
+        ".read": "auth != null && auth.uid == $user_id",
+        ".write": "auth != null && auth.uid == $user_id"
+      }
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "login": {
+    "Sign in with provider": "Sign in with provider",
+    "Repeat password": "Re-enter the password",
+    "Sign up": "Sign up",
+    "Log in": "Log in",
+    "Email": "Email",
+    "Password": "Password",
+    "Passwords do not match": "Passwords do not match",
+    "Sign out": "Sign out"
+  },
+  "bilan": {
+    "Title": "Bilan"
+  },
+  "global": {
+    "Title": "Global",
+    "Global view": "Global view"
+  },
+  "settings": {
+    "Title": "Settings",
+    "Switch currency": "Switch currency",
+    "No conversion is done": "No conversion is done, the change is only visual",
+    "Switch language": "Switch language"
+  },
+  "about": {
+    "Title": "About"
+  },
+  "date": {
+    "Today": "Today",
+    "Day": "Day",
+    "Week": "Week",
+    "Month": "Month",
+    "Year": "Year",
+    "Daily": "Daily",
+    "Weekly": "Weekly",
+    "Monthly": "Monthly",
+    "Yearly": "Yearly"
+  },
+  "entries": {
+    "Recurrent": "Recurrent",
+    "Punctual": "Punctual",
+    "Amount": "Amount",
+    "Name": "Name",
+    "Balance": "Balance",
+    "Type": "Type",
+    "selected": "selected",
+    "Recurrency": "Recurrency",
+    "Add a punctual entry": "Add a punctual entry",
+    "Edit a punctual entry": "Edit a punctual entry",
+    "Add a recurrent entry": "Add a recurrent entry",
+    "Edit a recurrent entry": "Edit a recurrent entry"
+  },
+  "utils": {
+    "Cancel": "Cancel",
+    "Add": "Add",
+    "Edit": "Edit"
+  }
+}

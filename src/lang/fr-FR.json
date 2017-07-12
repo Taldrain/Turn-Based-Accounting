@@ -1,0 +1,58 @@
+{
+  "login": {
+    "Sign in with provider": "Se connecter avec",
+    "Repeat password": "Répéter le mot de passe",
+    "Sign up": "S'inscrire",
+    "Log in": "Se connecter",
+    "Email": "Email",
+    "Password": "Mot de passe",
+    "Passwords do not match": "Les mots de passe ne sont pas équivalent",
+    "Sign out": "Se déconnecter"
+  },
+  "bilan": {
+    "Title": "Bilan"
+  },
+  "global": {
+    "Title": "Global",
+    "Global view": "Vue globale"
+  },
+  "settings": {
+    "Title": "Paramètres",
+    "Switch currency": "Changer de monnaie",
+    "No conversion is done": "Aucune conversion n'est effectuée, la modification est seule mènent visuelle",
+    "Switch language": "Changer la langue"
+  },
+  "about": {
+    "Title": "À propos"
+  },
+  "date": {
+    "Today": "Aujourd'hui",
+    "Day": "Jour",
+    "Week": "Semaine",
+    "Month": "Mois",
+    "Year": "Année",
+    "Daily": "Journalier",
+    "Weekly": "Hebdomadaire",
+    "Monthly": "Mensuel",
+    "Yearly": "Annuel"
+  },
+  "entries": {
+    "Recurrent": "Récurrente",
+    "Punctual": "Ponctuelle",
+    "Amount": "Somme",
+    "Name": "Nom",
+    "Balance": "Balance",
+    "Type": "Type",
+    "selected": "sélectionnée(s)",
+    "Recurrency": "Récurrence",
+    "Add a punctual entry": "Ajouter une entrée ponctuelle",
+    "Edit a punctual entry": "Éditer une entrée ponctuelle",
+    "Add a recurrent entry": "Ajouter une entrée récurrente",
+    "Edit a recurrent entry": "Éditer une entrée récurrente"
+  },
+  "utils": {
+    "Cancel": "Annuler",
+    "Add": "Ajouter",
+    "Edit": "Éditer"
+  }
+}
