@@ -6,7 +6,7 @@ From the ideas of the [Bennedetto project](https://github.com/arecker/bennedetto
 
 You can check the product [here](https://turn-based-accounting.firebaseapp.com/).
 
-* Do not use this website for personnal uses. Your data will be deleted *
+*Do not use this website for personnal uses. Your data will be deleted*
 
 
 ### Requirements
