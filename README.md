@@ -34,6 +34,6 @@ You'll need a [Firebase project](https://console.firebase.google.com/) to use it
 
 ### Local development
 
-`npm run devraw` or `npm run devraw` for the dashboard
+`npm run devraw` or `npm run dev` to use the dashboard
 
 It's recommended to update the file `config/config.json` with your own firebase configuration to be able to check to data server-side.
