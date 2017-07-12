@@ -8,6 +8,7 @@ const style = {
   top: 0,
   left: 0,
   width: '100%',
+  overflow: 'hidden',
 };
 
 class TrianglifyBackground extends React.Component {
@@ -38,12 +39,14 @@ class TrianglifyBackground extends React.Component {
     const width = Math.max(
       document.body.clientWidth,
       document.documentElement.offsetWidth,
+      window.innerWidth,
     );
 
     const height = Math.max(
       document.body.scrollHeight,
       document.body.clientHeight,
       document.documentElement.offsetHeight,
+      window.innerHeight,
     );
 
     const pattern = trianglify({
