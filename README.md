@@ -4,9 +4,14 @@ Turn-Based Accounting
 
 From the ideas of the [Bennedetto project](https://github.com/arecker/bennedetto)
 
+
+### About
+
+Turn-Based Accounting allows you to track how much money do you earn/spend per day/week...
+
 You can check the product [here](https://turn-based-accounting.firebaseapp.com/).
 
-*Do not use this website for personnal uses. Your data will be deleted*
+*Do not use this website for personal uses. Your data will be deleted*
 
 
 ### Requirements

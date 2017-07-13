@@ -10,6 +10,7 @@ import List, { ListItem, ListItemText } from 'material-ui/List';
 
 import MenuIcon from 'material-ui-icons/Menu';
 
+const FontAwesomeIcon = require('../components/element/font-awesome-icon.jsx');
 const TextDisplay = require('../components/display/text.jsx');
 const SidebarLink = require('./components/sidebar-link.jsx');
 
@@ -21,7 +22,11 @@ const styles = {
     width: '250px',
   },
   flex: {
-    width: '100%',
+    flex: 1,
+  },
+  a: {
+    textDecoration: 'none',
+    color: 'inherit',
   },
 };
 
@@ -71,6 +76,16 @@ class App extends React.Component {
             <Typography type="title" color="inherit" style={styles.flex}>
               Turn-Based Accounting
             </Typography>
+            <IconButton color="inherit">
+              <a
+                style={styles.a}
+                href="https://github.com/Taldrain/Turn-Based-Accounting/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <FontAwesomeIcon name="github" />
+              </a>
+            </IconButton>
           </Toolbar>
         </AppBar>
         <Drawer
