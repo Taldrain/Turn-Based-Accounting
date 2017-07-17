@@ -22,6 +22,12 @@ describe('Utils Date', () => {
         startDate: new Date(2011, 10, 11, 0, 0, 0, 0),
         endDate: new Date(2011, 10, 11, 23, 59, 59, 999),
       }, {
+        title: 'week 2017/07/16',
+        type: 'week',
+        date: new Date(2017, 6, 16, 12, 0, 0, 0),
+        startDate: new Date(2017, 6, 10, 0, 0, 0, 0),
+        endDate: new Date(2017, 6, 16, 23, 59, 59, 999),
+      }, {
         title: 'week 2017/06/30',
         type: 'week',
         date: new Date(2017, 5, 30, 12, 0, 0, 0),

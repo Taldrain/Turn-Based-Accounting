@@ -1,9 +1,15 @@
+function getDayStartMonday(date) {
+  const day = new Date(date).getDay();
+
+  return day === 0 ? 6 : day - 1;
+}
+
 function startDate(date, type) {
   let startDay = new Date(date);
 
   if (type === 'week') {
-    const diff = date.getDate() - date.getDay();
-    startDay.setDate(diff + 1);
+    const diff = date.getDate() - getDayStartMonday(date);
+    startDay.setDate(diff);
   } else if (type === 'month') {
     startDay = new Date(date.getFullYear(), date.getMonth(), 1);
   } else if (type === 'year') {
@@ -19,8 +25,8 @@ function endDate(date, type) {
   let endDay = new Date(date);
 
   if (type === 'week') {
-    const diff = date.getDate() - date.getDay();
-    endDay.setDate(diff + 7);
+    const diff = date.getDate() - getDayStartMonday(date);
+    endDay.setDate(diff + 6);
   } else if (type === 'month') {
     endDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
   } else if (type === 'year') {
