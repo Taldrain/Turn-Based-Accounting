@@ -45,7 +45,7 @@ function mapStateToProps(state) {
 class GraphGlobalView extends React.Component {
   componentDidMount() {
     const width = parseInt(this.node.clientWidth, 10) - margin.left - margin.right;
-    const height = 300 - margin.top - margin.bottom;
+    const height = 350 - margin.top - margin.bottom;
 
     const x = d3.scaleTime()
       .domain(d3.extent(this.props.punctual, i => new Date(i.date)))
@@ -110,7 +110,7 @@ class GraphGlobalView extends React.Component {
       <Card>
         <CardContent>
           <Typography type="title">
-            <TextDisplay value="bilan.Global view" />
+            <TextDisplay value="global.Global view" />
           </Typography>
         </CardContent>
         <CardContent>

@@ -88,7 +88,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 } else {
   //
-  // Developpment / Test configuration
+  // Development / Test configuration
   //
   module.exports = webpackMerge(common, {
     devtool: 'cheap-eval-source-map',

@@ -11,6 +11,12 @@ const Header = require('./header.jsx');
 const Toolbar = require('./toolbar.jsx');
 const TextDisplay = require('../display/text.jsx');
 
+const styles = {
+  paper: {
+    overflowX: 'auto',
+  },
+};
+
 function typeDisplay(value) {
   switch (value) {
     case 'year':
@@ -126,7 +132,7 @@ class ListEntries extends React.Component {
 
   render() {
     return (
-      <Paper>
+      <Paper style={styles.paper}>
         <Toolbar
           selected={this.state.selected}
           onDelete={this.onDelete}

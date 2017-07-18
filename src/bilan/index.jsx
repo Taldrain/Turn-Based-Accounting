@@ -84,16 +84,16 @@ class Bilan extends React.Component {
   render() {
     return (
       <Grid container direction="row" justify="space-between" align="flex-start">
-        <Grid item xs={6} style={styles.heightHeader}>
+        <Grid item md={6} xs={12} style={styles.heightHeader}>
           <Amount />
         </Grid>
-        <Grid item xs={6} style={styles.heightHeader}>
+        <Grid item md={6} xs={12} style={styles.heightHeader}>
           <DateScroller />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item md={6} xs={12}>
           <RecurrentList />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item md={6} xs={12}>
           <PunctualList />
         </Grid>
       </Grid>

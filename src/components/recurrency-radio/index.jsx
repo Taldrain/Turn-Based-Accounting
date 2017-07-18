@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { LabelRadio, RadioGroup } from 'material-ui/Radio';
-import { FormLabel, FormControl } from 'material-ui/Form';
+import Radio, { RadioGroup } from 'material-ui/Radio';
+import { FormLabel, FormControl, FormControlLabel } from 'material-ui/Form';
 
 const TextDisplay = require('../display/text.jsx');
 
@@ -32,10 +32,26 @@ class RecurrencyRadio extends React.Component {
           selectedValue={this.state.type}
           onChange={(ev, type) => this.props.onChange(type)}
         >
-          <LabelRadio label={<TextDisplay value="date.Yearly" />} value="year" />
-          <LabelRadio label={<TextDisplay value="date.Monthly" />} value="month" />
-          <LabelRadio label={<TextDisplay value="date.Weekly" />} value="week" />
-          <LabelRadio label={<TextDisplay value="date.Daily" />} value="day" />
+          <FormControlLabel
+            value="year"
+            label={<TextDisplay value="date.Yearly" />}
+            control={<Radio />}
+          />
+          <FormControlLabel
+            value="month"
+            label={<TextDisplay value="date.Monthly" />}
+            control={<Radio />}
+          />
+          <FormControlLabel
+            value="week"
+            label={<TextDisplay value="date.Weekly" />}
+            control={<Radio />}
+          />
+          <FormControlLabel
+            value="day"
+            label={<TextDisplay value="date.Daily" />}
+            control={<Radio />}
+          />
         </RadioGroup>
       </FormControl>
     );

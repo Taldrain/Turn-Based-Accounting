@@ -30,8 +30,8 @@ TODO
 
 ### Tools
 
-- [ ] i18n
-- [ ] l10n
+- [x] i18n
+- [x] l10n
 - [ ] log
 - [ ] readme
 - [x] deploy
@@ -66,3 +66,5 @@ TODO
 - [ ] date should it return date || timestamp ?
 - [ ] recurrent amount will be removed when recurrent has a start and end date
 - [ ] better (smarter) clean of entries for d3
+- [ ] pagination in tables (necessary ?)
+- [ ] search in tables (necessary ?)
