@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { UIRouter, UIView, pushStateLocationPlugin } from '@uirouter/react';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
@@ -13,8 +12,6 @@ const Router = require('./routes.js');
 require('font-awesome-webpack');
 
 require('./index.scss');
-
-injectTapEventPlugin();
 
 const store = createStore(require('./reducers/index.js'));
 require('./utils/l10n.js').start(store);

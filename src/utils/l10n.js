@@ -32,6 +32,7 @@ function checkLocale(locale) {
 
   switch (canonicalLocale) {
     case 'en-US':
+    case 'fr-FR':
       return canonicalLocale;
     default:
       return DEFAULT_LOCALE;

@@ -15,14 +15,14 @@ class AuthTabs extends React.Component {
     super(props);
 
     this.state = {
-      index: 0,
+      value: 0,
     };
 
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(ev, index) {
-    this.setState({ index });
+  handleChange(ev, value) {
+    this.setState({ value });
   }
 
   render() {
@@ -30,7 +30,7 @@ class AuthTabs extends React.Component {
       <Card>
         <AppBar position="static" color="default">
           <Tabs
-            index={this.state.index}
+            value={this.state.value}
             onChange={this.handleChange}
             textColor="accent"
             fullWidth

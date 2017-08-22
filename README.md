@@ -11,8 +11,6 @@ Turn-Based Accounting allows you to track how much money do you earn/spend per d
 
 You can check the product [here](https://turn-based-accounting.firebaseapp.com/).
 
-*Do not use this website for personal uses. Your data will be deleted*
-
 
 ### Requirements
 

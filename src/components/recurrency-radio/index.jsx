@@ -29,7 +29,7 @@ class RecurrencyRadio extends React.Component {
         <RadioGroup
           aria-label="recurrency"
           name="recurrency"
-          selectedValue={this.state.type}
+          value={this.state.type}
           onChange={(ev, type) => this.props.onChange(type)}
         >
           <FormControlLabel

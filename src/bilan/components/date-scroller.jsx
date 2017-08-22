@@ -86,7 +86,7 @@ class DateScroller extends React.Component {
         direction="row"
         justify="center"
         align="center"
-        gutter={40}
+        spacing={40}
         style={styles.root}
       >
         <Grid item>
