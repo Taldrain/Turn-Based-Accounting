@@ -78,6 +78,14 @@ module.exports = {
       addedAt: Date.now(),
     };
 
+    if (data.startDate) {
+      entry.startDate = new Date(data.startDate).getTime();
+    }
+
+    if (data.endDate) {
+      entry.endDate = new Date(data.endDate).getTime();
+    }
+
     return firebaseRef(getRecurrentPath()).push().set(entry);
   },
 
@@ -139,6 +147,14 @@ module.exports = {
       type: data.type,
       lastEdit: Date.now(),
     };
+
+    if (data.startDate) {
+      entry.startDate = new Date(data.startDate).getTime();
+    }
+
+    if (data.endDate) {
+      entry.endDate = new Date(data.endDate).getTime();
+    }
 
     return firebaseRef(getRecurrentPath()).child(key).update(entry);
   },

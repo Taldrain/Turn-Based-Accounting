@@ -19,9 +19,15 @@ class DialogEntry extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
+  componentWillUnmount() {
+    this.umounted = true;
+  }
+
   handleRequestClose() {
-    this.props.onRequestClose();
-    this.setState({ open: false });
+    if (this.umounted !== true) {
+      this.props.onRequestClose();
+      this.setState({ open: false });
+    }
   }
 
   handleRequestOpen(ev) {

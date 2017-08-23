@@ -10,6 +10,8 @@ const defaultStateValues = {
   balance: 'negatif',
   name: '',
   amount: '',
+  startDate: '',
+  endDate: '',
 };
 
 function handleAdd(data) {

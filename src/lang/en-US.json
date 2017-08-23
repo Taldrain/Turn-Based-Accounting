@@ -45,10 +45,13 @@
     "Type": "Type",
     "selected": "selected",
     "Recurrency": "Recurrency",
+    "Start date": "Start date",
+    "End date": "End date",
     "Add a punctual entry": "Add a punctual entry",
     "Edit a punctual entry": "Edit a punctual entry",
     "Add a recurrent entry": "Add a recurrent entry",
-    "Edit a recurrent entry": "Edit a recurrent entry"
+    "Edit a recurrent entry": "Edit a recurrent entry",
+    "Issue recurrent limit": "Warning: an issue while computing the sum of a recurrent entry when its limit are outside of the current selected limit can happen"
   },
   "utils": {
     "Cancel": "Cancel",

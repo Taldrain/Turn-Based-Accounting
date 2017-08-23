@@ -13,6 +13,14 @@ function handleEdit(data) {
 
 function RecurrentEdit(props) {
   const entry = AmountUtils.convertForm(props.entry);
+  if (props.entry.startDate) {
+    entry.startDate = new Date(props.entry.startDate).toISOString().substring(0, 10);
+  }
+
+  if (props.entry.endDate) {
+    entry.endDate = new Date(props.entry.endDate).toISOString().substring(0, 10);
+  }
+
   return (
     <RecurrentDialogWrapper onValidate={handleEdit} entry={entry}>
       <DialogEdit title="entries.Edit a recurrent entry" />

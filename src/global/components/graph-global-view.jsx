@@ -10,7 +10,7 @@ const Colors = require('../../colors.js');
 const TextDisplay = require('../../components/display/text.jsx');
 
 const EntryUtils = require('../../utils/entry.js');
-const AmountUtils = require('../../utils/amount.js');
+// const AmountUtils = require('../../utils/amount.js');
 
 const margin = {
   top: 20,
@@ -26,19 +26,18 @@ const styles = {
 };
 
 function mapStateToProps(state) {
-  const recurrentAmount = AmountUtils.computeWithEntries(state.recurrent, 'day');
   const punctual =
-      EntryUtils.sortByDate(EntryUtils.cleanForGraph(state.punctual, recurrentAmount));
-  const recurrent = [
-    EntryUtils.dummyEntry(new Date(punctual[0].date), recurrentAmount),
-    EntryUtils.dummyEntry(new Date(punctual[punctual.length - 1].date), recurrentAmount),
-  ];
-  const sum = EntryUtils.computeSumbyDay(punctual, recurrentAmount);
+    EntryUtils.sortByDate(EntryUtils.listPunctualData(state.punctual));
+
+  const recurrent =
+    EntryUtils.sortByDate(EntryUtils.listRecurrentData(state.recurrent, state.punctual));
+
+  // const sum = EntryUtils.computeSumbyDay(punctual, recurrent);
 
   return ({
     recurrent,
     punctual,
-    sum,
+    // sum,
   });
 }
 
@@ -48,11 +47,19 @@ class GraphGlobalView extends React.Component {
     const height = 350 - margin.top - margin.bottom;
 
     const x = d3.scaleTime()
-      .domain(d3.extent(this.props.punctual, i => new Date(i.date)))
+      .domain(d3.extent(
+        d3.extent(this.props.recurrent, i => new Date(i.date)).concat(
+          d3.extent(this.props.punctual, i => new Date(i.date))
+        )
+      ))
       .range([0, width]);
 
     const y = d3.scaleLinear()
-      .domain(d3.extent(this.props.punctual, i => i.amount))
+      .domain(d3.extent(
+        d3.extent(this.props.recurrent, i => i.amount).concat(
+          d3.extent(this.props.punctual, i => i.amount)
+        )
+      ))
       .range([height, 0]);
 
     this.line = d3.line()
@@ -80,8 +87,8 @@ class GraphGlobalView extends React.Component {
       .call(d3.axisLeft(y));
 
     this.drawPunctual(this.props.punctual);
-    this.drawReccurrent(this.props.recurrent);
-    this.drawSum(this.props.sum);
+    this.drawRecurrent(this.props.recurrent);
+    // this.drawSum(this.props.sum);
   }
 
   drawPunctual(data) {
@@ -91,10 +98,10 @@ class GraphGlobalView extends React.Component {
       .style('stroke', Colors.graphs.punctual);
   }
 
-  drawReccurrent(data) {
+  drawRecurrent(data) {
     this.recurrent
       .datum(data)
-      .attr('d', this.line)
+      .attr('d', this.line.curve(d3.curveStepAfter))
       .style('stroke', Colors.graphs.recurrent);
   }
 
@@ -132,7 +139,7 @@ class GraphGlobalView extends React.Component {
 GraphGlobalView.propTypes = {
   punctual: PropTypes.arrayOf(PropTypes.object).isRequired,
   recurrent: PropTypes.arrayOf(PropTypes.object).isRequired,
-  sum: PropTypes.arrayOf(PropTypes.object).isRequired,
+  // sum: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 module.exports = connect(mapStateToProps)(GraphGlobalView);

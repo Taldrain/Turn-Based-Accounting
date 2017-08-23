@@ -9,7 +9,7 @@ const RecurrentList = require('../components/recurrent/list.jsx');
 const PunctualList = require('../components/punctual/list.jsx');
 
 const DB = require('../firebase/database.js');
-
+const DateUtils = require('../utils/date.js');
 const Actions = require('../actions/index.js');
 
 const styles = {
@@ -32,19 +32,22 @@ class Bilan extends React.Component {
 
     this.callbackPunctual = undefined;
     this.callbackRecurrent = undefined;
+
+    this.recurrentEntries = {};
   }
 
   componentDidMount() {
-    this.enablePunctualEvent(this.props.resolves.date, this.props.type);
-    this.enableRecurrentEvent();
+    this.enablePunctualEntries(this.props.resolves.date, this.props.type);
+    this.enableRecurrentEntries(this.props.resolves.date, this.props.type);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.resolves.date !== nextProps.resolves.date ||
       this.props.type !== nextProps.type) {
-      this.disablePunctualEvent(this.props.resolves.date, this.props.type);
+      this.disablePunctualEntries(this.props.resolves.date, this.props.type);
+      this.enablePunctualEntries(nextProps.resolves.date, nextProps.type);
 
-      this.enablePunctualEvent(nextProps.resolves.date, nextProps.type);
+      this.filterRecurrentEntries(nextProps.resolves.date, nextProps.type);
     }
   }
 
@@ -52,33 +55,55 @@ class Bilan extends React.Component {
     return false;
   }
 
-  componentWillUmount() {
-    this.disablePunctualEvent(this.props.resolves.date, this.props.type);
-    this.disableRecurrentEvent();
+  componentWillUnmount() {
+    this.disablePunctualEntries(this.props.resolves.date, this.props.type);
+    this.disableRecurrentEntries();
   }
 
-  enablePunctualEvent(date, type) {
+  enablePunctualEntries(date, type) {
     this.callbackPunctual = DB.getPunctualRef(date, type).on('value', snapshot =>
       this.context.store.dispatch(Actions.updatePunctual(snapshot.val() || {}))
+
     );
   }
 
-  disablePunctualEvent(date, type) {
+  disablePunctualEntries(date, type) {
     if (this.callbackPunctual) {
       DB.getPunctualRef(date, type).off('value', this.callbackPunctual);
     }
   }
 
-  enableRecurrentEvent() {
-    this.callbackRecurrent = DB.getRecurrentRef().on('value', snapshot =>
-      this.context.store.dispatch(Actions.updateRecurrent(snapshot.val() || {}))
-    );
+  enableRecurrentEntries(date, type) {
+    this.callbackRecurrent = DB.getRecurrentRef().on('value', (snapshot) => {
+      this.recurrentEntries = snapshot.val() || {};
+      this.filterRecurrentEntries(date, type);
+    });
   }
 
-  disableRecurrentEvent() {
+  disableRecurrentEntries() {
     if (this.callbackRecurrent) {
       DB.getRecurrentRef().off('value', this.callbackRecurrent);
     }
+  }
+
+  filterRecurrentEntries(date, type) {
+    const res = {};
+    const { startDate, endDate } = DateUtils.formatDate(date, type);
+
+    Object.keys(this.recurrentEntries).forEach((i) => {
+      if (this.recurrentEntries[i].startDate && this.recurrentEntries[i].startDate > endDate) {
+        return;
+      }
+
+      if (this.recurrentEntries[i].endDate && this.recurrentEntries[i].endDate < startDate) {
+        return;
+      }
+
+      res[i] = this.recurrentEntries[i];
+    });
+
+
+    this.context.store.dispatch(Actions.updateRecurrent(res));
   }
 
   render() {

@@ -45,10 +45,13 @@
     "Type": "Type",
     "selected": "sélectionnée(s)",
     "Recurrency": "Récurrence",
+    "Start date": "Date de début",
+    "End date": "Date de fin",
     "Add a punctual entry": "Ajouter une entrée ponctuelle",
     "Edit a punctual entry": "Éditer une entrée ponctuelle",
     "Add a recurrent entry": "Ajouter une entrée récurrente",
-    "Edit a recurrent entry": "Éditer une entrée récurrente"
+    "Edit a recurrent entry": "Éditer une entrée récurrente",
+    "Issue recurrent limit": "Attention: une erreur lors du calcul du montant d'une entrée récurrente peut arriver lorsque ses bornes sont en dehors des bornes sélectionnées"
   },
   "utils": {
     "Cancel": "Annuler",

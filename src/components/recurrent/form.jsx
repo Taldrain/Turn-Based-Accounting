@@ -1,11 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
+import Typography from 'material-ui/Typography';
 import Grid from 'material-ui/Grid';
 
 const BalanceRadio = require('../balance-radio/index.jsx');
 const RecurrencyRadio = require('../recurrency-radio/index.jsx');
 const TextDisplay = require('../display/text.jsx');
+
+const styles = {
+  maxWidthTypo: {
+    maxWidth: '275px',
+  },
+};
 
 function RecurrentForm(props) {
   return (
@@ -42,6 +49,31 @@ function RecurrentForm(props) {
           type={props.type}
         />
       </Grid>
+      <Grid item>
+        <TextField
+          id="startDate"
+          helperText={<TextDisplay value="entries.Start date" />}
+          value={props.startDate}
+          onChange={ev => props.onNewValue('startDate', ev.target.value)}
+          type="date"
+          fullWidth
+        />
+      </Grid>
+      <Grid item>
+        <TextField
+          id="endDate"
+          helperText={<TextDisplay value="entries.End date" />}
+          value={props.endDate}
+          onChange={ev => props.onNewValue('endDate', ev.target.value)}
+          type="date"
+          fullWidth
+        />
+      </Grid>
+      <Grid item style={styles.maxWidthTypo}>
+        <Typography color="accent" type="caption">
+          <TextDisplay value="entries.Issue recurrent limit" />
+        </Typography>
+      </Grid>
     </Grid>
   );
 }
@@ -52,6 +84,8 @@ RecurrentForm.propTypes = {
   amount: PropTypes.string.isRequired,
   balance: PropTypes.oneOf(['negatif', 'positif']).isRequired,
   type: PropTypes.oneOf(['year', 'month', 'week', 'day']).isRequired,
+  startDate: PropTypes.string.isRequired,
+  endDate: PropTypes.string.isRequired,
 };
 
 module.exports = RecurrentForm;

@@ -40,6 +40,8 @@ class RecurrentDialogWrapper extends React.Component {
         amount={this.state.amount}
         balance={this.state.balance}
         type={this.state.type}
+        startDate={this.state.startDate || ''}
+        endDate={this.state.endDate || ''}
       />
     );
 
@@ -58,6 +60,8 @@ RecurrentDialogWrapper.propTypes = {
     amount: PropTypes.string.isRequired,
     balance: PropTypes.oneOf(['negatif', 'positif']).isRequired,
     type: PropTypes.oneOf(['year', 'month', 'day']).isRequired,
+    startDate: PropTypes.string,
+    endDate: PropTypes.string,
   }),
   children: PropTypes.element.isRequired,
   onValidate: PropTypes.func.isRequired,
