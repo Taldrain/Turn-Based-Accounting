@@ -23,7 +23,10 @@
     "Switch language": "Switch language"
   },
   "about": {
-    "Title": "About"
+    "Title": "About",
+    "Description": "Turn-Based Accounting allows you to track how much money do you earn/spend per day/week...",
+    "Type of entry": "You can add two types of entry. One punctual, only for a day. And one recurrent, can be applied for every day, month or year.",
+    "Example": "For example, when you bought something for lunch, you will add a punctual entry. And for you salary you'll want a recurrent entry set to month."
   },
   "date": {
     "Today": "Today",

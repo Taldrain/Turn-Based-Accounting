@@ -23,7 +23,10 @@
     "Switch language": "Changer la langue"
   },
   "about": {
-    "Title": "À propos"
+    "Title": "À propos",
+    "Description": "Turn-Based Accounting permet de suivre combien d'argent vous gagnez/dépensez par jour/semaine...",
+    "Type of entries": "Vous pouvez ajouter deux type d'entrée. Une ponctuelle, seulement applicable pour une journée. Et une récurrent, qui peux être appliqué for chaque jour, semaine, mois ou année",
+    "Example": "Par exemple, après avoir acheté quelque chose pour le déjeuné, vous ajoutez une entrée ponctuelle. Et pour votre salaire vous utiliserez une entrée récurrente au mois."
   },
   "date": {
     "Today": "Aujourd'hui",
