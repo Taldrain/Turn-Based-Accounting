@@ -7,7 +7,7 @@
     "stats": "NODE_ENV=production webpack -p --profile --json > stats.json",
     "dist": "npm run clean && NODE_ENV=production webpack -p",
     "rules": "firebase-bolt < firebase/rules/database.rules.bolt > firebase/rules/database.rules.json",
-    "deploy": "npm run dist && firebase deploy",
+    "deploy": "npm run test && npm run dist && firebase deploy",
     "clean": "rimraf dist/",
     "test": "jest"
   },
