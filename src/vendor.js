@@ -23,7 +23,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
 import { CircularProgress } from 'material-ui/Progress';
 import { createMuiTheme } from 'material-ui/styles';
-import createPalette from 'material-ui/styles/palette';
 import Radio, { RadioGroup } from 'material-ui/Radio';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import Tabs, { Tab } from 'material-ui/Tabs';
