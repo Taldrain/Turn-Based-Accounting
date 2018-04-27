@@ -1,10 +1,10 @@
-const {
+import {
   UPDATE_LOCALE,
   UPDATE_PUNCTUAL,
   UPDATE_RECURRENT,
   UPDATE_DATE_TYPE,
   UPDATE_CURRENCY,
-} = require('./action-types.js');
+} from './types';
 
 
 function makeActionCreator(type, ...argNames) {
@@ -19,10 +19,8 @@ function makeActionCreator(type, ...argNames) {
   };
 }
 
-module.exports = {
-  updateLocale: makeActionCreator(UPDATE_LOCALE, 'locale'),
-  updatePunctual: makeActionCreator(UPDATE_PUNCTUAL, 'punctualEntries'),
-  updateRecurrent: makeActionCreator(UPDATE_RECURRENT, 'recurrentEntries'),
-  updateDateType: makeActionCreator(UPDATE_DATE_TYPE, 'dateType'),
-  updateCurrency: makeActionCreator(UPDATE_CURRENCY, 'currency'),
-};
+export const updateLocale = makeActionCreator(UPDATE_LOCALE, 'locale');
+export const updatePunctual = makeActionCreator(UPDATE_PUNCTUAL, 'punctualEntries');
+export const updateRecurrent = makeActionCreator(UPDATE_RECURRENT, 'recurrentEntries');
+export const updateDateType = makeActionCreator(UPDATE_DATE_TYPE, 'dateType');
+export const updateCurrency = makeActionCreator(UPDATE_CURRENCY, 'currency');

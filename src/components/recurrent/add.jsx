@@ -1,9 +1,8 @@
 import React from 'react';
 
-const DialogAdd = require('../dialog-entry/add.jsx');
-const RecurrentDialogWrapper = require('./dialog-wrapper.jsx');
-
-const DB = require('../../firebase/database.js');
+import DialogAdd from '../dialog-entry/add';
+import RecurrentDialogWrapper from './dialog-wrapper';
+import { addRecurrent } from '../../firebase/database';
 
 const defaultStateValues = {
   type: 'year',
@@ -15,7 +14,7 @@ const defaultStateValues = {
 };
 
 function handleAdd(data) {
-  return DB.addRecurrent(data);
+  return addRecurrent(data);
 }
 
 function RecurrentAdd() {
@@ -26,4 +25,4 @@ function RecurrentAdd() {
   );
 }
 
-module.exports = RecurrentAdd;
+export default RecurrentAdd;

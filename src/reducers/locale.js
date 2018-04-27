@@ -1,10 +1,5 @@
-const {
-  UPDATE_LOCALE,
-} = require('../actions/action-types.js');
-
-const {
-  DEFAULT_LOCALE,
-} = require('../utils/l10n.js');
+import { UPDATE_LOCALE } from '../actions/types';
+import { DEFAULT_LOCALE } from '../utils/l10n';
 
 function updateLocale(state = DEFAULT_LOCALE, action) {
   switch (action.type) {
@@ -15,4 +10,4 @@ function updateLocale(state = DEFAULT_LOCALE, action) {
   }
 }
 
-module.exports = updateLocale;
+export default updateLocale;

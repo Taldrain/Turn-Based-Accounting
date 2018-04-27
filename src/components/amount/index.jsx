@@ -5,9 +5,9 @@ import Typography from 'material-ui/Typography';
 import Card, { CardContent } from 'material-ui/Card';
 import { connect } from 'react-redux';
 
-const AmountUtils = require('../../utils/amount.js');
-const AmountDisplay = require('../display/amount.jsx');
-const TextDisplay = require('../../components/display/text.jsx');
+import { computeWithEntries } from '../../utils/amount';
+import AmountDisplay from '../display/amount';
+import TextDisplay from '../../components/display/text';
 
 function mapStateToProps(state) {
   return ({
@@ -23,31 +23,31 @@ function Amount(props) {
   return (
     <Card>
       <CardContent>
-        <Typography type="title">
+        <Typography variant="title">
           <TextDisplay value="entries.Balance" />
         </Typography>
 
-        <Grid container direction="row" justify="center" align="center">
+        <Grid container direction="row" justify="center" align="center" spacing={16}>
           <Grid item>
-            <Typography type="title">
-              <AmountDisplay value={AmountUtils.computeWithEntries(entries, props.type)} />
+            <Typography variant="title">
+              <AmountDisplay value={computeWithEntries(entries, props.type)} />
             </Typography>
           </Grid>
           <Grid item>
-            <Grid container direction="column" justify="center" align="flex-start">
+            <Grid container direction="column" justify="center" align="flex-start" spacing={8}>
               <Grid item>
-                <Typography type="caption">
+                <Typography variant="caption">
                   <TextDisplay value="entries.Recurrent" />
                   <AmountDisplay
-                    value={AmountUtils.computeWithEntries(props.recurrent, props.type)}
+                    value={computeWithEntries(props.recurrent, props.type)}
                   />
                 </Typography>
               </Grid>
               <Grid item>
-                <Typography type="caption">
+                <Typography variant="caption">
                   <TextDisplay value="entries.Punctual" />
                   <AmountDisplay
-                    value={AmountUtils.computeWithEntries(props.punctual, props.type)}
+                    value={computeWithEntries(props.punctual, props.type)}
                   />
                 </Typography>
               </Grid>
@@ -65,4 +65,4 @@ Amount.propTypes = {
   type: PropTypes.oneOf(['day', 'week', 'month', 'year']).isRequired,
 };
 
-module.exports = connect(mapStateToProps)(Amount);
+export default connect(mapStateToProps)(Amount);

@@ -4,7 +4,7 @@ import { TableSortLabel, TableCell, TableHead, TableRow } from 'material-ui/Tabl
 import Checkbox from 'material-ui/Checkbox';
 import { connect } from 'react-redux';
 
-const TextDisplay = require('../display/text.jsx');
+import TextDisplay from '../display/text';
 
 function mapStateToProps(state) {
   return ({
@@ -16,9 +16,10 @@ function Header(props) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell checkbox>
+        <TableCell padding="checkbox">
           <Checkbox
-            checked={props.selected.length > 0}
+            indeterminate={props.selectedCount > 0 && props.selectedCount < props.rowCount}
+            checked={props.selectedCount === props.rowCount && props.rowCount !== 0}
             onChange={props.onSelectAllClick}
           />
         </TableCell>
@@ -41,8 +42,7 @@ function Header(props) {
                 </div>
               </TableSortLabel>
             </TableCell>
-          )
-        )}
+          ))}
         <TableCell />
       </TableRow>
     </TableHead>
@@ -50,11 +50,12 @@ function Header(props) {
 }
 
 Header.propTypes = {
-  // order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-  // orderBy: PropTypes.string.isRequired,
+  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
+  orderBy: PropTypes.string.isRequired,
   // onRequestSort: PropTypes.func.isRequired,
   onSelectAllClick: PropTypes.func.isRequired,
-  selected: PropTypes.arrayOf(PropTypes.string).isRequired,
+  selectedCount: PropTypes.number.isRequired,
+  rowCount: PropTypes.number.isRequired,
   columnData: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
     numeric: PropTypes.bool.isRequired,
@@ -63,4 +64,4 @@ Header.propTypes = {
   currency: PropTypes.string.isRequired,
 };
 
-module.exports = connect(mapStateToProps)(Header);
+export default connect(mapStateToProps)(Header);

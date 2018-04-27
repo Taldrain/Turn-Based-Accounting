@@ -6,10 +6,10 @@ import { connect } from 'react-redux';
 
 import * as d3 from '../../d3';
 
-const Colors = require('../../colors.js');
-const TextDisplay = require('../../components/display/text.jsx');
+import Colors from '../../colors';
+import TextDisplay from '../../components/display/text';
 
-const EntryUtils = require('../../utils/entry.js');
+import { sortByDate, listPunctualData, listRecurrentData } from '../../utils/entry';
 // const AmountUtils = require('../../utils/amount.js');
 
 const margin = {
@@ -27,10 +27,10 @@ const styles = {
 
 function mapStateToProps(state) {
   const punctual =
-    EntryUtils.sortByDate(EntryUtils.listPunctualData(state.punctual));
+    sortByDate(listPunctualData(state.punctual));
 
   const recurrent =
-    EntryUtils.sortByDate(EntryUtils.listRecurrentData(state.recurrent, state.punctual));
+    sortByDate(listRecurrentData(state.recurrent, state.punctual));
 
   // const sum = EntryUtils.computeSumbyDay(punctual, recurrent);
 
@@ -47,19 +47,17 @@ class GraphGlobalView extends React.Component {
     const height = 350 - margin.top - margin.bottom;
 
     const x = d3.scaleTime()
-      .domain(d3.extent(
-        d3.extent(this.props.recurrent, i => new Date(i.date)).concat(
-          d3.extent(this.props.punctual, i => new Date(i.date))
-        )
-      ))
+      .domain(d3.extent([
+        d3.extent(this.props.recurrent, i => new Date(i.date)),
+        d3.extent(this.props.punctual, i => new Date(i.date)),
+      ]))
       .range([0, width]);
 
     const y = d3.scaleLinear()
-      .domain(d3.extent(
-        d3.extent(this.props.recurrent, i => i.amount).concat(
-          d3.extent(this.props.punctual, i => i.amount)
-        )
-      ))
+      .domain(d3.extent([
+        d3.extent(this.props.recurrent, i => i.amount),
+        d3.extent(this.props.punctual, i => i.amount),
+      ]))
       .range([height, 0]);
 
     this.line = d3.line()
@@ -116,7 +114,7 @@ class GraphGlobalView extends React.Component {
     return (
       <Card>
         <CardContent>
-          <Typography type="title">
+          <Typography variant="title">
             <TextDisplay value="global.Global view" />
           </Typography>
         </CardContent>
@@ -142,4 +140,4 @@ GraphGlobalView.propTypes = {
   // sum: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-module.exports = connect(mapStateToProps)(GraphGlobalView);
+export default connect(mapStateToProps)(GraphGlobalView);

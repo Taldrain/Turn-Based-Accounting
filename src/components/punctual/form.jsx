@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import Grid from 'material-ui/Grid';
 
-const BalanceRadio = require('../balance-radio/index.jsx');
-const TextDisplay = require('../display/text.jsx');
+import BalanceRadio from '../balance-radio/index';
+import TextDisplay from '../display/text';
 
 function PunctualForm(props) {
   return (
-    <Grid container direction="column" justify="space-around" align="stretch">
+    <Grid container direction="column" justify="space-around" align="stretch" spacing={16}>
       <Grid item>
         <TextField
           id="name"
@@ -46,4 +46,4 @@ PunctualForm.propTypes = {
   balance: PropTypes.oneOf(['negatif', 'positif']).isRequired,
 };
 
-module.exports = PunctualForm;
+export default PunctualForm;

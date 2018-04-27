@@ -4,9 +4,9 @@ import Grid from 'material-ui/Grid';
 import List from 'material-ui/List';
 import Card, { CardContent } from 'material-ui/Card';
 
-const SwitchLocale = require('./components/switch-locale.jsx');
-const SwitchCurrency = require('./components/switch-currency.jsx');
-const TextDisplay = require('../components/display/text.jsx');
+import SwitchLocale from './components/switch-locale';
+import SwitchCurrency from './components/switch-currency';
+import TextDisplay from '../components/display/text';
 
 const styles = {
   root: {
@@ -20,7 +20,7 @@ function Settings() {
       <Grid item xs={8}>
         <Card>
           <CardContent>
-            <Typography type="title">
+            <Typography variant="title">
               <TextDisplay value="settings.Title" />
             </Typography>
           </CardContent>
@@ -34,4 +34,4 @@ function Settings() {
   );
 }
 
-module.exports = Settings;
+export default Settings;

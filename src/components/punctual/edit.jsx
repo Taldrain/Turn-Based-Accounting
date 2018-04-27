@@ -1,18 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const DialogEdit = require('../dialog-entry/edit.jsx');
-const PunctualDialogWrapper = require('./dialog-wrapper.jsx');
+import DialogEdit from '../dialog-entry/edit';
+import PunctualDialogWrapper from './dialog-wrapper';
 
-const DB = require('../../firebase/database.js');
-const AmountUtils = require('../../utils/amount.js');
+import { editPunctual } from '../../firebase/database';
+import { convertForm } from '../../utils/amount';
 
 function handleEdit(data) {
-  return DB.editPunctual(data.key, data);
+  return editPunctual(data.key, data);
 }
 
 function PunctualEdit(props) {
-  const entry = AmountUtils.convertForm(props.entry);
+  const entry = convertForm(props.entry);
   return (
     <PunctualDialogWrapper onValidate={handleEdit} entry={entry}>
       <DialogEdit title="entries.Edit a punctual entry" />
@@ -29,4 +29,4 @@ PunctualEdit.defaultProps = {
   entry: undefined,
 };
 
-module.exports = PunctualEdit;
+export default PunctualEdit;

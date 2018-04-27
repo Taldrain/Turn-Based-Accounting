@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AddIcon from 'material-ui-icons/Add';
+import AddIcon from '@material-ui/icons/Add';
 
-const DialogEntry = require('./index.jsx');
+import DialogEntry from './index';
 
 function DialogAdd(props) {
   return (
-    <DialogEntry icon={<AddIcon />} validateButton="utils.Add" iconColor="accent" {...props} >
+    <DialogEntry icon={<AddIcon />} validateButton="utils.Add" iconColor="secondary" {...props} >
       { props.children }
     </DialogEntry>
   );
@@ -21,4 +21,4 @@ DialogAdd.defaultProps = {
   children: undefined,
 };
 
-module.exports = DialogAdd;
+export default DialogAdd;

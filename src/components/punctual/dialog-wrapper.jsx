@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const PunctualForm = require('./form.jsx');
+import PunctualForm from './form';
 
 class PunctualDialogWrapper extends React.Component {
   constructor(props) {
@@ -9,8 +9,8 @@ class PunctualDialogWrapper extends React.Component {
 
     this.state = props.entry;
 
-    this.onRequestOpen = this.onRequestOpen.bind(this);
-    this.onRequestClose = this.onRequestClose.bind(this);
+    this.onOpen = this.onOpen.bind(this);
+    this.onClose = this.onClose.bind(this);
     this.handleNewValue = this.handleNewValue.bind(this);
     this.onValidate = this.onValidate.bind(this);
   }
@@ -19,11 +19,11 @@ class PunctualDialogWrapper extends React.Component {
     this.setState(nextProps.entry);
   }
 
-  onRequestOpen() {
+  onOpen() {
     this.setState({ date: new Date(this.context.router.globals.params.date) });
   }
 
-  onRequestClose() {
+  onClose() {
     this.setState(this.props.entry);
   }
 
@@ -49,8 +49,8 @@ class PunctualDialogWrapper extends React.Component {
 
     return React.cloneElement(this.props.children, {
       onValidate: this.onValidate,
-      onRequestOpen: this.onRequestOpen,
-      onRequestClose: this.onRequestClose,
+      onOpen: this.onOpen,
+      onClose: this.onClose,
       children: child,
     });
   }
@@ -76,4 +76,4 @@ PunctualDialogWrapper.contextTypes = {
   router: PropTypes.object.isRequired,
 };
 
-module.exports = PunctualDialogWrapper;
+export default PunctualDialogWrapper;

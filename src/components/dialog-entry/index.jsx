@@ -4,7 +4,7 @@ import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/D
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 
-const TextDisplay = require('../display/text.jsx');
+import TextDisplay from '../display/text';
 
 class DialogEntry extends React.Component {
   constructor(props) {
@@ -14,8 +14,8 @@ class DialogEntry extends React.Component {
       open: false,
     };
 
-    this.handleRequestClose = this.handleRequestClose.bind(this);
-    this.handleRequestOpen = this.handleRequestOpen.bind(this);
+    this.onClose = this.onClose.bind(this);
+    this.onOpen = this.onOpen.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
 
@@ -23,33 +23,32 @@ class DialogEntry extends React.Component {
     this.umounted = true;
   }
 
-  handleRequestClose() {
+  onClose() {
     if (this.umounted !== true) {
-      this.props.onRequestClose();
+      this.props.onClose();
       this.setState({ open: false });
     }
   }
 
-  handleRequestOpen(ev) {
-    ev.stopPropagation();
-    if (this.props.onRequestOpen) {
-      this.props.onRequestOpen();
+  onOpen() {
+    if (this.props.onOpen) {
+      this.props.onOpen();
     }
     this.setState({ open: true });
   }
 
   handleClick() {
     this.props.onValidate(this.state)
-      .then(() => this.handleRequestClose());
+      .then(() => this.onClose());
   }
 
   render() {
     return (
       <div>
-        <IconButton color={this.props.iconColor} onClick={this.handleRequestOpen}>
+        <IconButton color={this.props.iconColor} onClick={this.onOpen}>
           { this.props.icon }
         </IconButton>
-        <Dialog open={this.state.open} onRequestClose={this.handleRequestClose}>
+        <Dialog open={this.state.open} onClose={this.onClose}>
           <DialogTitle>
             <TextDisplay value={this.props.title} />
           </DialogTitle>
@@ -57,7 +56,7 @@ class DialogEntry extends React.Component {
             { this.props.children }
           </DialogContent>
           <DialogActions>
-            <Button color="primary" onClick={this.handleRequestClose}>
+            <Button color="primary" onClick={this.onClose}>
               <TextDisplay value="utils.Cancel" />
             </Button>
             <Button color="primary" onClick={this.handleClick}>
@@ -72,18 +71,18 @@ class DialogEntry extends React.Component {
 
 DialogEntry.propTypes = {
   onValidate: PropTypes.func.isRequired,
-  onRequestClose: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   icon: PropTypes.element.isRequired,
   validateButton: PropTypes.string.isRequired,
   iconColor: PropTypes.string,
   children: PropTypes.element.isRequired,
-  onRequestOpen: PropTypes.func,
+  onOpen: PropTypes.func,
 };
 
 DialogEntry.defaultProps = {
-  onRequestOpen: undefined,
+  onOpen: undefined,
   iconColor: undefined,
 };
 
-module.exports = DialogEntry;
+export default DialogEntry;

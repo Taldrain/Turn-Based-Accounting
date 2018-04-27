@@ -1,4 +1,4 @@
-const firebase = require('./index.js');
+import firebase from './index';
 
 let currentUser;
 let isSignedIn = false;
@@ -14,7 +14,7 @@ firebase.auth().onAuthStateChanged((user) => {
 });
 
 function isLoggedIn() {
-  const current = firebase.auth().current;
+  const { current } = firebase.auth();
   if (!current) {
     return isSignedIn;
   }
@@ -22,48 +22,29 @@ function isLoggedIn() {
   return current;
 }
 
-module.exports = {
-  requiresAuth: (() =>
-    !isLoggedIn()
-  ),
+function requiresAuth() {
+  return !isLoggedIn();
+}
 
-  userId: () => {
-    if (currentUser) {
-      return currentUser.uid;
-    }
+function userId() {
+  if (currentUser) {
+    return currentUser.uid;
+  }
 
-    return undefined;
-  },
+  return undefined;
+}
 
-  onAuthStateChanged: (callback =>
-    firebase.auth().onAuthStateChanged(callback)
-  ),
+function onAuthStateChanged(callback) {
+  return firebase.auth().onAuthStateChanged(callback);
+}
 
-  newProvider: (provider) => {
-    if (provider === 'google') {
-      return new firebase.auth.GoogleAuthProvider();
-    }
+function signOut() {
+  return firebase.auth().signOut();
+}
 
-    return new firebase.auth.FacebookAuthProvider();
-  },
-
-  signOut: (() =>
-    firebase.auth().signOut()
-  ),
-
-  signUp: ((email, password) =>
-    firebase.auth().createUserWithEmailAndPassword(email, password)
-  ),
-
-  signInWithEmailAndPassword: ((email, password) =>
-    firebase.auth().signInWithEmailAndPassword(email, password)
-  ),
-
-  signInWithPopup: (provider =>
-    firebase.auth().signInWithPopup(provider)
-  ),
-
-  signInWithRedirect: (provider =>
-    firebase.auth().signInWithRedirect(provider)
-  ),
+export {
+  requiresAuth,
+  userId,
+  onAuthStateChanged,
+  signOut,
 };

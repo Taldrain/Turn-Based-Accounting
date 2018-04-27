@@ -3,7 +3,7 @@ import Typography from 'material-ui/Typography';
 import Grid from 'material-ui/Grid';
 import Card, { CardContent } from 'material-ui/Card';
 
-const TextDisplay = require('../components/display/text.jsx');
+import TextDisplay from '../components/display/text';
 
 const styles = {
   root: {
@@ -22,7 +22,7 @@ class About extends React.Component {
         <Grid item xs={8}>
           <Card>
             <CardContent>
-              <Typography type="title">
+              <Typography variant="title">
                 <TextDisplay value="about.Title" />
               </Typography>
             </CardContent>
@@ -44,4 +44,4 @@ class About extends React.Component {
   }
 }
 
-module.exports = About;
+export default About;

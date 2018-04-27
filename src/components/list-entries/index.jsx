@@ -5,11 +5,11 @@ import Checkbox from 'material-ui/Checkbox';
 import Table, { TableBody, TableCell, TableRow } from 'material-ui/Table';
 import { connect } from 'react-redux';
 
-const Amount = require('../../utils/amount.js');
-const AmountDisplay = require('../display/amount.jsx');
-const Header = require('./header.jsx');
-const Toolbar = require('./toolbar.jsx');
-const TextDisplay = require('../display/text.jsx');
+import { convertFromTo } from '../../utils/amount';
+import AmountDisplay from '../display/amount';
+import Header from './header';
+import Toolbar from './toolbar';
+import TextDisplay from '../display/text';
 
 const styles = {
   paper: {
@@ -37,16 +37,15 @@ function display(entry, type, toDateType) {
     case 'type':
       return <TextDisplay value={typeDisplay(entry.type)} />;
     case 'amount':
-      return <AmountDisplay value={Amount.convertFromTo(entry[type], entry.type, toDateType)} />;
+      return <AmountDisplay value={convertFromTo(entry[type], entry.type, toDateType)} />;
     default:
       return entry[type];
   }
 }
 
 function sort(entries, order, orderBy) {
-  return entries.sort(
-    (a, b) => (order === 'desc' ? b[orderBy] > a[orderBy] : a[orderBy] > b[orderBy]),
-  );
+  return entries.sort((a, b) =>
+    (order === 'desc' ? b[orderBy] > a[orderBy] : a[orderBy] > b[orderBy]));
 }
 
 function mapStateToProps(state) {
@@ -144,8 +143,9 @@ class ListEntries extends React.Component {
             order={this.state.order}
             orderBy={this.state.orderBy}
             onRequestSort={this.handleRequestSort}
-            selected={this.state.selected}
+            selectedCount={this.state.selected.length}
             onSelectAllClick={this.handleSelectAllClick}
+            rowCount={this.state.entries.length}
             columnData={this.props.columnData}
           />
           <TableBody>
@@ -160,7 +160,7 @@ class ListEntries extends React.Component {
                   selected={isSelected}
                   key={n.key}
                 >
-                  <TableCell checkbox>
+                  <TableCell padding="checkbox">
                     <Checkbox checked={isSelected} />
                   </TableCell>
                   {this.props.columnData.map(column =>
@@ -171,13 +171,12 @@ class ListEntries extends React.Component {
                       >
                         { display(n, column.id, this.state.type) }
                       </TableCell>
-                    )
-                  )}
-                  <TableCell disablePadding>
+                    ))}
+                  <TableCell padding="none">
                     { React.cloneElement(
                       this.props.editDialogChild,
-                      { entry: Object.assign({}, n) }
-                    ) }
+                      { entry: Object.assign({}, n) },
+                    )}
                   </TableCell>
                 </TableRow>
               );
@@ -203,4 +202,4 @@ ListEntries.propTypes = {
   type: PropTypes.oneOf(['day', 'week', 'month', 'year']).isRequired,
 };
 
-module.exports = connect(mapStateToProps)(ListEntries);
+export default connect(mapStateToProps)(ListEntries);

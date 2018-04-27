@@ -1,6 +1,7 @@
-const firebase = require('./index.js');
-const Auth = require('./auth.js');
-const DateUtils = require('../utils/date.js');
+import firebase from './index';
+
+import { userId } from './auth';
+import { formatDate } from '../utils/date';
 
 function firebaseFetch(ref) {
   return ref
@@ -21,141 +22,157 @@ function firebaseRef(path) {
 }
 
 function getPunctualPath() {
-  const userId = Auth.userId();
-  return `/punctual/${userId}/`;
+  return `/punctual/${userId()}/`;
 }
 
 function getRecurrentPath() {
-  const userId = Auth.userId();
-  return `/recurrent/${userId}/`;
+  return `/recurrent/${userId()}/`;
 }
 
 function getSettingsPath() {
-  const userId = Auth.userId();
-  return `/settings/${userId}/`;
+  return `/settings/${userId()}/`;
 }
 
 function updateSettings(type, data) {
   return firebaseRef(getSettingsPath()).child(type).set(data);
 }
 
-module.exports = {
-  //
-  // Refs
-  //
-  getPunctualRef(date, type) {
-    const { startDate, endDate } = DateUtils.formatDate(date, type);
+//
+// Refs
+//
+function getPunctualRef(date, type) {
+  const { startDate, endDate } = formatDate(date, type);
 
-    return firebaseRef(getPunctualPath())
-      .orderByChild('date')
-      .startAt(startDate.getTime())
-      .endAt(endDate.getTime());
-  },
+  return firebaseRef(getPunctualPath())
+    .orderByChild('date')
+    .startAt(startDate.getTime())
+    .endAt(endDate.getTime());
+}
 
-  getRecurrentRef() {
-    return firebaseRef(getRecurrentPath());
-  },
+function getRecurrentRef() {
+  return firebaseRef(getRecurrentPath());
+}
 
-  //
-  // Add
-  //
-  addPunctual(data) {
-    const entry = {
-      date: data.date.getTime(),
-      name: data.name,
-      amount: parseFloat(data.amount, 10) * (data.balance === 'positif' ? 1 : -1),
-      addedAt: Date.now(),
-    };
+//
+// Add
+//
+function addPunctual(data) {
+  const entry = {
+    date: data.date.getTime(),
+    name: data.name,
+    amount: parseFloat(data.amount, 10) * (data.balance === 'positif' ? 1 : -1),
+    addedAt: Date.now(),
+  };
 
-    return firebaseRef(getPunctualPath()).push().set(entry);
-  },
+  return firebaseRef(getPunctualPath()).push().set(entry);
+}
 
-  addRecurrent(data) {
-    const entry = {
-      name: data.name,
-      amount: parseFloat(data.amount, 10) * (data.balance === 'positif' ? 1 : -1),
-      type: data.type,
-      addedAt: Date.now(),
-    };
+function addRecurrent(data) {
+  const entry = {
+    name: data.name,
+    amount: parseFloat(data.amount, 10) * (data.balance === 'positif' ? 1 : -1),
+    type: data.type,
+    addedAt: Date.now(),
+  };
 
-    if (data.startDate) {
-      entry.startDate = new Date(data.startDate).getTime();
-    }
+  if (data.startDate) {
+    entry.startDate = new Date(data.startDate).getTime();
+  }
 
-    if (data.endDate) {
-      entry.endDate = new Date(data.endDate).getTime();
-    }
+  if (data.endDate) {
+    entry.endDate = new Date(data.endDate).getTime();
+  }
 
-    return firebaseRef(getRecurrentPath()).push().set(entry);
-  },
+  return firebaseRef(getRecurrentPath()).push().set(entry);
+}
 
-  //
-  // Update
-  //
-  updateLocale(locale) {
-    return updateSettings('locale', locale);
-  },
+//
+// Update
+//
+function updateLocale(locale) {
+  return updateSettings('locale', locale);
+}
 
-  updateCurrency(locale) {
-    return updateSettings('currency', locale);
-  },
+function updateCurrency(locale) {
+  return updateSettings('currency', locale);
+}
 
-  //
-  // Fetch
-  //
-  fetchReccurrent() {
-    return firebaseFetch(firebaseRef(getRecurrentPath()));
-  },
+//
+// Fetch
+//
+function fetchReccurrent() {
+  return firebaseFetch(firebaseRef(getRecurrentPath()));
+}
 
-  fetchPunctual() {
-    return firebaseFetch(firebaseRef(getPunctualPath()));
-  },
+function fetchPunctual() {
+  return firebaseFetch(firebaseRef(getPunctualPath()));
+}
 
-  fetchSettings() {
-    return firebaseFetch(firebaseRef(getSettingsPath()));
-  },
+function fetchSettings() {
+  return firebaseFetch(firebaseRef(getSettingsPath()));
+}
 
-  //
-  // Remove
-  //
-  deletePunctual(key) {
-    return firebaseRef(getPunctualPath()).child(key).remove();
-  },
+//
+// Remove
+//
+function deletePunctual(key) {
+  return firebaseRef(getPunctualPath()).child(key).remove();
+}
 
-  deleteRecurrent(key) {
-    return firebaseRef(getRecurrentPath()).child(key).remove();
-  },
+function deleteRecurrent(key) {
+  return firebaseRef(getRecurrentPath()).child(key).remove();
+}
 
 
-  //
-  // Edit
-  //
-  editPunctual(key, data) {
-    const entry = {
-      name: data.name,
-      amount: parseFloat(data.amount, 10) * (data.balance === 'positif' ? 1 : -1),
-      lastEdit: Date.now(),
-    };
+//
+// Edit
+//
+function editPunctual(key, data) {
+  const entry = {
+    name: data.name,
+    amount: parseFloat(data.amount, 10) * (data.balance === 'positif' ? 1 : -1),
+    lastEdit: Date.now(),
+  };
 
-    return firebaseRef(getPunctualPath(data.date)).child(key).update(entry);
-  },
+  return firebaseRef(getPunctualPath(data.date)).child(key).update(entry);
+}
 
-  editRecurrent(key, data) {
-    const entry = {
-      name: data.name,
-      amount: parseFloat(data.amount, 10) * (data.balance === 'positif' ? 1 : -1),
-      type: data.type,
-      lastEdit: Date.now(),
-    };
+function editRecurrent(key, data) {
+  const entry = {
+    name: data.name,
+    amount: parseFloat(data.amount, 10) * (data.balance === 'positif' ? 1 : -1),
+    type: data.type,
+    lastEdit: Date.now(),
+  };
 
-    if (data.startDate) {
-      entry.startDate = new Date(data.startDate).getTime();
-    }
+  if (data.startDate) {
+    entry.startDate = new Date(data.startDate).getTime();
+  }
 
-    if (data.endDate) {
-      entry.endDate = new Date(data.endDate).getTime();
-    }
+  if (data.endDate) {
+    entry.endDate = new Date(data.endDate).getTime();
+  }
 
-    return firebaseRef(getRecurrentPath()).child(key).update(entry);
-  },
+  return firebaseRef(getRecurrentPath()).child(key).update(entry);
+}
+
+export {
+  getPunctualRef,
+  getRecurrentRef,
+
+  addPunctual,
+  addRecurrent,
+
+  updateLocale,
+  updateCurrency,
+
+  fetchPunctual,
+  fetchReccurrent,
+  fetchSettings,
+
+  deletePunctual,
+  deleteRecurrent,
+
+  editPunctual,
+  editRecurrent,
 };

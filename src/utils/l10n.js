@@ -3,8 +3,8 @@
 //
 // retrieve the locale and send it to the store
 //
-const Actions = require('../actions/index.js');
-const i18n = require('./i18n.js');
+import { updateLocale } from '../actions/index';
+import * as i18n from './i18n';
 
 const DEFAULT_LOCALE = 'en-US';
 
@@ -27,7 +27,7 @@ function checkLocale(locale) {
   let canonicalLocale = locale;
 
   if (window.Intl && window.Intl.getCanonicalLocales) {
-    canonicalLocale = window.Intl.getCanonicalLocales(locale)[0];
+    [canonicalLocale] = window.Intl.getCanonicalLocales(locale);
   }
 
   switch (canonicalLocale) {
@@ -42,7 +42,7 @@ function checkLocale(locale) {
 //
 // Initialize the first locale and send it to the store
 //
-function start(store) {
+function startLocalization(store) {
   const locale = checkLocale(retrieveLocale());
 
   // init i18n by fetching the langfile as soon as possible
@@ -54,15 +54,15 @@ function start(store) {
   // execute only one http fetch
   i18n.fetchLangFile(locale);
 
-  store.dispatch(Actions.updateLocale(locale));
+  store.dispatch(updateLocale(locale));
 }
 
 function localeList() {
   return ['fr-FR'].concat(DEFAULT_LOCALE);
 }
 
-module.exports = {
+export {
   DEFAULT_LOCALE,
   localeList,
-  start,
+  startLocalization,
 };

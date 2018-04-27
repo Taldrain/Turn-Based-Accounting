@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const RecurrentForm = require('./form.jsx');
+import RecurrentForm from './form';
 
 class RecurrentDialogWrapper extends React.Component {
   constructor(props) {
@@ -9,7 +9,7 @@ class RecurrentDialogWrapper extends React.Component {
 
     this.state = props.entry;
 
-    this.onRequestClose = this.onRequestClose.bind(this);
+    this.onClose = this.onClose.bind(this);
     this.handleNewValue = this.handleNewValue.bind(this);
     this.onValidate = this.onValidate.bind(this);
   }
@@ -18,7 +18,7 @@ class RecurrentDialogWrapper extends React.Component {
     this.setState(nextProps.entry);
   }
 
-  onRequestClose() {
+  onClose() {
     this.setState(this.props.entry);
   }
 
@@ -47,7 +47,7 @@ class RecurrentDialogWrapper extends React.Component {
 
     return React.cloneElement(this.props.children, {
       onValidate: this.onValidate,
-      onRequestClose: this.onRequestClose,
+      onClose: this.onClose,
       children: child,
     });
   }
@@ -71,4 +71,4 @@ RecurrentDialogWrapper.defaultProps = {
   entry: undefined,
 };
 
-module.exports = RecurrentDialogWrapper;
+export default RecurrentDialogWrapper;

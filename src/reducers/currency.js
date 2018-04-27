@@ -1,6 +1,4 @@
-const {
-  UPDATE_CURRENCY,
-} = require('../actions/action-types.js');
+import { UPDATE_CURRENCY } from '../actions/types';
 
 function currency(state = '€', action) {
   switch (action.type) {
@@ -11,4 +9,4 @@ function currency(state = '€', action) {
   }
 }
 
-module.exports = currency;
+export default currency;

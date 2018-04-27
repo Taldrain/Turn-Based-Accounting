@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-const Display = require('../../utils/display.js');
+import { date } from '../../utils/display';
 
 function mapStateToProps(state) {
   return ({
@@ -12,9 +12,9 @@ function mapStateToProps(state) {
 
 function DateDisplay(props) {
   return (
-    <div>
-      { Display.date(props.value, props.locale, props.options) }
-    </div>
+    <span>
+      { date(props.value, props.locale, props.options) }
+    </span>
   );
 }
 
@@ -29,4 +29,4 @@ DateDisplay.defaultProps = {
   options: undefined,
 };
 
-module.exports = connect(mapStateToProps)(DateDisplay);
+export default connect(mapStateToProps)(DateDisplay);

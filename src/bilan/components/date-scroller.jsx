@@ -2,21 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
-import PreviousIcon from 'material-ui-icons/KeyboardArrowLeft';
-import NextIcon from 'material-ui-icons/KeyboardArrowRight';
 import Grid from 'material-ui/Grid';
+import Typography from 'material-ui/Typography';
+import PreviousIcon from '@material-ui/icons/KeyboardArrowLeft';
+import NextIcon from '@material-ui/icons/KeyboardArrowRight';
 import { connect } from 'react-redux';
 
-const DateTypeMenu = require('./date-type-menu.jsx');
+import DateTypeMenu from './date-type-menu';
 
-const TextDisplay = require('../../components/display/text.jsx');
-const DateDisplay = require('../../components/display/date.jsx');
-const DateUtils = require('../../utils/date.js');
+import TextDisplay from '../../components/display/text';
+import DateDisplay from '../../components/display/date';
+
+import { previousDate, nextDate, isToday } from '../../utils/date';
 
 const styles = {
   root: {
     height: '100%',
     width: '100%',
+  },
+  date: {
+    paddingTop: '5px',
   },
 };
 
@@ -72,11 +77,11 @@ class DateScroller extends React.Component {
   }
 
   handleClickPrevious() {
-    this.accessDay(DateUtils.previousDate(this.state.date, this.props.type));
+    this.accessDay(previousDate(this.state.date, this.props.type));
   }
 
   handleClickNext() {
-    this.accessDay(DateUtils.nextDate(this.state.date, this.props.type));
+    this.accessDay(nextDate(this.state.date, this.props.type));
   }
 
   render() {
@@ -93,7 +98,9 @@ class DateScroller extends React.Component {
           <DateTypeMenu />
         </Grid>
         <Grid item>
-          <DateDisplay value={this.state.date} options={dateOptions[this.props.type]} />
+          <Typography variant="subheading" style={styles.date}>
+            <DateDisplay value={this.state.date} options={dateOptions[this.props.type]} />
+          </Typography>
         </Grid>
         <Grid item>
           <IconButton onClick={this.handleClickPrevious} aria-label="Previous period">
@@ -104,7 +111,7 @@ class DateScroller extends React.Component {
           </IconButton>
         </Grid>
         <Grid item>
-          <Button onClick={this.handleClickToday} disabled={DateUtils.isToday(this.state.date)}>
+          <Button onClick={this.handleClickToday} disabled={isToday(this.state.date)}>
             <TextDisplay value="date.Today" />
           </Button>
         </Grid>
@@ -121,4 +128,4 @@ DateScroller.contextTypes = {
   router: PropTypes.object.isRequired,
 };
 
-module.exports = connect(mapStateToProps)(DateScroller);
+export default connect(mapStateToProps)(DateScroller);

@@ -38,14 +38,11 @@ import amber from 'material-ui/colors/amber';
 import orange from 'material-ui/colors/orange';
 import teal from 'material-ui/colors/teal';
 
-import AddIcon from 'material-ui-icons/Add';
-import ArrowForwardIcon from 'material-ui-icons/ArrowForward';
-import MenuIcon from 'material-ui-icons/Menu';
-import PersonAdd from 'material-ui-icons/PersonAdd';
-import PreviousIcon from 'material-ui-icons/KeyboardArrowLeft';
-import NextIcon from 'material-ui-icons/KeyboardArrowRight';
+import AddIcon from '@material-ui/icons/Add';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import MenuIcon from '@material-ui/icons/Menu';
+import PersonAdd from '@material-ui/icons/PersonAdd';
+import PreviousIcon from '@material-ui/icons/KeyboardArrowLeft';
+import NextIcon from '@material-ui/icons/KeyboardArrowRight';
 
 import * as d3 from './d3';
-
-require('mobile-detect');
-require('font-awesome-webpack');

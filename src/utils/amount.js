@@ -46,33 +46,36 @@ function convertFromTo(amount, from, to) {
   }
 }
 
-module.exports = {
+function computeWithEntries(entries, type) {
+  const a = Object.values(entries).reduce(
+    (acc, entry) => acc + (convertFromTo(entry.amount, entry.type, type)),
+    0,
+  );
+
+  return a;
+}
+
+function convertForm(entry) {
+  if (entry === undefined) {
+    return entry;
+  }
+
+  const res = Object.assign({}, entry);
+  if (res.amount < 0) {
+    res.amount = -res.amount;
+    res.balance = 'negatif';
+  } else {
+    res.balance = 'positif';
+  }
+
+  res.amount = `${res.amount}`;
+
+  return res;
+}
+
+
+export {
   convertFromTo,
-
-  computeWithEntries: ((entries, type) => {
-    const a = Object.values(entries).reduce(
-      (acc, entry) => acc + (convertFromTo(entry.amount, entry.type, type)),
-      0
-    );
-
-    return a;
-  }),
-
-  convertForm: ((entry) => {
-    if (entry === undefined) {
-      return entry;
-    }
-
-    const res = Object.assign({}, entry);
-    if (res.amount < 0) {
-      res.amount = -res.amount;
-      res.balance = 'negatif';
-    } else {
-      res.balance = 'positif';
-    }
-
-    res.amount = `${res.amount}`;
-
-    return res;
-  }),
+  computeWithEntries,
+  convertForm,
 };

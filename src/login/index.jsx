@@ -3,11 +3,16 @@ import PropTypes from 'prop-types';
 import Grid from 'material-ui/Grid';
 import { CircularProgress } from 'material-ui/Progress';
 
-const AuthTabs = require('./components/auth-tabs.jsx');
-const AuthProviders = require('./components/auth-providers.jsx');
-const TrianglifyBackground = require('./components/trianglify-background.jsx');
+import FirebaseUILogin from './components/firebase-ui-login';
+import TrianglifyBackground from './components/trianglify-background';
 
-const Auth = require('../firebase/auth.js');
+import { onAuthStateChanged } from '../firebase/auth';
+
+const styles = {
+  root: {
+    marginTop: '20px',
+  },
+};
 
 class Login extends React.Component {
   constructor(props) {
@@ -19,13 +24,13 @@ class Login extends React.Component {
   }
 
   componentDidMount() {
-    this.unsubscribe = Auth.onAuthStateChanged((user) => {
+    this.unsubscribe = onAuthStateChanged((user) => {
       if (this.setState) {
         if (user) {
           this.setState({ logged: true });
           this.props.transition.router.stateService.go(
-            this.props.resolves.returnTo.state,
-            this.props.resolves.returnTo.params,
+            this.props.returnTo.state,
+            this.props.returnTo.params,
             { reload: true },
           );
         } else {
@@ -41,19 +46,11 @@ class Login extends React.Component {
 
   render() {
     const child = this.state.logged === false ?
-      (
-        <div>
-          <AuthTabs />
-          <AuthProviders />
-        </div>
-      ) :
-      (
-        <CircularProgress />
-      );
+      <FirebaseUILogin /> : <CircularProgress />;
 
     return (
       <div>
-        <Grid container direction="row" align="center" justify="center">
+        <Grid container direction="row" align="center" justify="center" style={styles.root}>
           <Grid item>
             { child }
           </Grid>
@@ -68,14 +65,15 @@ Login.propTypes = {
   transition: PropTypes.shape({
     router: PropTypes.object,
   }),
-  resolves: PropTypes.shape({
-    returnTo: PropTypes.object,
+  returnTo: PropTypes.shape({
+    state: PropTypes.object,
+    params: PropTypes.object,
   }),
 };
 
 Login.defaultProps = {
   transition: {},
-  resolves: {},
+  returnTo: {},
 };
 
-module.exports = Login;
+export default Login;

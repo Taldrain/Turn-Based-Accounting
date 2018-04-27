@@ -8,14 +8,13 @@ import IconButton from 'material-ui/IconButton';
 import Drawer from 'material-ui/Drawer';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 
-import MenuIcon from 'material-ui-icons/Menu';
+import MenuIcon from '@material-ui/icons/Menu';
 
-const FontAwesomeIcon = require('../components/element/font-awesome-icon.jsx');
-const TextDisplay = require('../components/display/text.jsx');
-const SidebarLink = require('./components/sidebar-link.jsx');
+import TextDisplay from '../components/display/text';
+import SidebarLink from './components/sidebar-link';
 
-const Actions = require('../actions/index.js');
-const Auth = require('../firebase/auth.js');
+import { updateLocale, updateCurrency } from '../actions/index';
+import { signOut } from '../firebase/auth';
 
 const styles = {
   list: {
@@ -23,10 +22,6 @@ const styles = {
   },
   flex: {
     flex: 1,
-  },
-  a: {
-    textDecoration: 'none',
-    color: 'inherit',
   },
 };
 
@@ -43,9 +38,8 @@ class App extends React.Component {
     this.handleClose = this.handleClose.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
 
-    const settings = props.resolves.settings || {};
-    context.store.dispatch(Actions.updateLocale(settings.locale));
-    context.store.dispatch(Actions.updateCurrency(settings.currency));
+    context.store.dispatch(updateLocale(props.settings.locale));
+    context.store.dispatch(updateCurrency(props.settings.currency));
   }
 
   handleForce(state) {
@@ -61,7 +55,7 @@ class App extends React.Component {
   }
 
   handleLogout() {
-    Auth.signOut()
+    signOut()
       .then(() => this.context.router.stateService.go('login', {}, { reload: true }));
   }
 
@@ -73,28 +67,18 @@ class App extends React.Component {
             <IconButton color="inherit" onClick={this.handleToggle}>
               <MenuIcon />
             </IconButton>
-            <Typography type="title" color="inherit" style={styles.flex}>
+            <Typography variant="title" color="inherit" style={styles.flex}>
               Turn-Based Accounting
             </Typography>
-            <IconButton color="inherit">
-              <a
-                style={styles.a}
-                href="https://github.com/Taldrain/Turn-Based-Accounting/"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                <FontAwesomeIcon name="github" />
-              </a>
-            </IconButton>
           </Toolbar>
         </AppBar>
         <Drawer
           anchor="left"
           open={this.state.open}
-          onRequestClose={this.handleClose}
+          onClose={this.handleClose}
           onClick={this.handleClose}
         >
-          <List disablePadding style={styles.list}>
+          <List padding="none" style={styles.list}>
             <ListItem button>
               <SidebarLink path="bilan">
                 <ListItemText primary={<TextDisplay value="bilan.Title" />} />
@@ -127,12 +111,14 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  resolves: PropTypes.shape({
-    settings: PropTypes.shape({
-      locale: PropTypes.string,
-      currency: PropTypes.string,
-    }),
-  }).isRequired,
+  settings: PropTypes.shape({
+    locale: PropTypes.string,
+    currency: PropTypes.string,
+  }),
+};
+
+App.defaultProps = {
+  settings: {},
 };
 
 App.contextTypes = {
@@ -141,4 +127,4 @@ App.contextTypes = {
 };
 
 
-module.exports = App;
+export default App;

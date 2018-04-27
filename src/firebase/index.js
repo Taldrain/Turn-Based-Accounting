@@ -1,13 +1,17 @@
+let firebaseWrap;
+
 if (process.env.NODE_ENV !== 'production') {
-  // eslint-disable-next-line global-require
-  const firebase = require('firebase');
-
   // eslint-disable-next-line
-  const Config = require('Config');
+  const Config = require('./config.json');
 
-  firebase.initializeApp(Config.firebase.config);
+  // eslint-disable-next-line global-require
+  firebaseWrap = require('firebase');
 
-  module.exports = firebase;
+  firebaseWrap.initializeApp(Config);
 } else {
-  module.exports = window.firebase;
+  firebaseWrap = window.firebase;
 }
+
+const firebase = firebaseWrap;
+
+export default firebase;

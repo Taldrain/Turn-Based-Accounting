@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
-import DeleteIcon from 'material-ui-icons/Delete';
+import DeleteIcon from '@material-ui/icons/Delete';
 
-const TextDisplay = require('../display/text.jsx');
+import TextDisplay from '../display/text';
 
 const styles = {
   title: {
@@ -22,12 +22,12 @@ function ToolBar(props) {
       <div style={styles.title}>
         {props.selected.length > 0
           ? (
-            <Typography type="subheading">
+            <Typography variant="subheading">
               {props.selected.length}&nbsp;
               <TextDisplay value="entries.selected" />
             </Typography>
           ) : (
-            <Typography type="title">
+            <Typography variant="title">
               <TextDisplay value={props.title} />
             </Typography>
           )
@@ -36,7 +36,7 @@ function ToolBar(props) {
       <div style={styles.spacer} />
       {props.selected.length > 0
         ? (
-          <IconButton color="accent" onClick={ev => props.onDelete(ev, props.selected)}>
+          <IconButton color="secondary" onClick={ev => props.onDelete(ev, props.selected)}>
             <DeleteIcon />
           </IconButton>
         )
@@ -53,4 +53,5 @@ ToolBar.propTypes = {
   addDialogChild: PropTypes.node.isRequired,
 };
 
-module.exports = ToolBar;
+
+export default ToolBar;

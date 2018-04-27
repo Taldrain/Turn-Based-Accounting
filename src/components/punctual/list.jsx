@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-const DB = require('../../firebase/database.js');
+import { deletePunctual } from '../../firebase/database';
 
-const ListEntries = require('../list-entries/index.jsx');
-const PunctualAdd = require('./add.jsx');
-const PunctualEdit = require('./edit.jsx');
+import ListEntries from '../list-entries/index';
+import PunctualAdd from './add';
+import PunctualEdit from './edit';
 
 const columnData = [
   { id: 'name', numeric: false, label: 'Name' },
@@ -14,9 +14,7 @@ const columnData = [
 ];
 
 function handleDelete(ev, keys) {
-  keys.forEach(key =>
-    DB.deletePunctual(key)
-  );
+  keys.forEach(key => deletePunctual(key));
 }
 
 function mapStateToProps(state) {
@@ -49,4 +47,4 @@ List.propTypes = {
   type: PropTypes.oneOf(['day', 'week', 'month', 'year']).isRequired,
 };
 
-module.exports = connect(mapStateToProps)(List);
+export default connect(mapStateToProps)(List);

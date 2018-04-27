@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-const DB = require('../../firebase/database.js');
+import { deleteRecurrent } from '../../firebase/database';
 
-const ListEntries = require('../list-entries/index.jsx');
-const RecurrentAdd = require('./add.jsx');
-const RecurrentEdit = require('./edit.jsx');
+import ListEntries from '../list-entries/index';
+import RecurrentAdd from './add';
+import RecurrentEdit from './edit';
 
 const columnData = [
   { id: 'name', numeric: false, label: 'Name' },
@@ -21,9 +21,7 @@ function mapStateToProps(state) {
 }
 
 function handleDelete(ev, keys) {
-  keys.forEach(key =>
-    DB.deleteRecurrent(key)
-  );
+  keys.forEach(key => deleteRecurrent(key));
 }
 
 function List(props) {
@@ -48,4 +46,4 @@ List.propTypes = {
   })).isRequired,
 };
 
-module.exports = connect(mapStateToProps)(List);
+export default connect(mapStateToProps)(List);

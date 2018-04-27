@@ -73,7 +73,7 @@ function translate(value, locale) {
   return new Promise(resolve => resolve(value));
 }
 
-module.exports = {
+export {
   fetchLangFile,
   translate,
 };

@@ -71,4 +71,4 @@ class TrianglifyBackground extends React.Component {
   }
 }
 
-module.exports = TrianglifyBackground;
+export default TrianglifyBackground;

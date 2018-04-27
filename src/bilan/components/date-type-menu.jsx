@@ -4,9 +4,9 @@ import Button from 'material-ui/Button';
 import Menu, { MenuItem } from 'material-ui/Menu';
 import { connect } from 'react-redux';
 
-const TextDisplay = require('../../components/display/text.jsx');
+import TextDisplay from '../../components/display/text';
 
-const Actions = require('../../actions/index.js');
+import { updateDateType } from '../../actions/index';
 
 const options = [
   'day',
@@ -52,7 +52,7 @@ class DateTypeMenu extends React.Component {
 
   handleMenuClick(ev, option) {
     this.setState({ open: false });
-    this.context.store.dispatch(Actions.updateDateType(option));
+    this.context.store.dispatch(updateDateType(option));
   }
 
   handleRequestClose() {
@@ -69,7 +69,7 @@ class DateTypeMenu extends React.Component {
           id="date-type-menu"
           anchorEl={this.state.anchorEl}
           open={this.state.open}
-          onRequestClose={this.handleRequestClose}
+          onClose={this.handleRequestClose}
         >
           { options.map(option =>
               (
@@ -80,9 +80,7 @@ class DateTypeMenu extends React.Component {
                 >
                   <TextDisplay value={`date.${capitalize(option)}`} />
                 </MenuItem>
-              )
-            )
-          }
+              ))}
         </Menu>
       </div>
     );
@@ -97,4 +95,4 @@ DateTypeMenu.contextTypes = {
   store: PropTypes.object.isRequired,
 };
 
-module.exports = connect(mapStateToProps)(DateTypeMenu);
+export default connect(mapStateToProps)(DateTypeMenu);

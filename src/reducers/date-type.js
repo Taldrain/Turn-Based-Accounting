@@ -1,6 +1,4 @@
-const {
-  UPDATE_DATE_TYPE,
-} = require('../actions/action-types.js');
+import { UPDATE_DATE_TYPE } from '../actions/types';
 
 function dateType(state = 'day', action) {
   switch (action.type) {
@@ -11,4 +9,4 @@ function dateType(state = 'day', action) {
   }
 }
 
-module.exports = dateType;
+export default dateType;

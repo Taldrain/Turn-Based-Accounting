@@ -4,11 +4,11 @@ import Menu, { MenuItem } from 'material-ui/Menu';
 import { ListItem, ListItemText } from 'material-ui/List';
 import { connect } from 'react-redux';
 
-const TextDisplay = require('../../components/display/text.jsx');
+import TextDisplay from '../../components/display/text';
 
-const Actions = require('../../actions/index.js');
-const DB = require('../../firebase/database.js');
-const l10n = require('../../utils/l10n.js');
+import { updateLocale as updateLocaleAction } from '../../actions/index';
+import { updateLocale as updateLocaleDB } from '../../firebase/database';
+import { localeList } from '../../utils/l10n';
 
 function mapStateToProps(state) {
   return ({
@@ -34,7 +34,7 @@ class SwitchLocale extends React.Component {
       locale: props.locale,
     };
 
-    this.localeList = l10n.localeList();
+    this.localeList = localeList();
 
     this.handleClick = this.handleClick.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -56,8 +56,8 @@ class SwitchLocale extends React.Component {
   }
 
   handleClickMenu(locale) {
-    this.context.store.dispatch(Actions.updateLocale(locale));
-    DB.updateLocale(locale);
+    this.context.store.dispatch(updateLocaleAction(locale));
+    updateLocaleDB(locale);
     this.setState({ open: false });
   }
 
@@ -80,7 +80,7 @@ class SwitchLocale extends React.Component {
           id="switch-locale"
           anchorEl={this.state.anchorEl}
           open={this.state.open}
-          onRequestClose={this.handleClose}
+          onClose={this.handleClose}
         >
           {this.localeList.map(locale =>
             (
@@ -91,8 +91,7 @@ class SwitchLocale extends React.Component {
               >
                 { printLocale(locale) }
               </MenuItem>
-            )
-          )}
+            ))}
         </Menu>
       </div>
     );
@@ -107,4 +106,4 @@ SwitchLocale.contextTypes = {
   store: PropTypes.object.isRequired,
 };
 
-module.exports = connect(mapStateToProps)(SwitchLocale);
+export default connect(mapStateToProps)(SwitchLocale);

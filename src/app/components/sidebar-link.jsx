@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { UISrefActive, UISref } from '@uirouter/react';
 
 function SidebarLink(props) {
@@ -12,8 +13,8 @@ function SidebarLink(props) {
 }
 
 SidebarLink.propTypes = {
-  path: React.PropTypes.string.isRequired,
-  children: React.PropTypes.node.isRequired,
+  path: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
-module.exports = SidebarLink;
+export default SidebarLink;

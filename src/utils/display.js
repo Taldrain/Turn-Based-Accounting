@@ -1,17 +1,20 @@
-module.exports = {
-  amount: ((value, locale) => {
-    let res = value;
-    if (window.Intl && window.Intl.NumberFormat) {
-      res = window.Intl.NumberFormat(locale, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      }).format(value);
-    }
+function amount(value, locale) {
+  let res = value;
+  if (window.Intl && window.Intl.NumberFormat) {
+    res = window.Intl.NumberFormat(locale, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(value);
+  }
 
-    return res;
-  }),
+  return res;
+}
 
-  date: ((timestamp, locale = undefined, options = undefined) =>
-    new Date(timestamp).toLocaleDateString(locale, options)
-  ),
+function date(timestamp, locale = undefined, options = undefined) {
+  return new Date(timestamp).toLocaleDateString(locale, options);
+}
+
+export {
+  amount,
+  date,
 };

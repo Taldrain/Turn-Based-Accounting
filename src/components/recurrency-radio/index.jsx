@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Radio, { RadioGroup } from 'material-ui/Radio';
 import { FormLabel, FormControl, FormControlLabel } from 'material-ui/Form';
 
-const TextDisplay = require('../display/text.jsx');
+import TextDisplay from '../display/text';
 
 class RecurrencyRadio extends React.Component {
   constructor(props) {
@@ -63,4 +63,4 @@ RecurrencyRadio.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
-module.exports = RecurrencyRadio;
+export default RecurrencyRadio;

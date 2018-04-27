@@ -1,18 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const DialogEdit = require('../dialog-entry/edit.jsx');
-const RecurrentDialogWrapper = require('./dialog-wrapper.jsx');
+import DialogEdit from '../dialog-entry/edit';
+import RecurrentDialogWrapper from './dialog-wrapper';
 
-const DB = require('../../firebase/database.js');
-const AmountUtils = require('../../utils/amount.js');
+import { editRecurrent } from '../../firebase/database';
+import { convertForm } from '../../utils/amount';
 
 function handleEdit(data) {
-  return DB.editRecurrent(data.key, data);
+  return editRecurrent(data.key, data);
 }
 
 function RecurrentEdit(props) {
-  const entry = AmountUtils.convertForm(props.entry);
+  const entry = convertForm(props.entry);
   if (props.entry.startDate) {
     entry.startDate = new Date(props.entry.startDate).toISOString().substring(0, 10);
   }
@@ -37,4 +37,4 @@ RecurrentEdit.defaultProps = {
   entry: undefined,
 };
 
-module.exports = RecurrentEdit;
+export default RecurrentEdit;

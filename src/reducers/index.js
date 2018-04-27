@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
 
-const locale = require('./locale.js');
-const punctual = require('./punctual.js');
-const recurrent = require('./recurrent.js');
-const dateType = require('./date-type.js');
-const currency = require('./currency.js');
+import locale from './locale';
+import punctual from './punctual';
+import recurrent from './recurrent';
+import dateType from './date-type';
+import currency from './currency';
 
-module.exports = combineReducers({
+export default combineReducers({
   locale,
   punctual,
   recurrent,

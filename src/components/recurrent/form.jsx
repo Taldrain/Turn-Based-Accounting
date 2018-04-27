@@ -4,9 +4,9 @@ import TextField from 'material-ui/TextField';
 import Typography from 'material-ui/Typography';
 import Grid from 'material-ui/Grid';
 
-const BalanceRadio = require('../balance-radio/index.jsx');
-const RecurrencyRadio = require('../recurrency-radio/index.jsx');
-const TextDisplay = require('../display/text.jsx');
+import BalanceRadio from '../balance-radio/index';
+import RecurrencyRadio from '../recurrency-radio/index';
+import TextDisplay from '../display/text';
 
 const styles = {
   maxWidthTypo: {
@@ -16,7 +16,7 @@ const styles = {
 
 function RecurrentForm(props) {
   return (
-    <Grid container direction="column" justify="space-around" align="stretch">
+    <Grid container direction="column" justify="space-around" align="stretch" spacing={16}>
       <Grid item>
         <TextField
           id="name"
@@ -70,7 +70,7 @@ function RecurrentForm(props) {
         />
       </Grid>
       <Grid item style={styles.maxWidthTypo}>
-        <Typography color="accent" type="caption">
+        <Typography color="secondary" variant="caption">
           <TextDisplay value="entries.Issue recurrent limit" />
         </Typography>
       </Grid>
@@ -88,4 +88,4 @@ RecurrentForm.propTypes = {
   endDate: PropTypes.string.isRequired,
 };
 
-module.exports = RecurrentForm;
+export default RecurrentForm;

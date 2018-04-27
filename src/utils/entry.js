@@ -1,4 +1,4 @@
-const DateUtils = require('./date.js');
+import * as DateUtils from './date';
 
 function dummyEntry(date, amount) {
   return ({
@@ -24,8 +24,7 @@ function findCloserEntry(entries, timestamp) {
 // // find the first entries on the selected date
 function findEntriesOnDate(entries, date) {
   return entries.find(i =>
-    DateUtils.isSameDate(new Date(i.date), date, 'day')
-  );
+    DateUtils.isSameDate(new Date(i.date), date, 'day'));
 }
 
 // for each entry in the punctual list add a previous and next day
@@ -36,9 +35,9 @@ function listPunctualData(punctual) {
   // merge punctual entries when they're on the same day
   punctual.forEach((i) => {
     if (findEntriesOnDate(tmpPunctualList, new Date(i.date)) === undefined) {
-      tmpPunctualList.push(
-        Object.assign({}, i, { date: DateUtils.startDate(new Date(i.date), 'day') })
-      );
+      tmpPunctualList.push(Object.assign({}, i, {
+        date: DateUtils.startDate(new Date(i.date), 'day'),
+      }));
     } else {
       tmpPunctualList = tmpPunctualList.map((e) => {
         if (DateUtils.isSameDate(new Date(i.date), new Date(e.date))) {
@@ -142,8 +141,7 @@ function listRecurrentData(recurrent, punctual) {
 
   // transform 'tmpRecurrentList' (object) into 'newRecurrentList' (array)
   Object.keys(tmpRecurrentList).forEach(i =>
-    newRecurrentList.push(dummyEntry(parseInt(i, 10), tmpRecurrentList[i]))
-  );
+    newRecurrentList.push(dummyEntry(parseInt(i, 10), tmpRecurrentList[i])));
 
   return newRecurrentList;
 }
@@ -162,8 +160,7 @@ function sortByDate(entries) {
 //   });
 // }
 
-module.exports = {
-  // dummyEntry,
+export {
   listPunctualData,
   listRecurrentData,
   sortByDate,

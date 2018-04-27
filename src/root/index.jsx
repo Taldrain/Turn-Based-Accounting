@@ -7,4 +7,4 @@ function Root() {
   );
 }
 
-module.exports = Root;
+export default Root;

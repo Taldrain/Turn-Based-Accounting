@@ -2,9 +2,9 @@ import React from 'react';
 import Grid from 'material-ui/Grid';
 import PropTypes from 'prop-types';
 
-const Actions = require('../actions/index.js');
+import { updatePunctual, updateRecurrent } from '../actions/index';
 
-const GraphGlobalView = require('./components/graph-global-view.jsx');
+import GraphGlobalView from './components/graph-global-view';
 
 const styles = {
   root: {
@@ -16,8 +16,8 @@ class Global extends React.Component {
   constructor(props, context) {
     super();
 
-    context.store.dispatch(Actions.updatePunctual(props.resolves.punctual || {}));
-    context.store.dispatch(Actions.updateRecurrent(props.resolves.recurrent || {}));
+    context.store.dispatch(updatePunctual(props.punctual));
+    context.store.dispatch(updateRecurrent(props.recurrent));
   }
 
   shouldComponentUpdate() {
@@ -36,14 +36,19 @@ class Global extends React.Component {
 }
 
 Global.propTypes = {
-  resolves: PropTypes.shape({
-    punctual: PropTypes.object,
-    recurrent: PropTypes.object,
-  }).isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  punctual: PropTypes.object,
+  // eslint-disable-next-line react/forbid-prop-types
+  recurrent: PropTypes.object,
+};
+
+Global.defaultProps = {
+  punctual: {},
+  recurrent: {},
 };
 
 Global.contextTypes = {
   store: PropTypes.object.isRequired,
 };
 
-module.exports = Global;
+export default Global;

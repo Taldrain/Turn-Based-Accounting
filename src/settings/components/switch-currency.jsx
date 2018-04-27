@@ -4,10 +4,10 @@ import Menu, { MenuItem } from 'material-ui/Menu';
 import { ListItem, ListItemText } from 'material-ui/List';
 import { connect } from 'react-redux';
 
-const TextDisplay = require('../../components/display/text.jsx');
+import TextDisplay from '../../components/display/text';
 
-const Actions = require('../../actions/index.js');
-const DB = require('../../firebase/database.js');
+import { updateCurrency as updateCurrencyAction } from '../../actions/index';
+import { updateCurrency as updateCurrencyDB } from '../../firebase/database';
 
 function mapStateToProps(state) {
   return ({
@@ -47,8 +47,8 @@ class SwitchCurrency extends React.Component {
   }
 
   handleClickMenu(currency) {
-    this.context.store.dispatch(Actions.updateCurrency(currency));
-    DB.updateCurrency(currency);
+    this.context.store.dispatch(updateCurrencyAction(currency));
+    updateCurrencyDB(currency);
     this.setState({ open: false });
   }
 
@@ -71,7 +71,7 @@ class SwitchCurrency extends React.Component {
           id="switch-currency"
           anchorEl={this.state.anchorEl}
           open={this.state.open}
-          onRequestClose={this.handleClose}
+          onClose={this.handleClose}
         >
           {this.currencyList.map(currency =>
             (
@@ -82,8 +82,7 @@ class SwitchCurrency extends React.Component {
               >
                 { currency }
               </MenuItem>
-            )
-          )}
+            ))}
         </Menu>
       </div>
     );
@@ -98,4 +97,4 @@ SwitchCurrency.contextTypes = {
   store: PropTypes.object.isRequired,
 };
 
-module.exports = connect(mapStateToProps)(SwitchCurrency);
+export default connect(mapStateToProps)(SwitchCurrency);

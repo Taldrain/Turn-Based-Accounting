@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-const Display = require('../../utils/display.js');
-
-const colors = require('../../colors.js');
+import { amount } from '../../utils/display';
+import Colors from '../../colors';
 
 function mapStateToProps(state) {
   return ({
@@ -14,12 +13,12 @@ function mapStateToProps(state) {
 
 function AmountDisplay(props) {
   const style = {
-    color: props.value < 0 ? colors.amount.red : colors.amount.green,
+    color: props.value < 0 ? Colors.amount.red : Colors.amount.green,
   };
 
   return (
     <div style={style}>
-      { Display.amount(props.value, props.locale) }
+      { amount(props.value, props.locale) }
     </div>
   );
 }
@@ -29,4 +28,4 @@ AmountDisplay.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-module.exports = connect(mapStateToProps)(AmountDisplay);
+export default connect(mapStateToProps)(AmountDisplay);

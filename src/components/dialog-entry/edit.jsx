@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import EditIcon from 'material-ui-icons/Edit';
+import EditIcon from '@material-ui/icons/Edit';
 
-const DialogEntry = require('./index.jsx');
+import DialogEntry from './index';
 
 function DialogEdit(props) {
   return (
@@ -21,4 +21,4 @@ DialogEdit.defaultProps = {
   children: undefined,
 };
 
-module.exports = DialogEdit;
+export default DialogEdit;

@@ -4,7 +4,7 @@ import purple from 'material-ui/colors/purple';
 import cyan from 'material-ui/colors/cyan';
 import amber from 'material-ui/colors/amber';
 
-module.exports = {
+export default {
   amount: {
     green: green[600],
     red: red[600],

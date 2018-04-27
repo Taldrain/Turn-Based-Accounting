@@ -1,9 +1,9 @@
 import React from 'react';
 
-const DialogAdd = require('../dialog-entry/add.jsx');
-const PunctualDialogWrapper = require('./dialog-wrapper.jsx');
+import DialogAdd from '../dialog-entry/add';
+import PunctualDialogWrapper from './dialog-wrapper';
 
-const DB = require('../../firebase/database.js');
+import { addPunctual } from '../../firebase/database';
 
 const defaultStateValues = {
   balance: 'negatif',
@@ -12,7 +12,7 @@ const defaultStateValues = {
 };
 
 function handleAdd(data) {
-  return DB.addPunctual(data);
+  return addPunctual(data);
 }
 
 function PunctualAdd() {
@@ -23,4 +23,4 @@ function PunctualAdd() {
   );
 }
 
-module.exports = PunctualAdd;
+export default PunctualAdd;

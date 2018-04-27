@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Radio from 'material-ui/Radio';
 import Grid from 'material-ui/Grid';
-import AddIcon from 'material-ui-icons/Add';
-import RemoveIcon from 'material-ui-icons/Remove';
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
 
 class BalanceRadio extends React.Component {
   constructor(props) {
@@ -58,4 +58,4 @@ BalanceRadio.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
-module.exports = BalanceRadio;
+export default BalanceRadio;

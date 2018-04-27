@@ -1,4 +1,4 @@
-const Auth = require('../firebase/auth.js');
+import { requiresAuth } from '../firebase/auth';
 
 function authHook() {
   return ({
@@ -8,7 +8,7 @@ function authHook() {
     },
     callback: (transition) => {
       const state = transition.router.stateService;
-      if (Auth.requiresAuth()) {
+      if (requiresAuth()) {
         return state.target('login', undefined, { location: false });
       }
 
@@ -17,6 +17,6 @@ function authHook() {
   });
 }
 
-module.exports = [
+export default [
   authHook,
 ];

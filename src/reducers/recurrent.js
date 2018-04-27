@@ -1,16 +1,13 @@
-const {
-  UPDATE_RECURRENT,
-} = require('../actions/action-types.js');
+import { UPDATE_RECURRENT } from '../actions/types';
 
 function recurrent(state = [], action) {
   switch (action.type) {
     case UPDATE_RECURRENT:
       return Object.keys(action.recurrentEntries).map(key =>
-        Object.assign({}, action.recurrentEntries[key], { key })
-      );
+        Object.assign({}, action.recurrentEntries[key], { key }));
     default:
       return state;
   }
 }
 
-module.exports = recurrent;
+export default recurrent;

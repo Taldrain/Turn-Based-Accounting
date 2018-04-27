@@ -87,7 +87,7 @@ function isToday(date) {
   return isSameDate(date, new Date(), 'day');
 }
 
-module.exports = {
+export {
   startDate,
   endDate,
   formatDate,

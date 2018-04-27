@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-const i18n = require('../../utils/i18n.js');
+import { translate } from '../../utils/i18n';
 
 function mapStateToProps(state) {
   return ({
@@ -37,7 +37,7 @@ class TextDisplay extends React.Component {
   }
 
   translateValue(value, locale) {
-    i18n.translate(value, locale)
+    translate(value, locale)
       .then((res) => {
         if (this.componentMounted) {
           this.setState({ value: res });
@@ -59,4 +59,4 @@ TextDisplay.propTypes = {
   locale: PropTypes.string.isRequired,
 };
 
-module.exports = connect(mapStateToProps)(TextDisplay);
+export default connect(mapStateToProps)(TextDisplay);

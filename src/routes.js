@@ -1,14 +1,13 @@
-const Root = require('./root/index.jsx');
-const Login = require('./login/index.jsx');
-const App = require('./app/index.jsx');
-const Bilan = require('./bilan/index.jsx');
-const Global = require('./global/index.jsx');
-const Settings = require('./settings/index.jsx');
-const About = require('./about/index.jsx');
+import Root from './root/index';
+import Login from './login/index';
+import App from './app/index';
+import Bilan from './bilan/index';
+import Global from './global/index';
+import Settings from './settings/index';
+import About from './about/index';
 
-const Hooks = require('./utils/hooks.js');
-
-const DB = require('./firebase/database.js');
+import Hooks from './utils/hooks';
+import { fetchSettings, fetchReccurrent, fetchPunctual } from './firebase/database';
 
 const states = [];
 
@@ -35,111 +34,102 @@ function returnTo(trans) {
 }
 
 
-states.push(
-  { name: 'root', url: '/', redirectTo: 'app', component: Root },
-);
+states.push({
+  name: 'root',
+  url: '/',
+  redirectTo: 'app',
+  component: Root,
+});
 
-states.push(
-  {
-    parent: 'root',
-    name: 'login',
-    url: 'login',
-    component: Login,
-    resolve: [{
-      token: 'returnTo',
-      deps: ['$transition$'],
-      resolveFn: returnTo,
-    }],
+states.push({
+  parent: 'root',
+  name: 'login',
+  url: 'login',
+  component: Login,
+  resolve: [{
+    token: 'returnTo',
+    deps: ['$transition$'],
+    resolveFn: returnTo,
+  }],
+});
+
+states.push({
+  parent: 'root',
+  name: 'app',
+  redirectTo: 'bilan',
+  component: App,
+  data: {
+    requiresAuth: true,
   },
-);
+  resolve: [{
+    token: 'settings',
+    resolveFn: () => fetchSettings(),
+  }],
+});
 
-states.push(
-  {
-    parent: 'root',
-    name: 'app',
-    redirectTo: 'bilan',
-    component: App,
-    data: {
-      requiresAuth: true,
+states.push({
+  parent: 'app',
+  name: 'bilan',
+  url: 'bilan/:date',
+  params: {
+    date: {
+      type: 'date',
+      value: new Date(),
+      squash: true,
     },
-    resolve: [{
-      token: 'settings',
-      resolveFn: () => DB.fetchSettings(),
-    }],
   },
-);
+  component: Bilan,
+  resolve: [{
+    token: 'date',
+    deps: ['$transition$'],
+    resolveFn: trans => trans.params().date,
+  }],
+});
 
-states.push(
-  {
-    parent: 'app',
-    name: 'bilan',
-    url: 'bilan/:date',
-    params: {
-      date: {
-        type: 'date',
-        value: new Date(),
-        squash: true,
-      },
-    },
-    component: Bilan,
-    resolve: [{
-      token: 'date',
-      deps: ['$transition$'],
-      resolveFn: trans => trans.params().date,
-    }],
-  },
-);
+states.push({
+  parent: 'app',
+  name: 'global',
+  url: 'global',
+  component: Global,
+  resolve: [{
+    token: 'recurrent',
+    deps: ['$transition$'],
+    resolveFn: () => fetchReccurrent(),
+  }, {
+    token: 'punctual',
+    deps: ['$transition$'],
+    resolveFn: () => fetchPunctual(),
+  }],
+});
 
-states.push(
-  {
-    parent: 'app',
-    name: 'global',
-    url: 'global',
-    component: Global,
-    resolve: [{
-      token: 'recurrent',
-      deps: ['$transition$'],
-      resolveFn: () => DB.fetchReccurrent(),
-    }, {
-      token: 'punctual',
-      deps: ['$transition$'],
-      resolveFn: () => DB.fetchPunctual(),
-    }],
-  },
-);
+states.push({
+  parent: 'app',
+  name: 'settings',
+  url: 'settings',
+  component: Settings,
+});
 
-states.push(
-  {
-    parent: 'app',
-    name: 'settings',
-    url: 'settings',
-    component: Settings,
-  },
-);
+states.push({
+  parent: 'app',
+  name: 'about',
+  url: 'about',
+  component: About,
+});
 
-states.push(
-  {
-    parent: 'app',
-    name: 'about',
-    url: 'about',
-    component: About,
-  },
-);
+function getConfig(router) {
+  router.urlService.rules.initial({ state: 'app' });
+  Hooks.forEach((hook) => {
+    const hookObj = hook();
+    router.transitionService[hookObj.event](
+      hookObj.criteria,
+      hookObj.callback,
+      hookObj.priority,
+    );
+  });
+}
 
-module.exports = {
-  getConfig: ((router) => {
-    router.urlRouter.otherwise('/');
-    Hooks.forEach((hook) => {
-      const hookObj = hook();
-      router.transitionService[hookObj.event](
-        hookObj.criteria,
-        hookObj.callback,
-        hookObj.priority,
-      );
-    });
-  }),
+function getStates() {
+  return states;
+}
 
-  getStates: (() =>
-    states
-  ),
-};
+export { getConfig, getStates };
