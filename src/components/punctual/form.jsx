@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TextField from 'material-ui/TextField';
-import Grid from 'material-ui/Grid';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
 
 import BalanceRadio from '../balance-radio/index';
 import TextDisplay from '../display/text';

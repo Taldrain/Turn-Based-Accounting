@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TextField from 'material-ui/TextField';
-import Typography from 'material-ui/Typography';
-import Grid from 'material-ui/Grid';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 
 import BalanceRadio from '../balance-radio/index';
 import RecurrencyRadio from '../recurrency-radio/index';

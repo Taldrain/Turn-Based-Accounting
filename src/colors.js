@@ -1,8 +1,8 @@
-import green from 'material-ui/colors/green';
-import red from 'material-ui/colors/red';
-import purple from 'material-ui/colors/purple';
-import cyan from 'material-ui/colors/cyan';
-import amber from 'material-ui/colors/amber';
+import green from '@material-ui/core/colors/green';
+import red from '@material-ui/core/colors/red';
+import purple from '@material-ui/core/colors/purple';
+import cyan from '@material-ui/core/colors/cyan';
+import amber from '@material-ui/core/colors/amber';
 
 export default {
   amount: {

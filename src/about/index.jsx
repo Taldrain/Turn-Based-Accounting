@@ -1,7 +1,8 @@
 import React from 'react';
-import Typography from 'material-ui/Typography';
-import Grid from 'material-ui/Grid';
-import Card, { CardContent } from 'material-ui/Card';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 
 import TextDisplay from '../components/display/text';
 

@@ -1,6 +1,6 @@
 import React from 'react';
-import Grid from 'material-ui/Grid';
 import PropTypes from 'prop-types';
+import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux';
 
 import Amount from '../components/amount/index';

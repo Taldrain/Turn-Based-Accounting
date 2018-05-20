@@ -1,6 +1,6 @@
 import React from 'react';
-import Grid from 'material-ui/Grid';
 import PropTypes from 'prop-types';
+import Grid from '@material-ui/core/Grid';
 
 import { updatePunctual, updateRecurrent } from '../actions/index';
 

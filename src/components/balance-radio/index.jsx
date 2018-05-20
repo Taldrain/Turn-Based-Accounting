@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Radio from 'material-ui/Radio';
-import Grid from 'material-ui/Grid';
+import Radio from '@material-ui/core/Radio';
+import Grid from '@material-ui/core/Grid';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 

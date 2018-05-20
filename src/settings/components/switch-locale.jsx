@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Menu, { MenuItem } from 'material-ui/Menu';
-import { ListItem, ListItemText } from 'material-ui/List';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import { connect } from 'react-redux';
 
 import TextDisplay from '../../components/display/text';

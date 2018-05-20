@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Paper from 'material-ui/Paper';
-import Checkbox from 'material-ui/Checkbox';
-import Table, { TableBody, TableCell, TableRow } from 'material-ui/Table';
+import Paper from '@material-ui/core/Paper';
+import Checkbox from '@material-ui/core/Checkbox';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
 import { connect } from 'react-redux';
 
 import { convertFromTo } from '../../utils/amount';
