@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import {
+  LinearProgress,
   Paper,
   Table,
   TableBody,
@@ -85,6 +86,11 @@ class ListEntries extends React.Component {
 
     return (
       <Paper className={classes.root}>
+        {
+          this.props.inProgress && (
+            <LinearProgress />
+          )
+        }
         <ListToolbar
           edit={this.props.edit}
           delete={this.wrapperDelete}
@@ -127,6 +133,7 @@ ListEntries.propTypes = {
   delete: PropTypes.func.isRequired,
   add: PropTypes.func.isRequired,
   columnData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  inProgress: PropTypes.bool.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   classes: PropTypes.object.isRequired,
 };

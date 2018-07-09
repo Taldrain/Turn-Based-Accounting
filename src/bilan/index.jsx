@@ -34,6 +34,8 @@ class Bilan extends React.Component {
       date: props.match.params.date || getCurrentDate(),
       punctuals: [],
       recurrents: [],
+      recurrentInProgress: false,
+      punctualInProgress: false,
     };
 
     this.newRecurrents = this.newRecurrents.bind(this);
@@ -46,7 +48,6 @@ class Bilan extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('did update');
     if (this.state.type === prevState.type &&
       this.state.date === prevState.date) {
       return;
@@ -70,6 +71,8 @@ class Bilan extends React.Component {
       this.unsubscribeRecurrent();
     }
 
+    this.setState({ recurrentInProgress: true });
+
     this.unsubscribeRecurrent = listenAllRecurrentEntries(
       this.newRecurrents,
       getCurrentUser().uid,
@@ -81,6 +84,8 @@ class Bilan extends React.Component {
       this.unsubscribePunctual();
     }
 
+    this.setState({ punctualInProgress: true });
+
     this.unsubscribePunctual = listenPunctualEntries(
       this.newPunctuals,
       getStartDate(this.state.date, this.state.type),
@@ -90,13 +95,11 @@ class Bilan extends React.Component {
   }
 
   newRecurrents(entries) {
-    this.setState({
-      recurrents: entries,
-    });
+    this.setState({ recurrents: entries, recurrentInProgress: false });
   }
 
   newPunctuals(entries) {
-    this.setState({ punctuals: entries });
+    this.setState({ punctuals: entries, punctualInProgress: false });
   }
 
   render() {
@@ -124,10 +127,17 @@ class Bilan extends React.Component {
           <DateSelect date={this.state.date} type={this.state.type} />
         </Grid>
         <Grid item md={6} xs={12}>
-          <RecurrentList entries={recurrents} />
+          <RecurrentList
+            entries={recurrents}
+            inProgress={this.state.recurrentInProgress}
+          />
         </Grid>
         <Grid item md={6} xs={12}>
-          <PunctualList entries={this.state.punctuals} date={this.state.date} />
+          <PunctualList
+            entries={this.state.punctuals}
+            date={this.state.date}
+            inProgress={this.state.punctualInProgress}
+          />
         </Grid>
       </Grid>
     );

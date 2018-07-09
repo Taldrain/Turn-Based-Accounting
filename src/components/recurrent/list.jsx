@@ -61,6 +61,7 @@ class List extends React.Component {
           delete={handleDelete}
           edit={this.openEdit}
           add={this.openAdd}
+          inProgress={this.props.inProgress}
         />
         <Add onClose={this.onCloseAdd} open={this.state.openAdd} />
         {
@@ -75,6 +76,7 @@ class List extends React.Component {
 
 List.propTypes = {
   entries: PropTypes.arrayOf(PropTypes.object).isRequired,
+  inProgress: PropTypes.bool.isRequired,
 };
 
 export default List;
