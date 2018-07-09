@@ -6,10 +6,12 @@ const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 const htmlWebpackPlugin = require('html-webpack-plugin');
 const webpackNotifierPlugin = require('webpack-notifier');
-const webpackExtractTextPlugin = require('extract-text-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const SRC_DIR = path.resolve(__dirname, 'src');
+
+// const commitHash = require('child_process')
+//   .execSync('git rev-parse --short HEAD')
+//   .toString();
 
 function srcPath(p) {
   return path.resolve(SRC_DIR, p);
@@ -20,20 +22,9 @@ const htmlWebpackPluginConfig = {
   filename: 'index.html',
   minify: {
     removeComments: true,
-    collapseWhitespace: true,
+    collapseWitespace: true,
   },
 };
-
-// function newWebpackTextPlugin(filename) {
-//   return new webpackExtractTextPlugin({ filename, allChunks: true });
-// }
-
-// let bundleCSS;
-// if (process.env.NODE === 'production') {
-//   bundleCSS = newWebpackTextPlugin('main.[contenthash].css');
-// } else {
-//   bundleCSS = newWebpackTextPlugin('main.css');
-// }
 
 //
 // Common configuration
@@ -44,7 +35,6 @@ const common = {
     publicPath: '/',
   },
   entry: {
-    // vendor: srcPath('vendor.js'),
     main: srcPath('index.jsx'),
   },
   module: {
@@ -53,26 +43,16 @@ const common = {
         { loader: 'babel-loader' },
         { loader: 'eslint-loader' },
       ] },
-      // { test: /\.scss$/, include: SRC_DIR, loader:
-      //   bundleCSS.extract({ use: [
-      //     { loader: 'css-loader' },
-      //     { loader: 'sass-loader' }
-      //   ] })
-      // },
     ],
   },
   resolve: {
     extensions: ['.js', '.jsx'],
   },
   plugins: [
-    // bundleCSS,
     new htmlWebpackPlugin(htmlWebpackPluginConfig),
-    new CopyWebpackPlugin([
-      { from: 'src/lang', to: 'lang', transform: (content => JSON.stringify(JSON.parse(content))) },
-    ]),
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   names: ['vendor', 'manifest'],
-    // }),
+    new webpack.DefinePlugin({
+      __COMMIT__HASH__: JSON.stringify('TODO'),
+    }),
   ],
 };
 
@@ -91,7 +71,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 } else {
   //
-  // Development / Test configuration
+  // Development configuration
   //
   module.exports = webpackMerge(common, {
     devtool: 'cheap-module-source-map',
@@ -101,11 +81,11 @@ if (process.env.NODE_ENV === 'production') {
     devServer: {
       quiet: false,
       noInfo: false,
-      historyApiFallback: false,
+      historyApiFallback: true,
       port: 3000,
     },
     plugins: [
       new webpackNotifierPlugin({ alwaysNotify: true }),
-    ]
+    ],
   });
 }

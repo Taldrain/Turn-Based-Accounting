@@ -26,25 +26,16 @@ function requiresAuth() {
   return !isLoggedIn();
 }
 
-function userId() {
-  if (currentUser) {
-    return currentUser.uid;
-  }
-
-  return undefined;
+function getCurrentUser() {
+  return currentUser;
 }
 
 function onAuthStateChanged(callback) {
   return firebase.auth().onAuthStateChanged(callback);
 }
 
-function signOut() {
-  return firebase.auth().signOut();
-}
-
 export {
   requiresAuth,
-  userId,
+  getCurrentUser,
   onAuthStateChanged,
-  signOut,
 };

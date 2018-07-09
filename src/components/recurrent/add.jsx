@@ -1,28 +1,67 @@
 import React from 'react';
 
-import DialogAdd from '../dialog-entry/add';
-import RecurrentDialogWrapper from './dialog-wrapper';
-import { addRecurrent } from '../../firebase/database';
+import { Dialog } from '../entries/index';
+import Form from './form';
 
-const defaultStateValues = {
-  type: 'year',
-  balance: 'negatif',
+import { pushRecurrentEntry } from '../../firebase/firestore';
+import { createEntry } from '../../utils/entry';
+
+const DEFAULT_STATE = {
   name: '',
-  amount: '',
+  amount: 0,
+  isPositive: false,
+  type: 'day',
   startDate: '',
   endDate: '',
 };
 
-function handleAdd(data) {
-  return addRecurrent(data);
+class Add extends React.Component {
+  constructor() {
+    super();
+
+    this.state = DEFAULT_STATE;
+
+    this.onNewValue = this.onNewValue.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
+  }
+
+  onNewValue(type, value) {
+    this.setState({ [type]: value });
+  }
+
+  handleAdd() {
+    console.log('add: ', this.state);
+    pushRecurrentEntry(createEntry({
+      name: this.state.name,
+      amount: this.state.amount,
+      isPositive: this.state.isPositive,
+      type: this.state.type,
+      startDate: this.state.startDate || undefined,
+      endDate: this.state.endDate || undefined,
+    }));
+    this.setState(DEFAULT_STATE);
+  }
+
+  render() {
+    return (
+      <Dialog
+        {...this.props}
+        title="Add a new recurrent entry"
+        validateButton="Add"
+        handleClick={this.handleAdd}
+      >
+        <Form
+          onNewValue={this.onNewValue}
+          name={this.state.name}
+          amount={this.state.amount}
+          isPositive={this.state.isPositive}
+          type={this.state.type}
+          startDate={this.state.startDate}
+          endDate={this.state.endDate}
+        />
+      </Dialog>
+    );
+  }
 }
 
-function RecurrentAdd() {
-  return (
-    <RecurrentDialogWrapper onValidate={handleAdd} entry={defaultStateValues}>
-      <DialogAdd title="entries.Add a recurrent entry" />
-    </RecurrentDialogWrapper>
-  );
-}
-
-export default RecurrentAdd;
+export default Add;

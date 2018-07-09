@@ -1,98 +1,106 @@
-function getDayStartMonday(date) {
-  const day = new Date(date).getDay();
+const moment = require('moment');
 
-  return day === 0 ? 6 : day - 1;
+// TODO: rename to a more appropriate name
+function getCurrentDate() {
+  return new Date().toISOString().split('T')[0];
 }
 
-function startDate(date, type) {
-  let startDay = new Date(date);
-
+function forceISOWeek(type) {
   if (type === 'week') {
-    const diff = date.getDate() - getDayStartMonday(date);
-    startDay.setDate(diff);
-  } else if (type === 'month') {
-    startDay = new Date(date.getFullYear(), date.getMonth(), 1);
-  } else if (type === 'year') {
-    startDay = new Date(date.getFullYear(), 0, 1);
+    return 'isoWeek';
   }
 
-  startDay.setHours(0, 0, 0, 0);
-
-  return startDay;
+  return type;
 }
 
-function endDate(date, type) {
-  let endDay = new Date(date);
-
-  if (type === 'week') {
-    const diff = date.getDate() - getDayStartMonday(date);
-    endDay.setDate(diff + 6);
-  } else if (type === 'month') {
-    endDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-  } else if (type === 'year') {
-    endDay = new Date(date.getFullYear(), 11, 31);
+function formatType(type) {
+  switch (type) {
+    case 'day':
+      return 'days';
+    case 'week':
+      return 'weeks';
+    case 'month':
+      return 'months';
+    case 'year':
+      return 'years';
+    default:
+      return 'days';
   }
-
-  endDay.setHours(23, 59, 59, 999);
-
-
-  return endDay;
 }
 
-
-function formatDate(date, type) {
-  return {
-    startDate: startDate(date, type),
-    endDate: endDate(date, type),
-  };
+// startDate is of format ISO 8601
+function getStartDate(date, type) {
+  return moment(date).startOf(forceISOWeek(type)).format('YYYY-MM-DD');
 }
 
+// startDate is of format ISO 8601
+function getEndDate(date, type) {
+  return moment(date).endOf(forceISOWeek(type)).format('YYYY-MM-DD');
+}
 
+// date is of format (yyyy-mm-dd)
 function previousDate(date, type) {
-  let newDate = new Date(date);
-  if (type === 'day') {
-    newDate.setDate(date.getDate() - 1);
-  } else if (type === 'week') {
-    newDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - 7);
-  } else if (type === 'month') {
-    newDate = new Date(date.getFullYear(), date.getMonth() - 1, 1);
-  } else if (type === 'year') {
-    newDate = new Date(date.getFullYear() - 1, 0, 1);
-  }
-
-  return startDate(newDate, type);
+  return moment(date).subtract(1, formatType(type)).format('YYYY-MM-DD');
 }
 
+// date is of format (yyyy-mm-dd)
 function nextDate(date, type) {
-  let newDate = new Date(date);
-  if (type === 'day') {
-    newDate.setDate(date.getDate() + 1);
-  } else if (type === 'week') {
-    newDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 7);
-  } else if (type === 'month') {
-    newDate = new Date(date.getFullYear(), date.getMonth() + 1, 1);
-  } else if (type === 'year') {
-    newDate = new Date(date.getFullYear() + 1, 0, 1);
+  return moment(date).add(1, formatType(type)).format('YYYY-MM-DD');
+}
+
+function isDateAfter(startDate, date, type) {
+  if (startDate === undefined) {
+    return true;
   }
 
-  return startDate(newDate, type);
+  return moment(startDate).isSameOrAfter(getStartDate(date, type));
 }
 
-// check if date1 and date2 are on the same day
-function isSameDate(date1, date2, type) {
-  return startDate(date1, type).getTime() === startDate(date2, type).getTime();
+function isDateBefore(endDate, date, type) {
+  if (endDate === undefined) {
+    return true;
+  }
+
+  return moment(endDate).isSameOrBefore(getEndDate(date, type));
 }
 
-function isToday(date) {
-  return isSameDate(date, new Date(), 'day');
+function isDateBetween(startDate, endDate, date, type) {
+  return isDateAfter(endDate, date, type) && isDateBefore(startDate, date, type);
+}
+
+function diffDates(startDate, endDate, type) {
+  return Math.abs(moment(startDate).diff(moment(nextDate(endDate, 'day')), formatType(type), true));
+}
+
+function maxDate(date1, date2 = undefined) {
+  if (date2 === undefined) {
+    return date1;
+  }
+
+  return moment.max([moment(date1), moment(date2)]).format('YYYY-MM-DD');
+}
+
+function minDate(date1, date2 = undefined) {
+  if (date2 === undefined) {
+    return date1;
+  }
+
+  return moment.min([moment(date1), moment(date2)]).format('YYYY-MM-DD');
 }
 
 export {
-  startDate,
-  endDate,
-  formatDate,
+  getCurrentDate,
+
+  getStartDate,
+  getEndDate,
+
   previousDate,
   nextDate,
-  isSameDate,
-  isToday,
+
+  isDateBetween,
+
+  diffDates,
+
+  minDate,
+  maxDate,
 };

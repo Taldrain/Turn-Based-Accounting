@@ -1,40 +1,76 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import DialogEdit from '../dialog-entry/edit';
-import RecurrentDialogWrapper from './dialog-wrapper';
+import { Dialog } from '../entries/index';
+import Form from './form';
 
-import { editRecurrent } from '../../firebase/database';
-import { convertForm } from '../../utils/amount';
+import { updateRecurrentEntry } from '../../firebase/firestore';
+import { editEntry } from '../../utils/entry';
 
-function handleEdit(data) {
-  return editRecurrent(data.key, data);
-}
+class Edit extends React.Component {
+  constructor(props) {
+    super(props);
 
-function RecurrentEdit(props) {
-  const entry = convertForm(props.entry);
-  if (props.entry.startDate) {
-    entry.startDate = new Date(props.entry.startDate).toISOString().substring(0, 10);
+    this.state = {
+      name: props.entry.name,
+      amount: props.entry.amount,
+      isPositive: props.entry.isPositive,
+      type: props.entry.type,
+      startDate: props.entry.startDate,
+      endDate: props.entry.endDate,
+    };
+
+    this.onNewValue = this.onNewValue.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
   }
 
-  if (props.entry.endDate) {
-    entry.endDate = new Date(props.entry.endDate).toISOString().substring(0, 10);
+  onNewValue(type, value) {
+    this.setState({ [type]: value });
   }
 
-  return (
-    <RecurrentDialogWrapper onValidate={handleEdit} entry={entry}>
-      <DialogEdit title="entries.Edit a recurrent entry" />
-    </RecurrentDialogWrapper>
-  );
+  handleEdit() {
+    updateRecurrentEntry(this.props.entry.id, editEntry({
+      name: this.state.name,
+      amount: this.state.amount,
+      isPositive: this.state.isPositive,
+      type: this.state.type,
+      startDate: this.state.startDate,
+      endDate: this.state.endDate,
+    }));
+  }
+
+  render() {
+    return (
+      <Dialog
+        {...this.props}
+        title="Edit a recurrent entry"
+        validateButton="Edit"
+        handleClick={this.handleEdit}
+      >
+        <Form
+          onNewValue={this.onNewValue}
+          name={this.state.name}
+          amount={this.state.amount}
+          isPositive={this.state.isPositive}
+          type={this.state.type}
+          startDate={this.state.startDate}
+          endDate={this.state.endDate}
+        />
+      </Dialog>
+    );
+  }
 }
 
-RecurrentEdit.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  entry: PropTypes.object,
+Edit.propTypes = {
+  entry: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    amount: PropTypes.number,
+    isPositive: PropTypes.bool,
+    type: PropTypes.oneOf(['day', 'week', 'month', 'year']),
+    startDate: PropTypes.string,
+    endDate: PropTypes.string,
+  }).isRequired,
 };
 
-RecurrentEdit.defaultProps = {
-  entry: undefined,
-};
-
-export default RecurrentEdit;
+export default Edit;

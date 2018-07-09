@@ -1,11 +1,7 @@
 import {
-  UPDATE_LOCALE,
-  UPDATE_PUNCTUAL,
-  UPDATE_RECURRENT,
-  UPDATE_DATE_TYPE,
-  UPDATE_CURRENCY,
-} from './types';
-
+  UPDATE_LIST_RECURRENTS,
+  UPDATE_COMPUTED_LIST_RECURRENTS,
+} from './type';
 
 function makeActionCreator(type, ...argNames) {
   return (...args) => {
@@ -19,8 +15,5 @@ function makeActionCreator(type, ...argNames) {
   };
 }
 
-export const updateLocale = makeActionCreator(UPDATE_LOCALE, 'locale');
-export const updatePunctual = makeActionCreator(UPDATE_PUNCTUAL, 'punctualEntries');
-export const updateRecurrent = makeActionCreator(UPDATE_RECURRENT, 'recurrentEntries');
-export const updateDateType = makeActionCreator(UPDATE_DATE_TYPE, 'dateType');
-export const updateCurrency = makeActionCreator(UPDATE_CURRENCY, 'currency');
+export const updateListRecurrents = makeActionCreator(UPDATE_LIST_RECURRENTS, 'recurrents');
+export const updateComputedListRecurrents = makeActionCreator(UPDATE_COMPUTED_LIST_RECURRENTS, 'recurrents');

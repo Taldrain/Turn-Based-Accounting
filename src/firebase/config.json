@@ -1,5 +1,6 @@
 {
   "apiKey": "AIzaSyDzb9SFtOT_7Ns2j-aMBdJtrkV7Wl3ntlU",
   "authDomain": "turn-based-accounting.firebaseapp.com",
-  "databaseURL": "https://turn-based-accounting.firebaseio.com"
+  "databaseURL": "https://turn-based-accounting.firebaseio.com",
+  "projectId": "turn-based-accounting"
 }

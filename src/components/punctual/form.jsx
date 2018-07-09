@@ -1,49 +1,49 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 
 import BalanceRadio from '../balance-radio/index';
-import TextDisplay from '../display/text';
 
-function PunctualForm(props) {
+function Form(props) {
   return (
-    <Grid container direction="column" justify="space-around" align="stretch" spacing={16}>
+    <Grid container direction="column" justify="space-around" align="stretch" spacing={32}>
       <Grid item>
         <TextField
           id="name"
-          label={<TextDisplay value="entries.Name" />}
+          label="Name"
           value={props.name}
           onChange={ev => props.onNewValue('name', ev.target.value)}
+          autoFocus
           fullWidth
         />
       </Grid>
       <Grid item>
         <TextField
           id="amount"
-          label={<TextDisplay value="entries.Amount" />}
+          label="Amount"
           value={props.amount}
-          onChange={ev => props.onNewValue('amount', ev.target.value)}
+          onChange={ev => props.onNewValue('amount', parseFloat(ev.target.value || 0, 10))}
           type="number"
           min="0"
           fullWidth
         />
       </Grid>
-      <Grid item xs>
+      <Grid item>
         <BalanceRadio
-          onChange={balance => props.onNewValue('balance', balance)}
-          balance={props.balance}
+          onChange={value => props.onNewValue('isPositive', value === '+')}
+          isPositive={props.isPositive}
         />
       </Grid>
     </Grid>
   );
 }
 
-PunctualForm.propTypes = {
+Form.propTypes = {
   onNewValue: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-  amount: PropTypes.string.isRequired,
-  balance: PropTypes.oneOf(['negatif', 'positif']).isRequired,
+  amount: PropTypes.number.isRequired,
+  isPositive: PropTypes.bool.isRequired,
 };
 
-export default PunctualForm;
+export default Form;

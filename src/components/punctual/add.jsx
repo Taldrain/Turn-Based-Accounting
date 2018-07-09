@@ -1,26 +1,63 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-import DialogAdd from '../dialog-entry/add';
-import PunctualDialogWrapper from './dialog-wrapper';
+import { Dialog } from '../entries/index';
+import Form from './form';
 
-import { addPunctual } from '../../firebase/database';
+import { pushPunctualEntry } from '../../firebase/firestore';
+import { createEntry } from '../../utils/entry';
 
-const defaultStateValues = {
-  balance: 'negatif',
+const DEFAULT_STATE = {
   name: '',
-  amount: '',
+  amount: 0,
+  isPositive: false,
 };
 
-function handleAdd(data) {
-  return addPunctual(data);
+class Add extends React.Component {
+  constructor() {
+    super();
+
+    this.state = DEFAULT_STATE;
+
+    this.onNewValue = this.onNewValue.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
+  }
+
+  onNewValue(type, value) {
+    this.setState({ [type]: value });
+  }
+
+  handleAdd() {
+    pushPunctualEntry(createEntry({
+      name: this.state.name,
+      amount: this.state.amount,
+      isPositive: this.state.isPositive,
+      date: this.props.date,
+    }));
+    this.setState(DEFAULT_STATE);
+  }
+
+  render() {
+    return (
+      <Dialog
+        {...this.props}
+        title="Add a new punctual entry"
+        validateButton="Add"
+        handleClick={this.handleAdd}
+      >
+        <Form
+          onNewValue={this.onNewValue}
+          name={this.state.name}
+          amount={this.state.amount}
+          isPositive={this.state.isPositive}
+        />
+      </Dialog>
+    );
+  }
 }
 
-function PunctualAdd() {
-  return (
-    <PunctualDialogWrapper onValidate={handleAdd} entry={defaultStateValues}>
-      <DialogAdd title="entries.Add a punctual entry" />
-    </PunctualDialogWrapper>
-  );
-}
+Add.propTypes = {
+  date: PropTypes.string.isRequired,
+};
 
-export default PunctualAdd;
+export default Add;

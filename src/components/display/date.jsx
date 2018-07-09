@@ -1,32 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import Typography from '@material-ui/core/Typography';
 
-import { date } from '../../utils/display';
+const moment = require('moment');
 
-function mapStateToProps(state) {
-  return ({
-    locale: state.locale,
-  });
+function getFormat(type) {
+  if (type === 'day' || type === 'week') {
+    return 'LL';
+  } else if (type === 'month') {
+    return 'MMMM YYYY';
+  }
+
+  return 'YYYY';
 }
 
+// TODO: we suppose props.date is already of format 'YYYY-MM-DD'
+// we might want to allow for date object
 function DateDisplay(props) {
   return (
-    <span>
-      { date(props.value, props.locale, props.options) }
-    </span>
+    <Typography {...props} component="span">
+      { moment(props.date).format(getFormat(props.type)) }
+    </Typography>
   );
 }
 
 DateDisplay.propTypes = {
-  value: PropTypes.instanceOf(Date).isRequired,
-  locale: PropTypes.string.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
-  options: PropTypes.object,
+  date: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
 };
 
-DateDisplay.defaultProps = {
-  options: undefined,
-};
-
-export default connect(mapStateToProps)(DateDisplay);
+export default DateDisplay;

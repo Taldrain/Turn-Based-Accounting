@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import FirebaseUILogin from './components/firebase-ui-login';
-import TrianglifyBackground from './components/trianglify-background';
 
 import { onAuthStateChanged } from '../firebase/auth';
 
 const styles = {
   root: {
-    marginTop: '20px',
+    marginTop: '40px',
   },
 };
 
@@ -24,20 +24,7 @@ class Login extends React.Component {
   }
 
   componentDidMount() {
-    this.unsubscribe = onAuthStateChanged((user) => {
-      if (this.setState) {
-        if (user) {
-          this.setState({ logged: true });
-          this.props.transition.router.stateService.go(
-            this.props.returnTo.state,
-            this.props.returnTo.params,
-            { reload: true },
-          );
-        } else {
-          this.setState({ logged: false });
-        }
-      }
-    });
+    this.unsubscribe = onAuthStateChanged(user => this.setState({ logged: !!user }));
   }
 
   componentWillUnmount() {
@@ -45,35 +32,34 @@ class Login extends React.Component {
   }
 
   render() {
-    const child = this.state.logged === false ?
-      <FirebaseUILogin /> : <CircularProgress />;
+    const { from } = this.props.location.state || { from: { pathname: '/' } };
+    const child = this.state.logged === false ? (
+      <FirebaseUILogin />
+    ) : (
+      <div>
+        <CircularProgress />
+        <Redirect to={from} />
+      </div>
+    );
 
     return (
-      <div>
-        <Grid container direction="row" align="center" justify="center" style={styles.root}>
-          <Grid item>
-            { child }
-          </Grid>
+      <Grid container direction="row" align="center" justify="center" style={styles.root}>
+        <Grid item>
+          { child }
         </Grid>
-        <TrianglifyBackground />
-      </div>
+      </Grid>
     );
   }
 }
 
 Login.propTypes = {
-  transition: PropTypes.shape({
-    router: PropTypes.object,
-  }),
-  returnTo: PropTypes.shape({
+  location: PropTypes.shape({
     state: PropTypes.object,
-    params: PropTypes.object,
   }),
 };
 
 Login.defaultProps = {
-  transition: {},
-  returnTo: {},
+  location: {},
 };
 
 export default Login;

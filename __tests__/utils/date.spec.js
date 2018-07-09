@@ -1,295 +1,321 @@
-const Utils = require('../../src/utils/date.js');
+import {
+  getStartDate,
+  getEndDate,
 
-describe('Utils Date', () => {
-  describe('formateDate', () => {
-    const inputs = [
-      {
-        title: 'day 2017/06/30',
-        type: 'day',
-        date: new Date(2017, 5, 30, 12, 0, 0, 0),
-        startDate: new Date(2017, 5, 30, 0, 0, 0, 0),
-        endDate: new Date(2017, 5, 30, 23, 59, 59, 999),
-      }, {
-        title: 'day 2017/08/01',
-        type: 'day',
-        date: new Date(2017, 7, 1, 12, 0, 0, 0),
-        startDate: new Date(2017, 7, 1, 0, 0, 0, 0),
-        endDate: new Date(2017, 7, 1, 23, 59, 59, 999),
-      }, {
-        title: 'day 2011/11/11',
-        type: 'day',
-        date: new Date(2011, 10, 11, 12, 0, 0, 0),
-        startDate: new Date(2011, 10, 11, 0, 0, 0, 0),
-        endDate: new Date(2011, 10, 11, 23, 59, 59, 999),
-      }, {
-        title: 'week 2017/07/16',
-        type: 'week',
-        date: new Date(2017, 6, 16, 12, 0, 0, 0),
-        startDate: new Date(2017, 6, 10, 0, 0, 0, 0),
-        endDate: new Date(2017, 6, 16, 23, 59, 59, 999),
-      }, {
-        title: 'week 2017/06/30',
-        type: 'week',
-        date: new Date(2017, 5, 30, 12, 0, 0, 0),
-        startDate: new Date(2017, 5, 26, 0, 0, 0, 0),
-        endDate: new Date(2017, 6, 2, 23, 59, 59, 999),
-      }, {
-        title: 'week 2017/08/01',
-        type: 'week',
-        date: new Date(2017, 7, 1, 12, 0, 0, 0),
-        startDate: new Date(2017, 6, 31, 0, 0, 0, 0),
-        endDate: new Date(2017, 7, 6, 23, 59, 59, 999),
-      }, {
-        title: 'week 2011/11/11',
-        type: 'week',
-        date: new Date(2011, 10, 11, 13, 0, 0, 0),
-        startDate: new Date(2011, 10, 7, 0, 0, 0, 0),
-        endDate: new Date(2011, 10, 13, 23, 59, 59, 999),
-      }, {
-        title: 'month 2017/06/30',
-        type: 'month',
-        date: new Date(2017, 5, 30, 12, 0, 0, 0),
-        startDate: new Date(2017, 5, 1, 0, 0, 0, 0),
-        endDate: new Date(2017, 5, 30, 23, 59, 59, 999),
-      }, {
-        title: 'month 2017/08/11',
-        type: 'month',
-        date: new Date(2017, 7, 1, 12, 0, 0, 0),
-        startDate: new Date(2017, 7, 1, 0, 0, 0, 0),
-        endDate: new Date(2017, 7, 31, 23, 59, 59, 999),
-      }, {
-        title: 'month 2011/11/11',
-        type: 'month',
-        date: new Date(2011, 10, 11, 13, 0, 0, 0),
-        startDate: new Date(2011, 10, 1, 0, 0, 0, 0),
-        endDate: new Date(2011, 10, 30, 23, 59, 59, 999),
-      }, {
-        title: 'year 2017/06/30',
-        type: 'year',
-        date: new Date(2017, 5, 30, 12, 0, 0, 0),
-        startDate: new Date(2017, 0, 1, 0, 0, 0, 0),
-        endDate: new Date(2017, 11, 31, 23, 59, 59, 999),
-      }, {
-        title: 'year 2017/08/11',
-        type: 'year',
-        date: new Date(2017, 7, 1, 12, 0, 0, 0),
-        startDate: new Date(2017, 0, 1, 0, 0, 0, 0),
-        endDate: new Date(2017, 11, 31, 23, 59, 59, 999),
-      }, {
-        title: 'year 2011/11/11',
-        type: 'year',
-        date: new Date(2011, 10, 11, 13, 0, 0, 0),
-        startDate: new Date(2011, 0, 1, 0, 0, 0, 0),
-        endDate: new Date(2011, 11, 31, 23, 59, 59, 999),
-      }
-    ];
+  previousDate,
+  nextDate,
+
+  isDateBetween,
+
+  diffDates,
+
+  minDate,
+  maxDate,
+} from '../../src/utils/date';
+
+describe('utils/date.js', () => {
+  describe('getStartDate() && getEndDate()', () => {
+    const inputs = [{
+      type: 'day',
+      date: new Date(2017, 5, 30),
+      startDate: '2017-06-30',
+      endDate: '2017-06-30',
+    }, {
+      type: 'day',
+      date: new Date(2017, 7, 1),
+      startDate: '2017-08-01',
+      endDate: '2017-08-01',
+    }, {
+      type: 'day',
+      date: new Date(2017, 10, 11),
+      startDate: '2017-11-11',
+      endDate: '2017-11-11',
+    }, {
+      type: 'week',
+      date: new Date(2017, 6, 16),
+      startDate: '2017-07-10',
+      endDate: '2017-07-16',
+    }, {
+      type: 'week',
+      date: new Date(2017, 5, 30),
+      startDate: '2017-06-26',
+      endDate: '2017-07-02',
+    }, {
+      type: 'week',
+      date: new Date(2017, 7, 1),
+      startDate: '2017-07-31',
+      endDate: '2017-08-06',
+    }, {
+      type: 'week',
+      date: new Date(2011, 10, 11),
+      startDate: '2011-11-07',
+      endDate: '2011-11-13',
+    }, {
+      type: 'month',
+      date: new Date(2017, 5, 30),
+      startDate: '2017-06-01',
+      endDate: '2017-06-30',
+    }, {
+      type: 'month',
+      date: new Date(2017, 7, 1),
+      startDate: '2017-08-01',
+      endDate: '2017-08-31',
+    }, {
+      type: 'month',
+      date: new Date(2011, 10, 11),
+      startDate: '2011-11-01',
+      endDate: '2011-11-30',
+    }, {
+      type: 'year',
+      date: new Date(2017, 5, 30),
+      startDate: '2017-01-01',
+      endDate: '2017-12-31',
+    }, {
+      type: 'year',
+      date: new Date(2017, 0, 1),
+      startDate: '2017-01-01',
+      endDate: '2017-12-31',
+    }];
 
     inputs.forEach((input) => {
-      test(input.title, () => {
-        expect(Utils.formatDate(input.date, input.type).startDate.getTime()).toEqual(input.startDate.getTime());
-        expect(Utils.formatDate(input.date, input.type).endDate.getTime()).toEqual(input.endDate.getTime());
-      });
+      test(`${input.type} ${input.startDate}`, () => expect(getStartDate(input.date, input.type)).toEqual(input.startDate));
+      test(`${input.type} ${input.endDate}`, () => expect(getEndDate(input.date, input.type)).toEqual(input.endDate));
     });
   });
 
-  describe('previousDate', () => {
-    const inputs = [
-      {
-        title: 'day 2017/06/30',
-        type: 'day',
-        date: new Date(2017, 5, 30, 12, 0, 0, 0),
-        res: new Date(2017, 5, 29, 0, 0, 0, 0),
-      }, {
-        title: 'day 2017/08/01',
-        type: 'day',
-        date: new Date(2017, 7, 1, 12, 0, 0, 0),
-        res: new Date(2017, 6, 31, 0, 0, 0, 0),
-      }, {
-        title: 'day 2011/11/11',
-        type: 'day',
-        date: new Date(2011, 10, 11, 12, 0, 0, 0),
-        res: new Date(2011, 10, 10, 0, 0, 0, 0),
-      }, {
-        title: 'week 2017/06/30',
-        type: 'week',
-        date: new Date(2017, 5, 30, 12, 0, 0, 0),
-        res: new Date(2017, 5, 19, 0, 0, 0, 0),
-      }, {
-        title: 'week 2017/08/01',
-        type: 'week',
-        date: new Date(2017, 7, 1, 12, 0, 0, 0),
-        res: new Date(2017, 6, 24, 0, 0, 0, 0),
-      }, {
-        title: 'week 2011/11/11',
-        type: 'week',
-        date: new Date(2011, 10, 11, 13, 0, 0, 0),
-        res: new Date(2011, 9, 31, 0, 0, 0, 0),
-      }, {
-        title: 'month 2017/06/30',
-        type: 'month',
-        date: new Date(2017, 5, 30, 12, 0, 0, 0),
-        res: new Date(2017, 4, 1, 0, 0, 0, 0),
-      }, {
-        title: 'month 2017/08/11',
-        type: 'month',
-        date: new Date(2017, 7, 1, 12, 0, 0, 0),
-        res: new Date(2017, 6, 1, 0, 0, 0, 0),
-      }, {
-        title: 'month 2011/11/11',
-        type: 'month',
-        date: new Date(2011, 10, 11, 13, 0, 0, 0),
-        res: new Date(2011, 9, 1, 0, 0, 0, 0),
-      }, {
-        title: 'year 2017/06/30',
-        type: 'year',
-        date: new Date(2017, 5, 30, 12, 0, 0, 0),
-        res: new Date(2016, 0, 1, 0, 0, 0, 0),
-      }, {
-        title: 'year 2017/08/11',
-        type: 'year',
-        date: new Date(2017, 7, 1, 12, 0, 0, 0),
-        res: new Date(2016, 0, 1, 0, 0, 0, 0),
-      }, {
-        title: 'year 2011/11/11',
-        type: 'year',
-        date: new Date(2011, 10, 11, 13, 0, 0, 0),
-        res: new Date(2010, 0, 1, 0, 0, 0, 0),
-      }
-    ];
+  describe('previousDate() && nextDate()', () => {
+    const inputs = [{
+      type: 'day',
+      date: '2017-06-30',
+      previousDate: '2017-06-29',
+      nextDate: '2017-07-01',
+    }, {
+      type: 'day',
+      date: '2017-08-01',
+      previousDate: '2017-07-31',
+      nextDate: '2017-08-02',
+    }, {
+      type: 'day',
+      date: '2011-11-11',
+      previousDate: '2011-11-10',
+      nextDate: '2011-11-12',
+    }, {
+      type: 'week',
+      date:'2017-06-30',
+      previousDate: '2017-06-23',
+      nextDate: '2017-07-07',
+    }, {
+      type: 'week',
+      date: '2017-08-01',
+      previousDate: '2017-07-25',
+      nextDate: '2017-08-08',
+    }, {
+      type: 'week',
+      date: '2011-11-11',
+      previousDate: '2011-11-04',
+      nextDate: '2011-11-18',
+    }, {
+      type: 'month',
+      date: '2017-06-30',
+      previousDate: '2017-05-30',
+      nextDate: '2017-07-30',
+    }, {
+      type: 'month',
+      date: '2017-08-01',
+      previousDate: '2017-07-01',
+      nextDate: '2017-09-01',
+    }, {
+      type: 'month',
+      date: '2011-11-11',
+      previousDate: '2011-10-11',
+      nextDate: '2011-12-11',
+    }, {
+      type: 'year',
+      date: '2017-06-30',
+      previousDate: '2016-06-30',
+      nextDate: '2018-06-30',
+    }, {
+      type: 'year',
+      date: '2017-08-01',
+      previousDate: '2016-08-01',
+      nextDate: '2018-08-01',
+    }, {
+      type: 'year',
+      date: '2011-11-11',
+      previousDate: '2010-11-11',
+      nextDate: '2012-11-11',
+    }];
 
     inputs.forEach((input) => {
-      test(input.title, () => {
-        expect(Utils.previousDate(input.date, input.type).getTime()).toEqual(input.res.getTime());
-      });
+      test(`${input.type} ${input.date}`, () => expect(previousDate(input.date, input.type)).toEqual(input.previousDate));
+      test(`${input.type} ${input.date}`, () => expect(nextDate(input.date, input.type)).toEqual(input.nextDate));
     });
   });
 
-  describe('nextDate', () => {
-    const inputs = [
-      {
-        title: 'day 2017/06/30',
-        type: 'day',
-        date: new Date(2017, 5, 30, 12, 0, 0, 0),
-        res: new Date(2017, 6, 1, 0, 0, 0, 0),
-      }, {
-        title: 'day 2017/08/01',
-        type: 'day',
-        date: new Date(2017, 7, 1, 12, 0, 0, 0),
-        res: new Date(2017, 7, 2, 0, 0, 0, 0),
-      }, {
-        title: 'day 2011/11/11',
-        type: 'day',
-        date: new Date(2011, 10, 11, 12, 0, 0, 0),
-        res: new Date(2011, 10, 12, 0, 0, 0, 0),
-      }, {
-        title: 'week 2017/06/30',
-        type: 'week',
-        date: new Date(2017, 5, 30, 12, 0, 0, 0),
-        res: new Date(2017, 6, 3, 0, 0, 0, 0),
-      }, {
-        title: 'week 2017/08/01',
-        type: 'week',
-        date: new Date(2017, 7, 1, 12, 0, 0, 0),
-        res: new Date(2017, 7, 7, 0, 0, 0, 0),
-      }, {
-        title: 'week 2011/11/11',
-        type: 'week',
-        date: new Date(2011, 10, 11, 13, 0, 0, 0),
-        res: new Date(2011, 10, 14, 0, 0, 0, 0),
-      }, {
-        title: 'month 2017/06/30',
-        type: 'month',
-        date: new Date(2017, 5, 30, 12, 0, 0, 0),
-        res: new Date(2017, 6, 1, 0, 0, 0, 0),
-      }, {
-        title: 'month 2017/08/11',
-        type: 'month',
-        date: new Date(2017, 7, 1, 12, 0, 0, 0),
-        res: new Date(2017, 8, 1, 0, 0, 0, 0),
-      }, {
-        title: 'month 2011/11/11',
-        type: 'month',
-        date: new Date(2011, 10, 11, 13, 0, 0, 0),
-        res: new Date(2011, 11, 1, 0, 0, 0, 0),
-      }, {
-        title: 'year 2017/06/30',
-        type: 'year',
-        date: new Date(2017, 5, 30, 12, 0, 0, 0),
-        res: new Date(2018, 0, 1, 0, 0, 0, 0),
-      }, {
-        title: 'year 2017/08/11',
-        type: 'year',
-        date: new Date(2017, 7, 1, 12, 0, 0, 0),
-        res: new Date(2018, 0, 1, 0, 0, 0, 0),
-      }, {
-        title: 'year 2011/11/11',
-        type: 'year',
-        date: new Date(2011, 10, 11, 13, 0, 0, 0),
-        res: new Date(2012, 0, 1, 0, 0, 0, 0),
-      }
-    ];
+  describe('isDateBetween()', () => {
+    const inputs = [{
+      type: 'day',
+      date: '2018-08-08',
+      res: true,
+    }, {
+      type: 'day',
+      date: '2018-08-08',
+      startDate: '2018-08-08',
+      res: true,
+    }, {
+      type: 'day',
+      date: '2018-08-08',
+      startDate: '2018-08-08',
+      endDate: '2018-08-08',
+      res: true,
+    }, {
+      type: 'day',
+      date: '2018-08-08',
+      startDate: '2018-08-07',
+      endDate: '2018-08-08',
+      res: true,
+    }, {
+      type: 'day',
+      date: '2018-08-08',
+      startDate: '2018-08-07',
+      endDate: '2018-08-07',
+      res: false,
+    }, {
+      type: 'day',
+      date: '2018-08-08',
+      startDate: '2018-08-07',
+      endDate: '2018-08-09',
+      res: true,
+    }, {
+      type: 'month',
+      date: '2018-08-08',
+      startDate: '2018-08-07',
+      endDate: '2018-08-09',
+      res: true,
+    }, {
+      type: 'month',
+      date: '2018-08-08',
+      startDate: '2018-07-07',
+      endDate: '2018-08-09',
+      res: true,
+    }, {
+      type: 'month',
+      date: '2018-08-08',
+      startDate: '2018-07-07',
+      endDate: '2018-09-09',
+      res: true,
+    }, {
+      type: 'month',
+      date: '2018-08-08',
+      startDate: '2018-07-07',
+      endDate: '2018-07-30',
+      res: false,
+    }];
 
     inputs.forEach((input) => {
-      test(input.title, () => {
-        expect(Utils.nextDate(input.date, input.type).getTime()).toEqual(input.res.getTime());
-      });
+      test(`${input.startDate} - ${input.endDate} is in ${input.date}(${input.date})`, () => expect(isDateBetween(input.startDate, input.endDate, input.date, input.type)).toEqual(input.res));
     });
 
   });
 
-  describe('isSameDate', () => {
-    const inputs = [
-      {
-        title: 'day 2017/06/30',
-        type: 'day',
-        date1: new Date(2017, 5, 30, 12, 0, 0, 0),
-        date2: new Date(2017, 5, 30, 20, 12, 0, 1),
-        res: true,
-      }, {
-        title: 'day 2017/03/20',
-        type: 'day',
-        date1: new Date(2017, 2, 20, 12, 0, 0, 0),
-        date2: new Date(),
-        res: false,
-      }, {
-        title: 'year 2017',
-        type: 'year',
-        date1: new Date(2017, 2, 20, 12, 0, 0, 0),
-        date2: new Date(2017, 6, 1, 0, 2, 0, 0),
-        res: true,
-      }, {
-        title: 'year 2018',
-        type: 'year',
-        date1: new Date(2017, 2, 20, 12, 0, 0, 0),
-        date2: new Date(2012, 6, 1, 0, 2, 0, 0),
-        res: false,
-      }
-    ];
+  describe('diffDates()', () => {
+    const inputs = [{
+      startDate: '2018-08-09',
+      endDate: '2018-08-09',
+      type: 'day',
+      res: 1,
+    }, {
+      startDate: '2018-08-08',
+      endDate: '2018-08-09',
+      type: 'day',
+      res: 2,
+    }, {
+      startDate: '2018-08-09',
+      endDate: '2018-08-20',
+      type: 'day',
+      res: 12,
+    }, {
+      startDate: '2018-08-09',
+      endDate: '2018-08-15',
+      type: 'week',
+      res: 1,
+    }, {
+      startDate: '2018-08-09',
+      endDate: '2018-08-22',
+      type: 'week',
+      res: 2,
+    }, {
+      startDate: '2018-08-05',
+      endDate: '2018-08-11',
+      type: 'week',
+      res: 1,
+    }, {
+      startDate: '2018-08-09',
+      endDate: '2018-08-11',
+      type: 'week',
+      res: 3/7,
+    }, {
+      startDate: '2018-08-01',
+      endDate: '2018-08-31',
+      type: 'month',
+      res: 1,
+    }, {
+      startDate: '2018-08-01',
+      endDate: '2018-08-13',
+      type: 'month',
+      res: 13/31,
+    }, {
+      startDate: '2018-08-01',
+      endDate: '2018-08-13',
+      type: 'month',
+      res: 13/31,
+    }, {
+      startDate: '2018-01-01',
+      endDate: '2018-12-31',
+      type: 'year',
+      res: 1,
+    }, {
+      startDate: '2018-01-01',
+      endDate: '2018-06-30',
+      type: 'year',
+      res: 0.5,
+    }, {
+      startDate: '2020-01-01',
+      endDate: '2020-12-31',
+      type: 'year',
+      res: 1,
+    }];
 
-    inputs.forEach((input) => {
-      test(input.title, () => {
-        expect(Utils.isSameDate(input.date1, input.date2, input.type)).toBe(input.res);
-      });
-    });
+    inputs.forEach(input =>
+      test(`${input.startDate} and ${input.endDate} - ${input.type}`, () => expect(diffDates(input.startDate, input.endDate, input.type)).toEqual(input.res))
+    );
   });
 
-  describe('isToday', () => {
-    const inputs = [
-      {
-        title: 'falsy',
-        date: new Date(2018, 5, 23, 0, 2, 0, 0),
-        res: false,
-      }, {
-        title: 'truthy',
-        date: new Date(),
-        res: true,
-      }
-    ];
+  describe('minDate() && maxDate()', () => {
+    const inputs = [{
+      date1: '2017-08-08',
+      date2: '2017-08-08',
+      max: '2017-08-08',
+      min: '2017-08-08',
+    }, {
+      date1: '2017-08-08',
+      max: '2017-08-08',
+      min: '2017-08-08',
+    }, {
+      date1: '2017-08-08',
+      date2: '2017-08-07',
+      max: '2017-08-08',
+      min: '2017-08-07',
+    }, {
+      date1: '2017-08-08',
+      date2: '2017-07-08',
+      max: '2017-08-08',
+      min: '2017-07-08',
+    }];
 
     inputs.forEach((input) => {
-      test(input.title, () => {
-        expect(Utils.isToday(input.date)).toBe(input.res);
-      });
+      test(`min(${input.date1}, ${input.date2})`, () => expect(minDate(input.date1, input.date2)).toEqual(input.min));
+      test(`max(${input.date1}, ${input.date2})`, () => expect(maxDate(input.date1, input.date2)).toEqual(input.max));
     });
   });
 });

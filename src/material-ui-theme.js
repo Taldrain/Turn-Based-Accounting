@@ -1,12 +1,18 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-import teal from '@material-ui/core/colors/teal';
-import orange from '@material-ui/core/colors/orange';
-import red from '@material-ui/core/colors/red';
 
 export default createMuiTheme({
   palette: {
-    primary: teal,
-    secondary: orange,
-    error: red,
+    primary: {
+      main: '#1a237e',
+      light: '#534bae',
+      dark: '#000051',
+      contrastText: '#ffffff',
+    },
+    secondary: {
+      main: '#ad1457',
+      light: '#e35183',
+      dark: '#78002e',
+      contrastText: '#ffffff',
+    },
   },
 });

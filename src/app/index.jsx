@@ -1,131 +1,54 @@
 import React from 'react';
-import { UIView } from '@uirouter/react';
 import PropTypes from 'prop-types';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import MenuIcon from '@material-ui/icons/Menu';
+import { withStyles } from '@material-ui/core/styles';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
-import TextDisplay from '../components/display/text';
-import SidebarLink from './components/sidebar-link';
+import ToolBarDrawer from './components/toolbar-drawer';
 
-import { updateLocale, updateCurrency } from '../actions/index';
-import { signOut } from '../firebase/auth';
+import Bilan from '../bilan/index';
+import Global from '../global/index';
+import Settings from '../settings/index';
 
-const styles = {
-  list: {
-    width: '250px',
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+    zIndex: 1,
+    overflow: 'hidden',
+    position: 'relative',
+    display: 'flex',
+    width: '100%',
   },
-  flex: {
-    flex: 1,
+  toolbar: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.default,
+    padding: theme.spacing.unit * 3,
+    minWidth: 0,
   },
-};
+});
 
-class App extends React.Component {
-  constructor(props, context) {
-    super(props);
+function App(props) {
+  const { classes } = props;
 
-    this.state = {
-      open: false,
-    };
-
-    this.handleForce = this.handleForce.bind(this);
-    this.handleToggle = this.handleToggle.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
-
-    context.store.dispatch(updateLocale(props.settings.locale));
-    context.store.dispatch(updateCurrency(props.settings.currency));
-  }
-
-  handleForce(state) {
-    this.setState({ open: state });
-  }
-
-  handleToggle() {
-    this.handleForce(!this.state.open);
-  }
-
-  handleClose() {
-    this.handleForce(false);
-  }
-
-  handleLogout() {
-    signOut()
-      .then(() => this.context.router.stateService.go('login', {}, { reload: true }));
-  }
-
-  render() {
-    return (
-      <div>
-        <AppBar position="static" >
-          <Toolbar>
-            <IconButton color="inherit" onClick={this.handleToggle}>
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="title" color="inherit" style={styles.flex}>
-              Turn-Based Accounting
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <Drawer
-          anchor="left"
-          open={this.state.open}
-          onClose={this.handleClose}
-          onClick={this.handleClose}
-        >
-          <List padding="none" style={styles.list}>
-            <ListItem button>
-              <SidebarLink path="bilan">
-                <ListItemText primary={<TextDisplay value="bilan.Title" />} />
-              </SidebarLink>
-            </ListItem>
-            <ListItem button>
-              <SidebarLink path="global">
-                <ListItemText primary={<TextDisplay value="global.Title" />} />
-              </SidebarLink>
-            </ListItem>
-            <ListItem button>
-              <SidebarLink path="settings">
-                <ListItemText primary={<TextDisplay value="settings.Title" />} />
-              </SidebarLink>
-            </ListItem>
-            <ListItem button>
-              <SidebarLink path="about">
-                <ListItemText primary={<TextDisplay value="about.Title" />} />
-              </SidebarLink>
-            </ListItem>
-            <ListItem button onClick={this.handleLogout}>
-              <ListItemText primary={<TextDisplay value="login.Sign out" />} />
-            </ListItem>
-          </List>
-        </Drawer>
-        <UIView />
-      </div>
-    );
-  }
+  return (
+    <div className={classes.root}>
+      <ToolBarDrawer />
+      <main className={classes.content}>
+        <div className={classes.toolbar} />
+        <Switch>
+          <Route exact path="/bilan/:type/:date?" component={Bilan} />
+          <Route exact path="/global" component={Global} />
+          <Route exact path="/settings" component={Settings} />
+          <Redirect from="/" to="/bilan/day/" />
+        </Switch>
+      </main>
+    </div>
+  );
 }
 
 App.propTypes = {
-  settings: PropTypes.shape({
-    locale: PropTypes.string,
-    currency: PropTypes.string,
-  }),
+  // eslint-disable-next-line react/forbid-prop-types
+  classes: PropTypes.object.isRequired,
 };
 
-App.defaultProps = {
-  settings: {},
-};
-
-App.contextTypes = {
-  store: PropTypes.object.isRequired,
-  router: PropTypes.object.isRequired,
-};
-
-
-export default App;
+export default withStyles(styles)(App);

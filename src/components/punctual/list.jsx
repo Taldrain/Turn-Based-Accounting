@@ -1,50 +1,81 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
-import { deletePunctual } from '../../firebase/database';
+import { ListEntries } from '../entries/index';
+import { deletePunctualEntry } from '../../firebase/firestore';
 
-import ListEntries from '../list-entries/index';
-import PunctualAdd from './add';
-import PunctualEdit from './edit';
+import Add from './add';
+import Edit from './edit';
 
 const columnData = [
   { id: 'name', numeric: false, label: 'Name' },
+  // { id: 'tags', numeric: false, label: 'Tags' },
   { id: 'amount', numeric: true, label: 'Amount' },
 ];
 
-function handleDelete(ev, keys) {
-  keys.forEach(key => deletePunctual(key));
+function handleDelete(entries) {
+  entries.forEach(entry => deletePunctualEntry(entry.id));
 }
 
-function mapStateToProps(state) {
-  return ({
-    punctual: state.punctual,
-    type: state.dateType,
-  });
-}
+class List extends React.Component {
+  constructor(props) {
+    super(props);
 
-function List(props) {
-  const addChild = props.type === 'day' ? (<PunctualAdd />) : '';
-  return (
-    <ListEntries
-      title="entries.Punctual"
-      columnData={columnData}
-      entries={props.punctual}
-      onDelete={handleDelete}
-      addDialogChild={addChild}
-      editDialogChild={<PunctualEdit />}
-    />
-  );
+    this.state = {
+      openAdd: false,
+      openEdit: false,
+      entry: undefined,
+    };
+
+    this.onCloseAdd = this.onCloseAdd.bind(this);
+    this.onCloseEdit = this.onCloseEdit.bind(this);
+
+    this.openAdd = this.openAdd.bind(this);
+    this.openEdit = this.openEdit.bind(this);
+  }
+
+  onCloseAdd() {
+    this.setState({ openAdd: false });
+  }
+
+  onCloseEdit() {
+    this.setState({ openEdit: false, entry: undefined });
+  }
+
+  openAdd() {
+    this.setState({ openAdd: true });
+  }
+
+  openEdit(entry) {
+    console.log('edit punctual: ', entry);
+    this.setState({ openEdit: true, entry });
+  }
+
+  render() {
+    return (
+      <div>
+        <ListEntries
+          title="Punctual"
+          columnData={columnData}
+          entries={this.props.entries}
+          delete={handleDelete}
+          edit={this.openEdit}
+          add={this.openAdd}
+        />
+        <Add onClose={this.onCloseAdd} open={this.state.openAdd} date={this.props.date} />
+        {
+          this.state.openEdit && (
+            <Edit onClose={this.onCloseEdit} entry={this.state.entry} open={this.state.openEdit} />
+          )
+        }
+      </div>
+    );
+  }
 }
 
 List.propTypes = {
-  punctual: PropTypes.arrayOf(PropTypes.shape({
-    key: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    amount: PropTypes.number.isRequired,
-  })).isRequired,
-  type: PropTypes.oneOf(['day', 'week', 'month', 'year']).isRequired,
+  entries: PropTypes.arrayOf(PropTypes.object).isRequired,
+  date: PropTypes.string.isRequired,
 };
 
-export default connect(mapStateToProps)(List);
+export default List;

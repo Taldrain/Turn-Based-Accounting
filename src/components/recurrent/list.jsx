@@ -1,49 +1,80 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
-import { deleteRecurrent } from '../../firebase/database';
+import { ListEntries } from '../entries/index';
+import { deleteRecurrentEntry } from '../../firebase/firestore';
 
-import ListEntries from '../list-entries/index';
-import RecurrentAdd from './add';
-import RecurrentEdit from './edit';
+import Add from './add';
+import Edit from './edit';
 
 const columnData = [
   { id: 'name', numeric: false, label: 'Name' },
-  { id: 'amount', numeric: false, label: 'Amount' },
+  // { id: 'tags', numeric: false, label: 'Tags' },
   { id: 'type', numeric: false, label: 'Type' },
+  { id: 'computedAmount', numeric: true, label: 'Amount' },
 ];
 
-function mapStateToProps(state) {
-  return ({
-    recurrent: state.recurrent,
-  });
+function handleDelete(entries) {
+  entries.forEach(entry => deleteRecurrentEntry(entry.id));
 }
 
-function handleDelete(ev, keys) {
-  keys.forEach(key => deleteRecurrent(key));
-}
+class List extends React.Component {
+  constructor(props) {
+    super(props);
 
-function List(props) {
-  return (
-    <ListEntries
-      title="entries.Recurrent"
-      columnData={columnData}
-      entries={props.recurrent}
-      onDelete={handleDelete}
-      addDialogChild={<RecurrentAdd />}
-      editDialogChild={<RecurrentEdit />}
-    />
-  );
+    this.state = {
+      openAdd: false,
+      openEdit: false,
+      entry: undefined,
+    };
+
+    this.onCloseAdd = this.onCloseAdd.bind(this);
+    this.onCloseEdit = this.onCloseEdit.bind(this);
+
+    this.openAdd = this.openAdd.bind(this);
+    this.openEdit = this.openEdit.bind(this);
+  }
+
+  onCloseAdd() {
+    this.setState({ openAdd: false });
+  }
+
+  onCloseEdit() {
+    this.setState({ openEdit: false, entry: undefined });
+  }
+
+  openAdd() {
+    this.setState({ openAdd: true });
+  }
+
+  openEdit(entry) {
+    this.setState({ openEdit: true, entry });
+  }
+
+  render() {
+    return (
+      <div>
+        <ListEntries
+          title="Recurrent"
+          columnData={columnData}
+          entries={this.props.entries}
+          delete={handleDelete}
+          edit={this.openEdit}
+          add={this.openAdd}
+        />
+        <Add onClose={this.onCloseAdd} open={this.state.openAdd} />
+        {
+          this.state.openEdit && (
+            <Edit onClose={this.onCloseEdit} entry={this.state.entry} open={this.state.openEdit} />
+          )
+        }
+      </div>
+    );
+  }
 }
 
 List.propTypes = {
-  recurrent: PropTypes.arrayOf(PropTypes.shape({
-    key: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    amount: PropTypes.number.isRequired,
-    type: PropTypes.oneOf(['year', 'month', 'week', 'day']).isRequired,
-  })).isRequired,
+  entries: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-export default connect(mapStateToProps)(List);
+export default List;

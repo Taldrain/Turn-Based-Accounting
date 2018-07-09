@@ -1,60 +1,50 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Radio from '@material-ui/core/Radio';
 import Grid from '@material-ui/core/Grid';
+import Radio from '@material-ui/core/Radio';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 
-class BalanceRadio extends React.Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      balance: props.balance,
-    };
-
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.balance !== this.state.balance) {
-      this.setState({ balance: nextProps.balance });
-    }
-  }
-
-  handleChange(ev) {
-    const balance = ev.currentTarget.value;
-
-    this.props.onChange(balance);
-  }
-
-  render() {
-    return (
-      <Grid container direction="row" justify="space-around" align="center">
-        <Grid item>
-          <Radio
-            checked={this.state.balance === 'positif'}
-            onChange={this.handleChange}
-            value="positif"
-          />
-          <AddIcon />
-        </Grid>
-        <Grid item>
-          <Radio
-            checked={this.state.balance === 'negatif'}
-            onChange={this.handleChange}
-            label="-"
-            value="negatif"
-          />
-          <RemoveIcon />
+function BalanceRadio(props) {
+  return (
+    <Grid container direction="row" justify="space-around" alignItems="center" spacing={16}>
+      <Grid item>
+        <Grid container direction="row" justify="space-around" alignItems="center">
+          <Grid item>
+            <Radio
+              checked={props.isPositive}
+              onChange={ev => props.onChange(ev.currentTarget.value)}
+              label="+"
+              value="+"
+            />
+          </Grid>
+          <Grid item>
+            <AddIcon />
+          </Grid>
         </Grid>
       </Grid>
-    );
-  }
+      <Grid item>
+        <Grid container direction="row" justify="space-around" alignItems="center">
+          <Grid item>
+            <Radio
+              checked={!props.isPositive}
+              onChange={ev => props.onChange(ev.currentTarget.value)}
+              label="-"
+              value="-"
+            />
+          </Grid>
+          <Grid item>
+            <RemoveIcon />
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
+  );
 }
 
 BalanceRadio.propTypes = {
-  balance: PropTypes.oneOf(['positif', 'negatif']).isRequired,
+  isPositive: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 
