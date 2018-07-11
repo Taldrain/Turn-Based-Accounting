@@ -1,8 +1,7 @@
 const moment = require('moment');
 
-// TODO: rename to a more appropriate name
 function getCurrentDate() {
-  return new Date().toISOString().split('T')[0];
+  return moment().format('YYYY-MM-DD');
 }
 
 function forceISOWeek(type) {

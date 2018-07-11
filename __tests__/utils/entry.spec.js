@@ -9,7 +9,7 @@ import {
 describe('utils/entry.js', () => {
   describe('typeDisplay', () => {
     const inputs = [{
-      type: 'day'
+      type: 'day',
       res: 'Day',
     }, {
       type: 'week',

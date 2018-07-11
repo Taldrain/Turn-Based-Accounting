@@ -6,7 +6,7 @@ const moment = require('moment');
 
 function getFormat(type) {
   if (type === 'day' || type === 'week') {
-    return 'LL';
+    return 'dddd, MMMM D, YYYY';
   } else if (type === 'month') {
     return 'MMMM YYYY';
   }

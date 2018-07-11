@@ -13,7 +13,7 @@ function BalanceDisplay(props) {
 
   return (
     <Typography {...rest} component="span" style={style}>
-      { isPositive === false && '-' } { parseFloat(Math.abs(amount).toPrecision(4), 10) }
+      { isPositive === false && '-' } { Math.abs(amount).toFixed(2) }
     </Typography>
   );
 }

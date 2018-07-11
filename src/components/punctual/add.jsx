@@ -21,6 +21,7 @@ class Add extends React.Component {
 
     this.onNewValue = this.onNewValue.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
   onNewValue(type, value) {
@@ -37,12 +38,18 @@ class Add extends React.Component {
     this.setState(DEFAULT_STATE);
   }
 
+  handleClose() {
+    this.props.onClose();
+    this.setState(DEFAULT_STATE);
+  }
+
   render() {
     return (
       <Dialog
         {...this.props}
         title="Add a new punctual entry"
         validateButton="Add"
+        onClose={this.handleClose}
         handleClick={this.handleAdd}
       >
         <Form
@@ -58,6 +65,7 @@ class Add extends React.Component {
 
 Add.propTypes = {
   date: PropTypes.string.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default Add;

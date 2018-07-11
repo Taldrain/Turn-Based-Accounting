@@ -27,7 +27,7 @@ function Balance(props) {
         </Typography>
         <Grid container direction="row" justify="center" alignItems="center" spacing={40}>
           <Grid item>
-            <BalanceDisplay variant="title" amount={sumEntries} isPositive={sumEntries < 0} />
+            <BalanceDisplay variant="title" amount={sumEntries} isPositive={sumEntries >= 0} />
           </Grid>
           <Grid item>
             <Grid container direction="column" justify="center" alignItems="flex-start" spacing={8}>
@@ -38,7 +38,7 @@ function Balance(props) {
                 <BalanceDisplay
                   variant="caption"
                   amount={sumRecurrents}
-                  isPositive={sumRecurrents < 0}
+                  isPositive={sumRecurrents >= 0}
                 />
               </Grid>
               <Grid item>
@@ -48,7 +48,7 @@ function Balance(props) {
                 <BalanceDisplay
                   variant="caption"
                   amount={sumPunctuals}
-                  isPositive={sumPunctuals < 0}
+                  isPositive={sumPunctuals >= 0}
                 />
               </Grid>
             </Grid>

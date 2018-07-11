@@ -9,9 +9,9 @@ const webpackNotifierPlugin = require('webpack-notifier');
 
 const SRC_DIR = path.resolve(__dirname, 'src');
 
-// const commitHash = require('child_process')
-//   .execSync('git rev-parse --short HEAD')
-//   .toString();
+const commitHash = require('child_process')
+  .execSync('git rev-parse --short HEAD')
+  .toString();
 
 function srcPath(p) {
   return path.resolve(SRC_DIR, p);
@@ -51,7 +51,7 @@ const common = {
   plugins: [
     new htmlWebpackPlugin(htmlWebpackPluginConfig),
     new webpack.DefinePlugin({
-      __COMMIT__HASH__: JSON.stringify('TODO'),
+      __COMMIT__HASH__: JSON.stringify(commitHash),
     }),
   ],
 };

@@ -11,7 +11,7 @@ import NextIcon from '@material-ui/icons/KeyboardArrowRight';
 import DateDisplay from '../../components/display/date';
 import TypeMenu from '../../components/type-menu/index';
 
-import { previousDate, nextDate } from '../../utils/date';
+import { getCurrentDate, previousDate, nextDate } from '../../utils/date';
 
 class DateSelect extends React.Component {
   onNewType(type) {
@@ -41,7 +41,12 @@ class DateSelect extends React.Component {
           </IconButton>
         </Grid>
         <Grid item>
-          <Button component={Link} to="/bilan/day/" aria-label="today">
+          <Button
+            component={Link}
+            to="/bilan/day/"
+            aria-label="today"
+            disabled={this.props.date === getCurrentDate() || this.props.type !== 'day'}
+          >
             Today
           </Button>
         </Grid>
