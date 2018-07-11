@@ -1,4 +1,3 @@
 node_modules/
 dist/
 .firebaserc
-src/firebase/config.json

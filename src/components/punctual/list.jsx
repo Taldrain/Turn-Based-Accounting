@@ -47,7 +47,6 @@ class List extends React.Component {
   }
 
   openEdit(entry) {
-    console.log('edit punctual: ', entry);
     this.setState({ openEdit: true, entry });
   }
 

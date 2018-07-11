@@ -60,7 +60,6 @@ class ListEntries extends React.Component {
         selected.slice(selectedIndex + 1),
       );
     }
-    console.log('selected: ', newSelected);
 
     this.setState({ selected: newSelected });
   }
@@ -81,8 +80,6 @@ class ListEntries extends React.Component {
 
   render() {
     const { classes } = this.props;
-    console.log('list index');
-    console.log('list entries: ', this.props.entries);
 
     return (
       <Paper className={classes.root}>

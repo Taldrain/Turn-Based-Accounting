@@ -6,6 +6,7 @@ import {
   DialogContent,
   DialogActions,
   Button,
+  withMobileDialog,
 } from '@material-ui/core/';
 
 class DialogEntry extends React.Component {
@@ -22,7 +23,11 @@ class DialogEntry extends React.Component {
 
   render() {
     return (
-      <Dialog open={this.props.open} onClose={this.props.onClose}>
+      <Dialog
+        open={this.props.open}
+        onClose={this.props.onClose}
+        fullScreen={this.props.fullScreen}
+      >
         <DialogTitle>
           { this.props.title}
         </DialogTitle>
@@ -49,6 +54,7 @@ DialogEntry.propTypes = {
   validateButton: PropTypes.string.isRequired,
   handleClick: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,
+  fullScreen: PropTypes.bool.isRequired,
 };
 
-export default DialogEntry;
+export default withMobileDialog()(DialogEntry);

@@ -11,7 +11,7 @@ const DEFAULT_STATE = {
   name: '',
   amount: 0,
   isPositive: false,
-  type: 'day',
+  type: 'month',
   startDate: '',
   endDate: '',
 };
@@ -32,7 +32,6 @@ class Add extends React.Component {
   }
 
   handleAdd() {
-    console.log('add: ', this.state);
     pushRecurrentEntry(createEntry({
       name: this.state.name,
       amount: this.state.amount,
