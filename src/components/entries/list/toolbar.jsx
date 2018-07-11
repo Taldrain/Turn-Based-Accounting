@@ -68,7 +68,6 @@ class ListToolbar extends React.Component {
   render() {
     const { classes, selected } = this.props;
     const numSelected = selected.length;
-    console.log('toolbar');
 
     return (
       <Toolbar
