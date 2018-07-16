@@ -24,8 +24,8 @@ function Form(props) {
           <TextField
             id="amount"
             label="Amount"
-            value={props.amount}
-            onChange={ev => props.onNewValue('amount', parseFloat(ev.target.value, 10))}
+            value={props.amount ? `${props.amount}` : 0}
+            onChange={ev => props.onNewValue('amount', parseFloat(ev.target.value, 10) || undefined)}
             type="number"
             min="0"
             fullWidth
@@ -71,7 +71,7 @@ function Form(props) {
 Form.propTypes = {
   onNewValue: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-  amount: PropTypes.number.isRequired,
+  amount: PropTypes.number,
   isPositive: PropTypes.bool.isRequired,
   type: PropTypes.oneOf(['day', 'week', 'month', 'year']).isRequired,
   startDate: PropTypes.string,
@@ -79,6 +79,7 @@ Form.propTypes = {
 };
 
 Form.defaultProps = {
+  amount: undefined,
   startDate: undefined,
   endDate: undefined,
 };
