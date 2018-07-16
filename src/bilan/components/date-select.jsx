@@ -21,26 +21,26 @@ class DateSelect extends React.Component {
   render() {
     return (
       <Grid container direction="row" justify="center" alignItems="center" spacing={16}>
-        <Grid item>
+        <Grid item xs={2}>
           <TypeMenu
             onChange={value => this.onNewType(value)}
             type={this.props.type}
           />
         </Grid>
-        <Grid item>
+        <Grid item xs={3}>
           <DateDisplay date={this.props.date} type={this.props.type} variant="subheading" />
         </Grid>
-        <Grid item>
+        <Grid item xs={2}>
           <IconButton component={Link} to={`/bilan/${this.props.type}/${previousDate(this.props.date, this.props.type)}`} aria-label="previous date">
             <PreviousIcon />
           </IconButton>
         </Grid>
-        <Grid item>
+        <Grid item xs={2}>
           <IconButton component={Link} to={`/bilan/${this.props.type}/${nextDate(this.props.date, this.props.type)}`} aria-label="next date">
             <NextIcon />
           </IconButton>
         </Grid>
-        <Grid item>
+        <Grid item xs={2}>
           <Button
             component={Link}
             to="/bilan/day/"
