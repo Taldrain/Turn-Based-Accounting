@@ -1,6 +1,9 @@
 import firebase from './index';
 
 const DB = firebase.firestore();
+DB.settings({
+  timestampsInSnapshots: true,
+});
 
 const RECURRENTS_COLLECTION = 'recurrents';
 const PUNCTUALS_COLLECTION = 'punctuals';
