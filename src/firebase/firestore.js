@@ -1,5 +1,7 @@
 import firebase from './index';
 
+import { getCurrentUser } from './auth';
+
 const DB = firebase.firestore();
 DB.settings({
   timestampsInSnapshots: true,
@@ -7,6 +9,7 @@ DB.settings({
 
 const RECURRENTS_COLLECTION = 'recurrents';
 const PUNCTUALS_COLLECTION = 'punctuals';
+const SETTINGS_COLLECTION = 'settings';
 
 function saveDocumentKey(doc, key) {
   return Object.assign({}, doc.data(), { [key]: doc.id });
@@ -37,6 +40,24 @@ function listenPunctualEntries(callback, startDate, endDate, uid) {
     .onSnapshot(querySnapshot => callback(snapshotToArray(querySnapshot, 'id')));
 }
 
+function listenSettings(callback) {
+  return DB
+    .collection(SETTINGS_COLLECTION)
+    .doc(getCurrentUser().uid)
+    .onSnapshot(doc => callback(doc.data()));
+}
+
+//
+// Fetch
+//
+function fetchSettings() {
+  return DB
+    .collection(SETTINGS_COLLECTION)
+    .doc(getCurrentUser().uid)
+    .get()
+    .then(doc => doc.data());
+}
+
 //
 // Push
 //
@@ -50,6 +71,13 @@ function pushRecurrentEntry(entry) {
   return DB
     .collection(RECURRENTS_COLLECTION)
     .add(entry);
+}
+
+function pushSettingsCurrency(currency) {
+  return DB
+    .collection(SETTINGS_COLLECTION)
+    .doc(getCurrentUser().uid)
+    .set({ currency });
 }
 
 //
@@ -89,9 +117,13 @@ function deleteRecurrentEntry(entryId) {
 export {
   listenAllRecurrentEntries,
   listenPunctualEntries,
+  listenSettings,
+
+  fetchSettings,
 
   pushPunctualEntry,
   pushRecurrentEntry,
+  pushSettingsCurrency,
 
   updatePunctualEntry,
   updateRecurrentEntry,

@@ -34,8 +34,13 @@ function onAuthStateChanged(callback) {
   return firebase.auth().onAuthStateChanged(callback);
 }
 
+function signOut() {
+  return firebase.auth().signOut();
+}
+
 export {
   requiresAuth,
   getCurrentUser,
   onAuthStateChanged,
+  signOut,
 };

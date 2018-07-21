@@ -26,7 +26,6 @@ function cellDisplay(column, entry) {
 }
 
 function RowRecord(props) {
-  console.log('props.entry: ', props.entry);
   return (
     <TableRow
       hover

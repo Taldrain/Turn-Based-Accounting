@@ -9,6 +9,9 @@ import Bilan from '../bilan/index';
 import Global from '../global/index';
 import Settings from '../settings/index';
 
+import { fetchSettings } from '../firebase/firestore';
+import { updateSettings } from '../actions/index';
+
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -27,28 +30,42 @@ const styles = theme => ({
   },
 });
 
-function App(props) {
-  const { classes } = props;
+class App extends React.PureComponent {
+  constructor(props, context) {
+    super(props);
 
-  return (
-    <div className={classes.root}>
-      <ToolBarDrawer />
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-        <Switch>
-          <Route exact path="/bilan/:type/:date?" component={Bilan} />
-          <Route exact path="/global" component={Global} />
-          <Route exact path="/settings" component={Settings} />
-          <Redirect from="/" to="/bilan/day/" />
-        </Switch>
-      </main>
-    </div>
-  );
+    fetchSettings().then(settings => context.store.dispatch(updateSettings(settings)));
+  }
+
+  render() {
+    const { classes } = this.props;
+
+    return (
+      <div className={classes.root}>
+        <ToolBarDrawer />
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+          <Switch>
+            <Route exact path="/bilan/:type/:date?" component={Bilan} />
+            <Route exact path="/global" component={Global} />
+            <Route exact path="/settings" component={Settings} />
+            <Redirect from="/" to="/bilan/day/" />
+          </Switch>
+        </main>
+      </div>
+    );
+  }
 }
 
 App.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   classes: PropTypes.object.isRequired,
+};
+
+App.contextTypes = {
+  store: PropTypes.shape({
+    dispatch: PropTypes.func,
+  }).isRequired,
 };
 
 export default withStyles(styles)(App);

@@ -1,8 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Typography from '@material-ui/core/Typography';
+import { connect } from 'react-redux';
 
 import Colors from '../../colors';
+
+import NumberDisplay from './number';
+
+function mapStateToProps(state) {
+  return ({
+    locale: state.settings.locale,
+    currency: state.settings.currency,
+  });
+}
 
 function BalanceDisplay(props) {
   const { isPositive, amount, ...rest } = props;
@@ -12,15 +21,17 @@ function BalanceDisplay(props) {
   };
 
   return (
-    <Typography {...rest} component="span" style={style}>
-      { isPositive === false && '-' } { Math.abs(amount).toFixed(2) }
-    </Typography>
+    <NumberDisplay {...rest} locale={props.locale} currency={props.currency} style={style}>
+      {Number(`${isPositive ? '' : '-'}${Math.abs(amount)}`)}
+    </NumberDisplay>
   );
 }
 
 BalanceDisplay.propTypes = {
+  locale: PropTypes.string.isRequired,
+  currency: PropTypes.string.isRequired,
   amount: PropTypes.number.isRequired,
   isPositive: PropTypes.bool.isRequired,
 };
 
-export default BalanceDisplay;
+export default connect(mapStateToProps)(BalanceDisplay);

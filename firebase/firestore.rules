@@ -12,6 +12,13 @@ service cloud.firestore {
       return request.auth.uid == resource.data.authorId;
     }
 
+    function isCurrentUser(userId) {
+      return request.auth.uid == userId;
+    }
+
+    //
+    // Paths
+    //
     match /punctuals/{record} {
       allow read, update, delete: if userOwnsData();
       allow create: if isAuthenticated();
@@ -20,6 +27,11 @@ service cloud.firestore {
     match /recurrents/{record} {
       allow read, update, delete: if userOwnsData();
       allow create: if isAuthenticated();
+    }
+
+    match /settings/{userId} {
+      allow create: if isAuthenticated();
+      allow read, update: if isCurrentUser(userId);
     }
   }
 }

@@ -1,8 +1,7 @@
 import { combineReducers } from 'redux';
 
-import recurrents from './recurrents';
+import settings from './settings';
 
 export default combineReducers({
-  recurrents,
-  computedRecurrents
+  settings,
 });
