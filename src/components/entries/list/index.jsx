@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import {
   LinearProgress,
@@ -37,6 +38,15 @@ class ListEntries extends React.Component {
     this.handleSelectAllClick = this.handleSelectAllClick.bind(this);
     this.handleSelectClick = this.handleSelectClick.bind(this);
     this.wrapperDelete = this.wrapperDelete.bind(this);
+  }
+
+  componentDidMount() {
+    this.browserEvent = this.props.history.listen(() =>
+      this.setState({ selected: [] }));
+  }
+
+  componentWillUnmount() {
+    this.browserEvent();
   }
 
   isSelected(entry) {
@@ -133,6 +143,8 @@ ListEntries.propTypes = {
   inProgress: PropTypes.bool.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   classes: PropTypes.object.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  history: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ListEntries);
+export default withRouter(withStyles(styles)(ListEntries));
