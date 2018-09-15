@@ -20,6 +20,10 @@ import DrawerLink from './drawer-link';
 const DRAWER_WIDTH = 240;
 
 const styles = theme => ({
+  root: {
+    display: 'flex',
+    minHeight: '100vh',
+  },
   appBar: {
     position: 'absolute',
     marginLeft: DRAWER_WIDTH,
@@ -46,7 +50,6 @@ const styles = theme => ({
     [theme.breakpoints.up('md')]: {
       position: 'relative',
     },
-    minHeight: '100%',
   },
   title: {
     color: theme.palette.text.secondary,
@@ -103,7 +106,7 @@ class ToolBarDrawer extends React.Component {
     );
 
     return (
-      <div>
+      <div className={classes.root}>
         <AppBar className={classes.appBar}>
           <Toolbar>
             <IconButton
