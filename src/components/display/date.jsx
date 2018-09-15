@@ -7,7 +7,9 @@ const moment = require('moment');
 function getFormat(type) {
   if (type === 'day' || type === 'week') {
     return 'dddd, MMMM D, YYYY';
-  } else if (type === 'month') {
+  }
+
+  if (type === 'month') {
     return 'MMMM YYYY';
   }
 
@@ -16,10 +18,10 @@ function getFormat(type) {
 
 // TODO: we suppose props.date is already of format 'YYYY-MM-DD'
 // we might want to allow for date object
-function DateDisplay(props) {
+function DateDisplay({ type, date, ...restProps }) {
   return (
-    <Typography {...props} component="span">
-      { moment(props.date).format(getFormat(props.type)) }
+    <Typography {...restProps} component="span">
+      { moment(date).format(getFormat(type)) }
     </Typography>
   );
 }

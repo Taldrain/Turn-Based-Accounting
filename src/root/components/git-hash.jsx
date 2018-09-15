@@ -13,9 +13,9 @@ const styles = theme => ({
   },
 });
 
-function GitHash(props) {
+function GitHash({ classes }) {
   return (
-    <Typography variant="caption" className={props.classes.root}>
+    <Typography variant="caption" className={classes.root}>
       {
         // eslint-disable-next-line no-undef
         __COMMIT__HASH__

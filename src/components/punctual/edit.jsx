@@ -11,10 +11,12 @@ class Edit extends React.Component {
   constructor(props) {
     super(props);
 
+    const { entry } = props;
+
     this.state = {
-      name: props.entry.name,
-      amount: props.entry.amount,
-      isPositive: props.entry.isPositive,
+      name: entry.name,
+      amount: entry.amount,
+      isPositive: entry.isPositive,
     };
 
     this.onNewValue = this.onNewValue.bind(this);
@@ -26,14 +28,18 @@ class Edit extends React.Component {
   }
 
   handleEdit() {
-    updatePunctualEntry(this.props.entry.id, editEntry({
-      name: this.state.name,
-      amount: this.state.amount,
-      isPositive: this.state.isPositive,
+    const { entry } = this.props;
+    const { name, amount, isPositive } = this.state;
+
+    updatePunctualEntry(entry.id, editEntry({
+      name,
+      amount,
+      isPositive,
     }));
   }
 
   render() {
+    const { name, amount, isPositive } = this.state;
     return (
       <Dialog
         {...this.props}
@@ -43,9 +49,9 @@ class Edit extends React.Component {
       >
         <Form
           onNewValue={this.onNewValue}
-          name={this.state.name}
-          amount={this.state.amount}
-          isPositive={this.state.isPositive}
+          name={name}
+          amount={amount}
+          isPositive={isPositive}
         />
       </Dialog>
     );

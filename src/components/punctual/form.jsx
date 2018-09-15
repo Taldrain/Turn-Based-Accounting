@@ -6,6 +6,12 @@ import TextField from '@material-ui/core/TextField';
 import BalanceRadio from '../balance-radio/index';
 
 function Form(props) {
+  const {
+    name,
+    amount,
+    onNewValue,
+    isPositive,
+  } = props;
   return (
     <form autoComplete="off">
       <Grid container direction="column" justify="space-around" align="stretch" spacing={32}>
@@ -13,8 +19,8 @@ function Form(props) {
           <TextField
             id="name"
             label="Name"
-            value={props.name}
-            onChange={ev => props.onNewValue('name', ev.target.value)}
+            value={name}
+            onChange={ev => onNewValue('name', ev.target.value)}
             autoFocus
             fullWidth
           />
@@ -23,8 +29,8 @@ function Form(props) {
           <TextField
             id="amount"
             label="Amount"
-            value={props.amount ? `${props.amount}` : 0}
-            onChange={ev => props.onNewValue('amount', parseFloat(ev.target.value, 10) || undefined)}
+            value={amount ? `${amount}` : 0}
+            onChange={ev => onNewValue('amount', parseFloat(ev.target.value, 10) || undefined)}
             type="number"
             min="0"
             fullWidth
@@ -32,8 +38,8 @@ function Form(props) {
         </Grid>
         <Grid item>
           <BalanceRadio
-            onChange={value => props.onNewValue('isPositive', value === '+')}
-            isPositive={props.isPositive}
+            onChange={value => onNewValue('isPositive', value === '+')}
+            isPositive={isPositive}
           />
         </Grid>
       </Grid>

@@ -29,21 +29,31 @@ class Add extends React.Component {
   }
 
   handleAdd() {
+    const { name, amount, isPositive } = this.state;
+    const { date } = this.props;
+
     pushPunctualEntry(createEntry({
-      name: this.state.name,
-      amount: this.state.amount,
-      isPositive: this.state.isPositive,
-      date: this.props.date,
+      name,
+      amount,
+      isPositive,
+      date,
     }));
     this.setState(DEFAULT_STATE);
   }
 
   handleClose() {
-    this.props.onClose();
+    const { onClose } = this.props;
+    onClose();
     this.setState(DEFAULT_STATE);
   }
 
   render() {
+    const {
+      name,
+      amount,
+      isPositive,
+    } = this.state;
+
     return (
       <Dialog
         {...this.props}
@@ -54,9 +64,9 @@ class Add extends React.Component {
       >
         <Form
           onNewValue={this.onNewValue}
-          name={this.state.name}
-          amount={this.state.amount}
-          isPositive={this.state.isPositive}
+          name={name}
+          amount={amount}
+          isPositive={isPositive}
         />
       </Dialog>
     );

@@ -31,14 +31,16 @@ class SettingsUpdateSnackBar extends React.Component {
   }
 
   handleOpen() {
-    if (this.state.firstEvent) {
+    const { firstEvent, open } = this.state;
+
+    if (firstEvent) {
       // skip first event
       this.setState({ firstEvent: false });
       return;
     }
 
     this.queue.push(new Date().getTime());
-    if (this.state.open) {
+    if (open) {
       // close current snackbar to start a new one
       this.setState({ open: false });
     } else {
@@ -65,14 +67,15 @@ class SettingsUpdateSnackBar extends React.Component {
   }
 
   render() {
+    const { key, open } = this.state;
     return (
       <Snackbar
-        key={this.state.key}
+        key={key}
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'left',
         }}
-        open={this.state.open}
+        open={open}
         autoHideDuration={1500}
         onClose={this.handleClose}
         onExited={this.handleExited}

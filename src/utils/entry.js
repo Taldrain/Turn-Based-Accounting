@@ -15,7 +15,7 @@ function sanitizeEntry(entry) {
   return entry;
 }
 
-function displayedRecurrentsEntries(entries, date, type) {
+function getDisplayedRecurrentsEntries(entries, date, type) {
   return entries.filter(entry => isDateBetween(entry.startDate, entry.endDate, date, type));
 }
 
@@ -31,15 +31,16 @@ function editEntry(entry) {
 }
 
 function typeDisplay(type) {
-  if (type === 'day') {
-    return 'Day';
-  } else if (type === 'week') {
-    return 'Week';
-  } else if (type === 'month') {
-    return 'Month';
+  switch (type) {
+    case 'day':
+      return 'Day';
+    case 'week':
+      return 'Week';
+    case 'month':
+      return 'Month';
+    default:
+      return 'Year';
   }
-
-  return 'Year';
 }
 
 function convertAmount(entry, date, type) {
@@ -54,7 +55,7 @@ function convertAmount(entry, date, type) {
 export {
   createEntry,
   editEntry,
-  displayedRecurrentsEntries,
+  getDisplayedRecurrentsEntries,
   typeDisplay,
   convertAmount,
 };

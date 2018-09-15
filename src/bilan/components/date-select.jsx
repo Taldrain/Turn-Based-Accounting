@@ -15,28 +15,30 @@ import { getCurrentDate, previousDate, nextDate } from '../../utils/date';
 
 class DateSelect extends React.Component {
   onNewType(type) {
-    this.props.history.push(`/bilan/${type}/${this.props.date}`);
+    const { history, date } = this.props;
+    history.push(`/bilan/${type}/${date}`);
   }
 
   render() {
+    const { type, date } = this.props;
     return (
       <Grid container direction="row" justify="center" alignItems="center" spacing={16}>
         <Grid item xs={2}>
           <TypeMenu
             onChange={value => this.onNewType(value)}
-            type={this.props.type}
+            type={type}
           />
         </Grid>
         <Grid item xs={3}>
-          <DateDisplay date={this.props.date} type={this.props.type} variant="subheading" />
+          <DateDisplay date={date} type={type} variant="subheading" />
         </Grid>
         <Grid item xs={2}>
-          <IconButton component={Link} to={`/bilan/${this.props.type}/${previousDate(this.props.date, this.props.type)}`} aria-label="previous date">
+          <IconButton component={Link} to={`/bilan/${type}/${previousDate(date, type)}`} aria-label="previous date">
             <PreviousIcon />
           </IconButton>
         </Grid>
         <Grid item xs={2}>
-          <IconButton component={Link} to={`/bilan/${this.props.type}/${nextDate(this.props.date, this.props.type)}`} aria-label="next date">
+          <IconButton component={Link} to={`/bilan/${type}/${nextDate(date, type)}`} aria-label="next date">
             <NextIcon />
           </IconButton>
         </Grid>
@@ -45,7 +47,7 @@ class DateSelect extends React.Component {
             component={Link}
             to="/bilan/day/"
             aria-label="today"
-            disabled={this.props.date === getCurrentDate() || this.props.type !== 'day'}
+            disabled={date === getCurrentDate() || type !== 'day'}
           >
             Today
           </Button>

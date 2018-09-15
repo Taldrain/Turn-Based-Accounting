@@ -8,18 +8,25 @@ import {
 } from '@material-ui/core/';
 
 function ListTableHead(props) {
+  const {
+    numSelected,
+    rowCount,
+    onSelectAllClick,
+    columnData,
+  } = props;
+
   return (
     <TableHead>
       <TableRow>
         <TableCell padding="checkbox">
           <Checkbox
-            indeterminate={props.numSelected > 0 && props.numSelected < props.rowCount}
-            checked={props.rowCount !== 0 && props.numSelected === props.rowCount}
-            onChange={props.onSelectAllClick}
+            indeterminate={numSelected > 0 && numSelected < rowCount}
+            checked={rowCount !== 0 && numSelected === rowCount}
+            onChange={onSelectAllClick}
           />
         </TableCell>
         {
-          props.columnData.map(column => (
+          columnData.map(column => (
             <TableCell key={column.id} numeric={column.numeric}>
               { column.label }
             </TableCell>

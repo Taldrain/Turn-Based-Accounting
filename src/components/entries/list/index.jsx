@@ -41,8 +41,8 @@ class ListEntries extends React.Component {
   }
 
   componentDidMount() {
-    this.browserEvent = this.props.history.listen(() =>
-      this.setState({ selected: [] }));
+    const { history } = this.props;
+    this.browserEvent = history.listen(() => this.setState({ selected: [] }));
   }
 
   componentWillUnmount() {
@@ -50,7 +50,8 @@ class ListEntries extends React.Component {
   }
 
   isSelected(entry) {
-    return (this.state.selected.findIndex(i => i.id === entry.id) !== -1);
+    const { selected } = this.state;
+    return (selected.findIndex(i => i.id === entry.id) !== -1);
   }
 
   handleSelectClick(event, entry) {
@@ -76,7 +77,8 @@ class ListEntries extends React.Component {
 
   handleSelectAllClick(event, checked) {
     if (checked) {
-      this.setState({ selected: this.props.entries });
+      const { entries } = this.props;
+      this.setState({ selected: entries });
       return;
     }
 
@@ -84,44 +86,57 @@ class ListEntries extends React.Component {
   }
 
   wrapperDelete(entries) {
+    const { delete: deleteFn } = this.props;
     this.setState({ selected: [] });
-    this.props.delete(entries);
+    deleteFn(entries);
   }
 
   render() {
-    const { classes } = this.props;
+    const {
+      classes,
+      inProgress,
+      edit,
+      add,
+      title,
+      entries,
+      columnData,
+    } = this.props;
+
+    const {
+      selected,
+    } = this.state;
 
     return (
       <Paper className={classes.root}>
         {
-          this.props.inProgress && (
+          inProgress && (
             <LinearProgress />
           )
         }
         <ListToolbar
-          edit={this.props.edit}
+          edit={edit}
           delete={this.wrapperDelete}
-          add={this.props.add}
-          selected={this.state.selected}
-          title={this.props.title}
+          add={add}
+          selected={selected}
+          title={title}
         />
         <div className={classes.tableWrapper}>
           <Table className={classes.table}>
             <ListTableHead
-              numSelected={this.state.selected.length}
-              rowCount={this.props.entries.length}
+              numSelected={selected.length}
+              rowCount={entries.length}
               onSelectAllClick={this.handleSelectAllClick}
-              columnData={this.props.columnData}
+              columnData={columnData}
             />
             <TableBody>
               {
-                this.props.entries.map(entry => (
+                entries.map(entry => (
                   <RowEntry
                     key={entry.id}
                     entry={entry}
                     onSelectClick={ev => this.handleSelectClick(ev, entry)}
                     isSelected={this.isSelected(entry)}
-                    columns={this.props.columnData}
+                    columns={columnData}
                   />
                 ))
               }

@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom';
 import { ListItem, ListItemText } from '@material-ui/core';
 
 function DrawerLink(props) {
+  const { onClick, to, text } = props;
   return (
-    <ListItem button component={Link} to={props.to} onClick={props.onClick}>
-      <ListItemText primary={props.text} />
+    <ListItem button component={Link} to={to} onClick={onClick}>
+      <ListItemText primary={text} />
     </ListItem>
   );
 }

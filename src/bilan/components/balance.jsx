@@ -15,9 +15,9 @@ function computeBalance(entries) {
   ), 0);
 }
 
-function Balance(props) {
-  const sumPunctuals = computeBalance(props.punctuals);
-  const sumRecurrents = computeBalance(props.recurrents);
+function Balance({ punctuals, recurrents }) {
+  const sumPunctuals = computeBalance(punctuals);
+  const sumRecurrents = computeBalance(recurrents);
   const sumEntries = sumPunctuals + sumRecurrents;
   return (
     <Card>

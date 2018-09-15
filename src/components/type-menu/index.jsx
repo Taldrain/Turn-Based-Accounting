@@ -36,12 +36,15 @@ class TypeMenu extends React.Component {
   }
 
   handleMenuItemClick(ev, type) {
+    const { onChange } = this.props;
     this.setState({ anchorEl: null });
-    this.props.onChange(type);
+    onChange(type);
   }
 
   render() {
+    const { type } = this.props;
     const { anchorEl } = this.state;
+
     return (
       <div>
         <Button
@@ -49,7 +52,7 @@ class TypeMenu extends React.Component {
           aria-haspopup="true"
           onClick={this.handleClickListItem}
         >
-          {typeDisplay(this.props.type)}
+          {typeDisplay(type)}
         </Button>
         <Menu
           id="type-display"
@@ -60,7 +63,7 @@ class TypeMenu extends React.Component {
           {OPTIONS.map(option => (
             <MenuItem
               key={option}
-              selected={option === this.props.type}
+              selected={option === type}
               onClick={ev => this.handleMenuItemClick(ev, option)}
             >
               {typeDisplay(option)}

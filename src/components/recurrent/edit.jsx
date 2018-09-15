@@ -29,17 +29,36 @@ class Edit extends React.Component {
   }
 
   handleEdit() {
-    updateRecurrentEntry(this.props.entry.id, editEntry({
-      name: this.state.name,
-      amount: this.state.amount,
-      isPositive: this.state.isPositive,
-      type: this.state.type,
-      startDate: this.state.startDate,
-      endDate: this.state.endDate,
+    const {
+      name,
+      amount,
+      isPositive,
+      type,
+      startDate,
+      endDate,
+    } = this.state;
+    const { entry } = this.props;
+
+    updateRecurrentEntry(entry.id, editEntry({
+      name,
+      amount,
+      isPositive,
+      type,
+      startDate,
+      endDate,
     }));
   }
 
   render() {
+    const {
+      name,
+      amount,
+      isPositive,
+      type,
+      startDate,
+      endDate,
+    } = this.state;
+
     return (
       <Dialog
         {...this.props}
@@ -49,12 +68,12 @@ class Edit extends React.Component {
       >
         <Form
           onNewValue={this.onNewValue}
-          name={this.state.name}
-          amount={this.state.amount}
-          isPositive={this.state.isPositive}
-          type={this.state.type}
-          startDate={this.state.startDate}
-          endDate={this.state.endDate}
+          name={name}
+          amount={amount}
+          isPositive={isPositive}
+          type={type}
+          startDate={startDate}
+          endDate={endDate}
         />
       </Dialog>
     );

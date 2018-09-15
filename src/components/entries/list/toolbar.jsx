@@ -31,27 +31,36 @@ const styles = theme => ({
 
 class ListToolbar extends React.Component {
   getButtons() {
-    const numSelected = this.props.selected.length;
+    const {
+      selected,
+      add,
+      edit,
+      delete: deleteFn,
+    } = this.props;
+
+    const numSelected = selected.length;
 
     if (numSelected === 1) {
       return (
         <Grid container direction="row" justify="flex-end" alignItems="center" spacing={16}>
           <Grid item>
-            <Button variant="raised" onClick={() => this.props.edit(this.props.selected[0])}>
+            <Button variant="raised" onClick={() => edit(selected[0])}>
               Edit
             </Button>
           </Grid>
           <Grid item>
-            <Button variant="raised" onClick={() => this.props.delete(this.props.selected)}>
+            <Button variant="raised" onClick={() => deleteFn(selected)}>
               Delete
             </Button>
           </Grid>
         </Grid>
       );
-    } else if (numSelected > 1) {
+    }
+
+    if (numSelected > 1) {
       return (
         <div>
-          <Button variant="raised" onClick={() => this.props.delete(this.props.selected)}>
+          <Button variant="raised" onClick={() => deleteFn(selected)}>
             Delete
           </Button>
         </div>
@@ -59,14 +68,14 @@ class ListToolbar extends React.Component {
     }
 
     return (
-      <IconButton aria-label="add entry" onClick={this.props.add}>
+      <IconButton aria-label="add entry" onClick={add}>
         <AddIcon />
       </IconButton>
     );
   }
 
   render() {
-    const { classes, selected } = this.props;
+    const { classes, selected, title } = this.props;
     const numSelected = selected.length;
 
     return (
@@ -78,11 +87,11 @@ class ListToolbar extends React.Component {
         <div className={classes.title}>
           {numSelected > 0 ? (
             <Typography color="inherit" variant="subheading">
-              {numSelected} selected
+              {`${numSelected} selected`}
             </Typography>
           ) : (
             <Typography variant="title">
-              {this.props.title}
+              { title }
             </Typography>
           )}
         </div>

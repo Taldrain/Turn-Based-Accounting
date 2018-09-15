@@ -18,7 +18,9 @@ function cellDisplay(column, entry) {
         amount={entry[column.id]}
       />
     );
-  } else if (column.id === 'type') {
+  }
+
+  if (column.id === 'type') {
     return typeDisplay(entry[column.id]);
   }
 
@@ -26,20 +28,27 @@ function cellDisplay(column, entry) {
 }
 
 function RowRecord(props) {
+  const {
+    onSelectClick,
+    isSelected,
+    columns,
+    entry,
+  } = props;
+
   return (
     <TableRow
       hover
-      onClick={props.onSelectClick}
-      aria-checked={props.isSelected}
-      selected={props.isSelected}
+      onClick={onSelectClick}
+      aria-checked={isSelected}
+      selected={isSelected}
     >
       <TableCell padding="checkbox">
-        <Checkbox checked={props.isSelected} />
+        <Checkbox checked={isSelected} />
       </TableCell>
       {
-        props.columns.map(column => (
+        columns.map(column => (
           <TableCell key={column.id} numeric={column.numeric}>
-            { cellDisplay(column, props.entry) }
+            { cellDisplay(column, entry) }
           </TableCell>
         ))
       }

@@ -14,14 +14,20 @@ function mapStateToProps(state) {
 }
 
 function BalanceDisplay(props) {
-  const { isPositive, amount, ...rest } = props;
+  const {
+    isPositive,
+    locale,
+    amount,
+    currency,
+    ...rest
+  } = props;
 
   const style = {
     color: isPositive ? Colors.balance.green : Colors.balance.red,
   };
 
   return (
-    <NumberDisplay {...rest} locale={props.locale} currency={props.currency} style={style}>
+    <NumberDisplay {...rest} locale={locale} currency={currency} style={style}>
       {Number(`${isPositive ? '' : '-'}${Math.abs(amount)}`)}
     </NumberDisplay>
   );

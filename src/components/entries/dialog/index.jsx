@@ -17,29 +17,39 @@ class DialogEntry extends React.Component {
   }
 
   handleClick() {
-    this.props.handleClick();
-    this.props.onClose();
+    const { handleClick, onClose } = this.props;
+    handleClick();
+    onClose();
   }
 
   render() {
+    const {
+      open,
+      onClose,
+      fullScreen,
+      title,
+      children,
+      validateButton,
+    } = this.props;
+
     return (
       <Dialog
-        open={this.props.open}
-        onClose={this.props.onClose}
-        fullScreen={this.props.fullScreen}
+        open={open}
+        onClose={onClose}
+        fullScreen={fullScreen}
       >
         <DialogTitle>
-          { this.props.title}
+          { title}
         </DialogTitle>
         <DialogContent>
-          { this.props.children }
+          { children }
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.props.onClose}>
+          <Button onClick={onClose}>
             Cancel
           </Button>
           <Button onClick={this.handleClick}>
-            { this.props.validateButton }
+            { validateButton }
           </Button>
         </DialogActions>
       </Dialog>

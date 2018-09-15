@@ -6,15 +6,15 @@ import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 
 
-function BalanceRadio(props) {
+function BalanceRadio({ isPositive, onChange }) {
   return (
     <Grid container direction="row" justify="space-around" alignItems="center" spacing={16}>
       <Grid item>
         <Grid container direction="row" justify="space-around" alignItems="center">
           <Grid item>
             <Radio
-              checked={props.isPositive}
-              onChange={ev => props.onChange(ev.currentTarget.value)}
+              checked={isPositive}
+              onChange={ev => onChange(ev.currentTarget.value)}
               label="+"
               value="+"
             />
@@ -28,8 +28,8 @@ function BalanceRadio(props) {
         <Grid container direction="row" justify="space-around" alignItems="center">
           <Grid item>
             <Radio
-              checked={!props.isPositive}
-              onChange={ev => props.onChange(ev.currentTarget.value)}
+              checked={!isPositive}
+              onChange={ev => onChange(ev.currentTarget.value)}
               label="-"
               value="-"
             />

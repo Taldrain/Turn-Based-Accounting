@@ -72,7 +72,8 @@ class ToolBarDrawer extends React.Component {
   }
 
   handleDrawerToggle() {
-    this.setState({ mobileOpen: !this.state.mobileOpen });
+    const { mobileOpen } = this.state;
+    this.setState({ mobileOpen: !mobileOpen });
   }
 
   handleDrawerClose() {
@@ -80,9 +81,10 @@ class ToolBarDrawer extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, location } = this.props;
+    const { mobileOpen } = this.state;
 
-    const title = pageToTitle(this.props.location.pathname);
+    const title = pageToTitle(location.pathname);
 
     const drawer = (
       <div>
@@ -121,7 +123,7 @@ class ToolBarDrawer extends React.Component {
           <Drawer
             variant="temporary"
             anchor="left"
-            open={this.state.mobileOpen}
+            open={mobileOpen}
             onClose={this.handleDrawerToggle}
             classes={{
               paper: classes.drawerPaper,

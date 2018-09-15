@@ -48,7 +48,9 @@ class CurrencySelect extends React.Component {
   }
 
   handleMenuItemClick(currency) {
-    this.context.store.dispatch(updateCurrency(currency));
+    const { store } = this.context;
+
+    store.dispatch(updateCurrency(currency));
     pushSettingsCurrency(currency);
     this.setState({ anchorEl: null });
   }
@@ -58,6 +60,7 @@ class CurrencySelect extends React.Component {
   }
 
   render() {
+    const { currency } = this.props;
     const { anchorEl } = this.state;
     return (
       <div>
@@ -70,7 +73,7 @@ class CurrencySelect extends React.Component {
             onClick={this.handleClickListItem}
           >
             <ListItemText
-              primary={`Currency: ${getCurrencyDisplay(this.props.currency)}`}
+              primary={`Currency: ${getCurrencyDisplay(currency)}`}
             />
           </ListItem>
         </List>
@@ -80,13 +83,13 @@ class CurrencySelect extends React.Component {
           open={Boolean(anchorEl)}
           onClose={this.handleClose}
         >
-          {CURRENCIES.map(currency => (
+          {CURRENCIES.map(c => (
             <MenuItem
-              key={currency.value}
-              selected={currency.value === this.props.currency}
-              onClick={() => this.handleMenuItemClick(currency.value)}
+              key={c.value}
+              selected={c.value === currency}
+              onClick={() => this.handleMenuItemClick(c.value)}
             >
-              {currency.display}
+              {c.display}
             </MenuItem>
           ))}
         </Menu>

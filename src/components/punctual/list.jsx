@@ -51,21 +51,24 @@ class List extends React.Component {
   }
 
   render() {
+    const { entries, inProgress, date } = this.props;
+    const { openAdd, openEdit, entry } = this.state;
+
     return (
       <div>
         <ListEntries
           title="Punctual"
           columnData={columnData}
-          entries={this.props.entries}
+          entries={entries}
           delete={handleDelete}
           edit={this.openEdit}
           add={this.openAdd}
-          inProgress={this.props.inProgress}
+          inProgress={inProgress}
         />
-        <Add onClose={this.onCloseAdd} open={this.state.openAdd} date={this.props.date} />
+        <Add onClose={this.onCloseAdd} open={openAdd} date={date} />
         {
-          this.state.openEdit && (
-            <Edit onClose={this.onCloseEdit} entry={this.state.entry} open={this.state.openEdit} />
+          openEdit && (
+            <Edit onClose={this.onCloseEdit} entry={entry} open={openEdit} />
           )
         }
       </div>

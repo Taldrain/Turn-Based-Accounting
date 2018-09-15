@@ -32,23 +32,42 @@ class Add extends React.Component {
   }
 
   handleAdd() {
+    const {
+      name,
+      amount,
+      isPositive,
+      type,
+      startDate,
+      endDate,
+    } = this.props;
+
     pushRecurrentEntry(createEntry({
-      name: this.state.name,
-      amount: this.state.amount,
-      isPositive: this.state.isPositive,
-      type: this.state.type,
-      startDate: this.state.startDate || undefined,
-      endDate: this.state.endDate || undefined,
+      name,
+      amount,
+      isPositive,
+      type,
+      startDate: startDate || undefined,
+      endDate: endDate || undefined,
     }));
     this.setState(DEFAULT_STATE);
   }
 
   handleClose() {
-    this.props.onClose();
+    const { onClose } = this.props;
+    onClose();
     this.setState(DEFAULT_STATE);
   }
 
   render() {
+    const {
+      name,
+      amount,
+      isPositive,
+      type,
+      startDate,
+      endDate,
+    } = this.state;
+
     return (
       <Dialog
         {...this.props}
@@ -59,12 +78,12 @@ class Add extends React.Component {
       >
         <Form
           onNewValue={this.onNewValue}
-          name={this.state.name}
-          amount={this.state.amount}
-          isPositive={this.state.isPositive}
-          type={this.state.type}
-          startDate={this.state.startDate}
-          endDate={this.state.endDate}
+          name={name}
+          amount={amount}
+          isPositive={isPositive}
+          type={type}
+          startDate={startDate}
+          endDate={endDate}
         />
       </Dialog>
     );

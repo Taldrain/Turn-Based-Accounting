@@ -10,13 +10,13 @@ import RecurrentList from '../components/recurrent/list';
 import { getCurrentDate, getStartDate, getEndDate } from '../utils/date';
 import { listenAllRecurrentEntries, listenPunctualEntries } from '../firebase/firestore';
 import { getCurrentUser } from '../firebase/auth';
-import { displayedRecurrentsEntries, convertAmount } from '../utils/entry';
+import { getDisplayedRecurrentsEntries, convertAmount } from '../utils/entry';
 
 
 class Bilan extends React.Component {
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.match.params.type === prevState.type &&
-      nextProps.match.params.date === prevState.date) {
+    if (nextProps.match.params.type === prevState.type
+      && nextProps.match.params.date === prevState.date) {
       return null;
     }
 
@@ -48,8 +48,8 @@ class Bilan extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.type === prevState.type &&
-      this.state.date === prevState.date) {
+    const { type, date } = this.state;
+    if (type === prevState.type && date === prevState.date) {
       return;
     }
 
@@ -86,10 +86,12 @@ class Bilan extends React.Component {
 
     this.setState({ punctualInProgress: true });
 
+    const { date, type } = this.state;
+
     this.unsubscribePunctual = listenPunctualEntries(
       this.newPunctuals,
-      getStartDate(this.state.date, this.state.type),
-      getEndDate(this.state.date, this.state.type),
+      getStartDate(date, type),
+      getEndDate(date, type),
       getCurrentUser().uid,
     );
   }
@@ -103,11 +105,17 @@ class Bilan extends React.Component {
   }
 
   render() {
-    const recurrents = displayedRecurrentsEntries(
-      this.state.recurrents,
-      this.state.date,
-      this.state.type,
-    ).map(entry => convertAmount(entry, this.state.date, this.state.type));
+    const {
+      recurrents,
+      punctuals,
+      recurrentInProgress,
+      punctualInProgress,
+      date,
+      type,
+    } = this.state;
+
+    const displayedRecurrentsEntries = getDisplayedRecurrentsEntries(recurrents, date, type)
+      .map(entry => convertAmount(entry, date, type));
 
     return (
       <Grid
@@ -119,24 +127,24 @@ class Bilan extends React.Component {
       >
         <Grid item md={6} xs={12}>
           <Balance
-            recurrents={recurrents}
-            punctuals={this.state.punctuals}
+            recurrents={displayedRecurrentsEntries}
+            punctuals={punctuals}
           />
         </Grid>
         <Grid item md={6} xs={12}>
-          <DateSelect date={this.state.date} type={this.state.type} />
+          <DateSelect date={date} type={type} />
         </Grid>
         <Grid item md={6} xs={12}>
           <RecurrentList
-            entries={recurrents}
-            inProgress={this.state.recurrentInProgress}
+            entries={displayedRecurrentsEntries}
+            inProgress={recurrentInProgress}
           />
         </Grid>
         <Grid item md={6} xs={12}>
           <PunctualList
-            entries={this.state.punctuals}
-            date={this.state.date}
-            inProgress={this.state.punctualInProgress}
+            entries={punctuals}
+            date={date}
+            inProgress={punctualInProgress}
           />
         </Grid>
       </Grid>

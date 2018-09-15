@@ -32,8 +32,11 @@ class Login extends React.Component {
   }
 
   render() {
-    const { from } = this.props.location.state || { from: { pathname: '/' } };
-    const child = this.state.logged === false ? (
+    const { location } = this.props;
+    const { logged } = this.state;
+
+    const { from } = location.state || { from: { pathname: '/' } };
+    const child = logged === false ? (
       <FirebaseUILogin />
     ) : (
       <div>
