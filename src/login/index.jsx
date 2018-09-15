@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import FirebaseUILogin from './components/firebase-ui-login';
+import LoginBackground from './components/login-background';
 
 import { onAuthStateChanged } from '../firebase/auth';
 
@@ -46,11 +47,14 @@ class Login extends React.Component {
     );
 
     return (
-      <Grid container direction="row" align="center" justify="center" style={styles.root}>
-        <Grid item>
-          { child }
+      <div>
+        <LoginBackground />
+        <Grid container direction="row" align="center" justify="center" style={styles.root}>
+          <Grid item>
+            { child }
+          </Grid>
         </Grid>
-      </Grid>
+      </div>
     );
   }
 }
