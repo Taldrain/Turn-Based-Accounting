@@ -66,7 +66,7 @@ if (process.env.NODE_ENV === 'production') {
       filename: '[name].[chunkhash].js',
     },
     entry: {
-      main: ['babel-polyfill', srcPath('index.jsx')],
+      main: ['@babel/polyfill', srcPath('index.jsx')],
     },
   });
 } else {
