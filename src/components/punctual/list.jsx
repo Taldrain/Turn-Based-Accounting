@@ -58,6 +58,7 @@ class List extends React.Component {
       <div>
         <ListEntries
           title="Punctual"
+          defaultOrderBy="amount"
           columnData={columnData}
           entries={entries}
           delete={handleDelete}

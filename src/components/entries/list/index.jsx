@@ -27,14 +27,47 @@ const styles = theme => ({
   },
 });
 
+function desc(a, b, orderBy) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+
+  return 0;
+}
+
+function stableSort(array, cmp) {
+  const stabilizedThis = array.map((i, index) => [i, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = cmp(a[0], b[0]);
+    if (order !== 0) {
+      return order;
+    }
+
+    return a[1] - b[1];
+  });
+
+  return stabilizedThis.map(i => i[0]);
+}
+
+function getSorting(order, orderBy) {
+  return order === 'desc' ? (a, b) => desc(a, b, orderBy) : (a, b) => -desc(a, b, orderBy);
+}
+
 class ListEntries extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
+      order: 'desc',
+      orderBy: props.defaultOrderBy,
       selected: [],
     };
 
+    this.handleRequestSort = this.handleRequestSort.bind(this);
     this.handleSelectAllClick = this.handleSelectAllClick.bind(this);
     this.handleSelectClick = this.handleSelectClick.bind(this);
     this.wrapperDelete = this.wrapperDelete.bind(this);
@@ -52,6 +85,16 @@ class ListEntries extends React.Component {
   isSelected(entry) {
     const { selected } = this.state;
     return (selected.findIndex(i => i.id === entry.id) !== -1);
+  }
+
+  handleRequestSort(event, orderBy) {
+    let order = 'desc';
+
+    if (this.state.orderBy === orderBy && this.state.order === order) {
+      order = 'asc';
+    }
+
+    this.setState({ order, orderBy });
   }
 
   handleSelectClick(event, entry) {
@@ -104,6 +147,8 @@ class ListEntries extends React.Component {
 
     const {
       selected,
+      order,
+      orderBy,
     } = this.state;
 
     return (
@@ -124,13 +169,17 @@ class ListEntries extends React.Component {
           <Table className={classes.table}>
             <ListTableHead
               numSelected={selected.length}
+              order={order}
+              orderBy={orderBy}
               rowCount={entries.length}
+              onRequestSort={this.handleRequestSort}
               onSelectAllClick={this.handleSelectAllClick}
               columnData={columnData}
             />
             <TableBody>
               {
-                entries.map(entry => (
+                stableSort(entries, getSorting(order, orderBy)).map(entry => (
+                // entries.map(entry => (
                   <RowEntry
                     key={entry.id}
                     entry={entry}
@@ -151,6 +200,7 @@ class ListEntries extends React.Component {
 ListEntries.propTypes = {
   entries: PropTypes.arrayOf(PropTypes.object).isRequired,
   title: PropTypes.string.isRequired,
+  defaultOrderBy: PropTypes.string.isRequired,
   edit: PropTypes.func.isRequired,
   delete: PropTypes.func.isRequired,
   add: PropTypes.func.isRequired,

@@ -59,6 +59,7 @@ class List extends React.Component {
       <div>
         <ListEntries
           title="Recurrent"
+          defaultOrderBy="computedAmount"
           columnData={columnData}
           entries={entries}
           delete={handleDelete}

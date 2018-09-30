@@ -5,14 +5,18 @@ import {
   TableHead,
   TableRow,
   TableCell,
+  TableSortLabel,
 } from '@material-ui/core/';
 
 function ListTableHead(props) {
   const {
     numSelected,
     rowCount,
+    onRequestSort,
     onSelectAllClick,
     columnData,
+    orderBy,
+    order,
   } = props;
 
   return (
@@ -27,8 +31,18 @@ function ListTableHead(props) {
         </TableCell>
         {
           columnData.map(column => (
-            <TableCell key={column.id} numeric={column.numeric}>
-              { column.label }
+            <TableCell
+              key={column.id}
+              numeric={column.numeric}
+              sortDirection={orderBy === column.id ? order : false}
+            >
+              <TableSortLabel
+                active={orderBy === column.id}
+                direction={order}
+                onClick={ev => onRequestSort(ev, column.id)}
+              >
+                { column.label }
+              </TableSortLabel>
             </TableCell>
           ))
         }
@@ -40,6 +54,9 @@ function ListTableHead(props) {
 ListTableHead.propTypes = {
   numSelected: PropTypes.number.isRequired,
   rowCount: PropTypes.number.isRequired,
+  order: PropTypes.string.isRequired,
+  orderBy: PropTypes.string.isRequired,
+  onRequestSort: PropTypes.func.isRequired,
   onSelectAllClick: PropTypes.func.isRequired,
   columnData: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,

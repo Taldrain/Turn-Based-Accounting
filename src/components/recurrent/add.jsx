@@ -39,7 +39,7 @@ class Add extends React.Component {
       type,
       startDate,
       endDate,
-    } = this.props;
+    } = this.state;
 
     pushRecurrentEntry(createEntry({
       name,
