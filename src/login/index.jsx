@@ -20,7 +20,7 @@ class Login extends React.Component {
     super(props);
 
     this.state = {
-      logged: false,
+      logged: undefined,
     };
   }
 
@@ -33,18 +33,32 @@ class Login extends React.Component {
   }
 
   render() {
-    const { location } = this.props;
     const { logged } = this.state;
 
-    const { from } = location.state || { from: { pathname: '/' } };
-    const child = logged === false ? (
-      <FirebaseUILogin />
-    ) : (
-      <div>
-        <CircularProgress />
-        <Redirect to={from} />
-      </div>
-    );
+    let child;
+    switch (logged) {
+      case true: {
+        const { from } = this.props.location.state || { from: { pathname: '/' } };
+        child = (
+          <div>
+            <CircularProgress />
+            <Redirect to={from} />
+          </div>
+        );
+        break;
+      }
+      case false: {
+        child = (
+          <FirebaseUILogin />
+        );
+        break;
+      }
+      default:
+        child = (
+          <CircularProgress />
+        );
+        break;
+    }
 
     return (
       <div>
