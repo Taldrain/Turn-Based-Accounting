@@ -26,6 +26,9 @@ function Form(props) {
             label="Name"
             value={name}
             onChange={ev => onNewValue('name', ev.target.value)}
+            inputProps={{
+              autocapitalize: 'words',
+            }}
             autoFocus
             fullWidth
           />
