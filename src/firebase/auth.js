@@ -30,9 +30,9 @@ function getCurrentUser() {
   return currentUser;
 }
 
-function onAuthStateChanged(callback) {
-  return firebase.auth().onAuthStateChanged(callback);
-}
+// function onAuthStateChanged(callback) {
+//   return firebase.auth().onAuthStateChanged(callback);
+// }
 
 function signOut() {
   return firebase.auth().signOut();
@@ -41,6 +41,6 @@ function signOut() {
 export {
   requiresAuth,
   getCurrentUser,
-  onAuthStateChanged,
+  // onAuthStateChanged,
   signOut,
 };

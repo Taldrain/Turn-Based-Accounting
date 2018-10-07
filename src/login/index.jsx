@@ -7,7 +7,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import FirebaseUILogin from './components/firebase-ui-login';
 import LoginBackground from './components/login-background';
 
-import { onAuthStateChanged } from '../firebase/auth';
+import firebase from '../firebase/index';
+// import { onAuthStateChanged } from '../firebase/auth';
 
 const styles = {
   root: {
@@ -25,7 +26,9 @@ class Login extends React.Component {
   }
 
   componentDidMount() {
-    this.unsubscribe = onAuthStateChanged(user => this.setState({ logged: !!user }));
+    this.unsubscribe = firebase
+      .auth()
+      .onAuthStateChanged(user => this.setState({ logged: !!user }));
   }
 
   componentWillUnmount() {
