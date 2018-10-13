@@ -92,7 +92,7 @@ class ToolBarDrawer extends React.Component {
     const drawer = (
       <div>
         <div className={classes.toolbar}>
-          <Typography className={classes.title} variant="title" color="inherit">
+          <Typography className={classes.title} variant="h6" color="inherit">
             Turn-Based Accounting
           </Typography>
         </div>
@@ -117,7 +117,7 @@ class ToolBarDrawer extends React.Component {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="title" color="inherit" noWrap>
+            <Typography variant="h6" color="inherit" noWrap>
               { title }
             </Typography>
           </Toolbar>

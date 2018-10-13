@@ -44,12 +44,12 @@ class ListToolbar extends React.Component {
       return (
         <Grid container direction="row" justify="flex-end" alignItems="center" spacing={16}>
           <Grid item>
-            <Button variant="raised" onClick={() => edit(selected[0])}>
+            <Button variant="contained" onClick={() => edit(selected[0])}>
               Edit
             </Button>
           </Grid>
           <Grid item>
-            <Button variant="raised" onClick={() => deleteFn(selected)}>
+            <Button variant="contained" onClick={() => deleteFn(selected)}>
               Delete
             </Button>
           </Grid>
@@ -60,7 +60,7 @@ class ListToolbar extends React.Component {
     if (numSelected > 1) {
       return (
         <div>
-          <Button variant="raised" onClick={() => deleteFn(selected)}>
+          <Button variant="contained" onClick={() => deleteFn(selected)}>
             Delete
           </Button>
         </div>
@@ -86,11 +86,11 @@ class ListToolbar extends React.Component {
       >
         <div className={classes.title}>
           {numSelected > 0 ? (
-            <Typography color="inherit" variant="subheading">
+            <Typography color="inherit" variant="subtitle1">
               {`${numSelected} selected`}
             </Typography>
           ) : (
-            <Typography variant="title">
+            <Typography variant="h6">
               { title }
             </Typography>
           )}

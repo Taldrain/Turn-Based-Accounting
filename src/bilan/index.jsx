@@ -118,36 +118,46 @@ class Bilan extends React.Component {
       .map(entry => convertAmount(entry, date, type));
 
     return (
-      <Grid
-        container
-        direction="row"
-        justify="center"
-        alignItems="flex-start"
-        spacing={16}
-      >
-        <Grid item md={6} xs={12}>
-          <Balance
-            recurrents={displayedRecurrentsEntries}
-            punctuals={punctuals}
-          />
+      <div>
+        <Grid
+          container
+          direction="row"
+          justify="center"
+          alignItems="stretch"
+          spacing={16}
+        >
+          <Grid item md={6} xs={12}>
+            <Balance
+              recurrents={displayedRecurrentsEntries}
+              punctuals={punctuals}
+            />
+          </Grid>
+          <Grid item md={6} xs={12}>
+            <DateSelect date={date} type={type} />
+          </Grid>
         </Grid>
-        <Grid item md={6} xs={12}>
-          <DateSelect date={date} type={type} />
+        <Grid
+          container
+          direction="row"
+          justify="center"
+          alignItems="flex-start"
+          spacing={16}
+        >
+          <Grid item md={6} xs={12}>
+            <RecurrentList
+              entries={displayedRecurrentsEntries}
+              inProgress={recurrentInProgress}
+            />
+          </Grid>
+          <Grid item md={6} xs={12}>
+            <PunctualList
+              entries={punctuals}
+              date={date}
+              inProgress={punctualInProgress}
+            />
+          </Grid>
         </Grid>
-        <Grid item md={6} xs={12}>
-          <RecurrentList
-            entries={displayedRecurrentsEntries}
-            inProgress={recurrentInProgress}
-          />
-        </Grid>
-        <Grid item md={6} xs={12}>
-          <PunctualList
-            entries={punctuals}
-            date={date}
-            inProgress={punctualInProgress}
-          />
-        </Grid>
-      </Grid>
+      </div>
     );
   }
 }

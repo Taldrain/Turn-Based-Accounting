@@ -31,7 +31,7 @@ NumberDisplay.propTypes = {
 };
 
 NumberDisplay.defaultProps = {
-  variant: 'body1',
+  variant: 'body2',
   style: {},
 };
 

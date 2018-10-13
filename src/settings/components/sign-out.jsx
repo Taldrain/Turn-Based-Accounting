@@ -31,7 +31,7 @@ class SignOut extends React.Component {
     ) : (
       <Grid container direction="column" justify="center" alignItems="flex-end">
         <Grid item>
-          <Button variant="raised" onClick={this.handleSignOut}>
+          <Button variant="contained" onClick={this.handleSignOut}>
             Sign out
           </Button>
         </Grid>
