@@ -96,6 +96,7 @@ export {
   previousDate,
   nextDate,
 
+  isDateBefore,
   isDateBetween,
 
   diffDates,

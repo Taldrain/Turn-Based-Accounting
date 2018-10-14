@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 
 import Balance from './components/balance';
-import DateSelect from './components/date-select';
+import DateSelect from '../components/card/date-select';
 import PunctualList from '../components/punctual/list';
 import RecurrentList from '../components/recurrent/list';
 
@@ -133,7 +133,7 @@ class Bilan extends React.Component {
             />
           </Grid>
           <Grid item md={6} xs={12}>
-            <DateSelect date={date} type={type} />
+            <DateSelect path="bilan" date={date} type={type} />
           </Grid>
         </Grid>
         <Grid

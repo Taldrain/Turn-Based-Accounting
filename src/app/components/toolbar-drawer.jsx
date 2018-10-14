@@ -99,7 +99,7 @@ class ToolBarDrawer extends React.Component {
         <Divider />
         <List>
           <DrawerLink to="/bilan/" text="Bilan" onClick={this.handleDrawerClose} />
-          <DrawerLink to="/global" text="Global" onClick={this.handleDrawerClose} />
+          <DrawerLink to="/global/" text="Global" onClick={this.handleDrawerClose} />
           <DrawerLink to="/settings" text="Settings" onClick={this.handleDrawerClose} />
         </List>
       </div>

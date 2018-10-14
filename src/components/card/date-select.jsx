@@ -13,8 +13,8 @@ import {
 import PreviousIcon from '@material-ui/icons/KeyboardArrowLeft';
 import NextIcon from '@material-ui/icons/KeyboardArrowRight';
 
-import DateDisplay from '../../components/display/date';
-import TypeMenu from '../../components/type-menu/index';
+import DateDisplay from '../display/date';
+import TypeMenu from '../type-menu/index';
 
 import { getCurrentDate, previousDate, nextDate } from '../../utils/date';
 
@@ -26,12 +26,12 @@ const styles = {
 
 class DateSelect extends React.Component {
   onNewType(type) {
-    const { history, date } = this.props;
-    history.push(`/bilan/${type}/${date}`);
+    const { path, history, date } = this.props;
+    history.push(`/${path}/${type}/${date}`);
   }
 
   render() {
-    const { type, date } = this.props;
+    const { path, type, date } = this.props;
     return (
       <Card style={styles.root}>
         <CardContent>
@@ -49,19 +49,19 @@ class DateSelect extends React.Component {
               <DateDisplay date={date} type={type} variant="subtitle1" />
             </Grid>
             <Grid item xs={2}>
-              <IconButton component={Link} to={`/bilan/${type}/${previousDate(date, type)}`} aria-label="previous date">
+              <IconButton component={Link} to={`/${path}/${type}/${previousDate(date, type)}`} aria-label="previous date">
                 <PreviousIcon />
               </IconButton>
             </Grid>
             <Grid item xs={2}>
-              <IconButton component={Link} to={`/bilan/${type}/${nextDate(date, type)}`} aria-label="next date">
+              <IconButton component={Link} to={`/${path}/${type}/${nextDate(date, type)}`} aria-label="next date">
                 <NextIcon />
               </IconButton>
             </Grid>
             <Grid item xs={2}>
               <Button
                 component={Link}
-                to="/bilan/day/"
+                to={`/${path}/day/`}
                 aria-label="today"
                 disabled={date === getCurrentDate() || type !== 'day'}
               >
@@ -76,6 +76,7 @@ class DateSelect extends React.Component {
 }
 
 DateSelect.propTypes = {
+  path: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
   type: PropTypes.oneOf(['day', 'week', 'month', 'year']).isRequired,
   // eslint-disable-next-line react/forbid-prop-types

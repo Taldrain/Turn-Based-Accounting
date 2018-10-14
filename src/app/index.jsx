@@ -47,8 +47,9 @@ class App extends React.PureComponent {
           <div className={classes.toolbar} />
           <Switch>
             <Route exact path="/bilan/:type/:date?" component={Bilan} />
-            <Route exact path="/global" component={Global} />
+            <Route exact path="/global/:type/:date?" component={Global} />
             <Route exact path="/settings" component={Settings} />
+            <Redirect from="/global" to="/global/year/" />
             <Redirect from="/" to="/bilan/day/" />
           </Switch>
         </main>

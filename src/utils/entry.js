@@ -52,10 +52,15 @@ function convertAmount(entry, date, type) {
   return entry;
 }
 
+function getAmount(entry, key = 'amount') {
+  return (entry.isPositive ? entry[key] : -(entry[key]));
+}
+
 export {
   createEntry,
   editEntry,
   getDisplayedRecurrentsEntries,
   typeDisplay,
   convertAmount,
+  getAmount,
 };
