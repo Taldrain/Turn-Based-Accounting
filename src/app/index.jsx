@@ -49,7 +49,7 @@ class App extends React.PureComponent {
             <Route exact path="/bilan/:type/:date?" component={Bilan} />
             <Route exact path="/global/:type/:date?" component={Global} />
             <Route exact path="/settings" component={Settings} />
-            <Redirect from="/global" to="/global/year/" />
+            <Redirect from="/global" to="/global/month/" />
             <Redirect from="/" to="/bilan/day/" />
           </Switch>
         </main>

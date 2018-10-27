@@ -1,15 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Grid from '@material-ui/core/Grid';
+import {
+  Grid,
+  Card,
+  CardContent,
+  Typography,
+} from '@material-ui/core';
 
 import DateSelect from '../components/card/date-select';
-import GraphWrapper from './components/graph-wrapper';
+import TypeMenu from '../components/type-menu/index';
 import Graph from '../components/d3/graph';
 
 import { getCurrentDate, getStartDate, getEndDate } from '../utils/date';
 import { listenAllRecurrentEntries, listenPunctualEntries } from '../firebase/firestore';
 import { getCurrentUser } from '../firebase/auth';
 import { getDisplayedRecurrentsEntries } from '../utils/entry';
+import { getGreaterTypes } from '../utils/date-types';
 
 
 class Global extends React.Component {
@@ -22,9 +28,9 @@ class Global extends React.Component {
     return {
       type: nextProps.match.params.type,
       date: nextProps.match.params.date || getCurrentDate(),
+      disabledDisplayTypes: getGreaterTypes(nextProps.match.params.type),
     };
   }
-
 
   constructor(props) {
     super(props);
@@ -32,6 +38,8 @@ class Global extends React.Component {
     this.state = {
       type: props.match.params.type,
       date: props.match.params.date || getCurrentDate(),
+      displayType: 'day',
+      disabledDisplayTypes: getGreaterTypes(props.match.params.type),
       punctuals: [],
       recurrents: [],
       recurrentInProgress: false,
@@ -40,6 +48,7 @@ class Global extends React.Component {
 
     this.newRecurrents = this.newRecurrents.bind(this);
     this.newPunctuals = this.newPunctuals.bind(this);
+    this.onNewDisplayType = this.onNewDisplayType.bind(this);
   }
 
   componentDidMount() {
@@ -64,6 +73,10 @@ class Global extends React.Component {
     if (this.unsubscribePunctual) {
       this.unsubscribePunctual();
     }
+  }
+
+  onNewDisplayType(displayType) {
+    this.setState({ displayType });
   }
 
   listenRecurrent() {
@@ -112,6 +125,8 @@ class Global extends React.Component {
       punctualInProgress,
       date,
       type,
+      displayType,
+      disabledDisplayTypes,
     } = this.state;
 
     const displayedRecurrentsEntries = getDisplayedRecurrentsEntries(recurrents, date, type);
@@ -125,18 +140,29 @@ class Global extends React.Component {
         spacing={16}
       >
         <Grid item xs={12}>
-          <DateSelect path="global" date={date} type={type} />
+          <DateSelect path="global" date={date} type={type} disabledTypes={['day']} />
         </Grid>
         <Grid item xs={12}>
-          <GraphWrapper>
-            <Graph
-              punctuals={punctuals}
-              recurrents={displayedRecurrentsEntries}
-              inProgress={recurrentInProgress || punctualInProgress}
-              date={date}
-              type={type}
-            />
-          </GraphWrapper>
+          <Card>
+            <CardContent>
+              <Typography variant="h6">
+                Graph
+              </Typography>
+              <TypeMenu
+                onChange={value => this.onNewDisplayType(value)}
+                type={displayType}
+                disabledTypes={disabledDisplayTypes}
+              />
+              <Graph
+                punctuals={punctuals}
+                recurrents={displayedRecurrentsEntries}
+                inProgress={recurrentInProgress || punctualInProgress}
+                date={date}
+                type={type}
+                displayType={displayType}
+              />
+            </CardContent>
+          </Card>
         </Grid>
       </Grid>
     );

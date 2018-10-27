@@ -30,19 +30,6 @@ function editEntry(entry) {
   return sanitizeEntry(Object.assign({}, entry, { editedAt: new Date() }));
 }
 
-function typeDisplay(type) {
-  switch (type) {
-    case 'day':
-      return 'Day';
-    case 'week':
-      return 'Week';
-    case 'month':
-      return 'Month';
-    default:
-      return 'Year';
-  }
-}
-
 function convertAmount(entry, date, type) {
   const startDate = maxDate(getStartDate(date, type), entry.startDate);
   const endDate = minDate(getEndDate(date, type), entry.endDate);
@@ -60,7 +47,6 @@ export {
   createEntry,
   editEntry,
   getDisplayedRecurrentsEntries,
-  typeDisplay,
   convertAmount,
   getAmount,
 };

@@ -8,7 +8,7 @@ import {
 
 import BalanceDisplay from '../../display/balance';
 
-import { typeDisplay } from '../../../utils/entry';
+import { typeDisplay } from '../../../utils/date-types';
 
 function cellDisplay(column, entry) {
   if (column.id === 'amount' || column.id === 'computedAmount') {

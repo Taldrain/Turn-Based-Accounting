@@ -4,15 +4,7 @@ import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 
-import { typeDisplay } from '../../utils/entry';
-
-const OPTIONS = [
-  'day',
-  'week',
-  'month',
-  'year',
-];
-
+import { TYPES, typeDisplay } from '../../utils/date-types';
 
 class TypeMenu extends React.Component {
   constructor(props) {
@@ -42,7 +34,6 @@ class TypeMenu extends React.Component {
   }
 
   render() {
-    const { type } = this.props;
     const { anchorEl } = this.state;
 
     return (
@@ -52,7 +43,7 @@ class TypeMenu extends React.Component {
           aria-haspopup="true"
           onClick={this.handleClickListItem}
         >
-          {typeDisplay(type)}
+          {typeDisplay(this.props.type)}
         </Button>
         <Menu
           id="type-display"
@@ -60,13 +51,14 @@ class TypeMenu extends React.Component {
           open={Boolean(anchorEl)}
           onClose={this.handleClose}
         >
-          {OPTIONS.map(option => (
+          {TYPES.map(type => (
             <MenuItem
-              key={option}
-              selected={option === type}
-              onClick={ev => this.handleMenuItemClick(ev, option)}
+              key={type}
+              disabled={this.props.disabledTypes.indexOf(type) > -1}
+              selected={type === this.props.type}
+              onClick={ev => this.handleMenuItemClick(ev, type)}
             >
-              {typeDisplay(option)}
+              {typeDisplay(type)}
             </MenuItem>
           ))}
         </Menu>
@@ -77,7 +69,12 @@ class TypeMenu extends React.Component {
 
 TypeMenu.propTypes = {
   type: PropTypes.oneOf(['day', 'week', 'month', 'year']).isRequired,
+  disabledTypes: PropTypes.arrayOf(PropTypes.oneOf(['day', 'week', 'month', 'year'])),
   onChange: PropTypes.func.isRequired,
+};
+
+TypeMenu.defaultProps = {
+  disabledTypes: [],
 };
 
 export default TypeMenu;

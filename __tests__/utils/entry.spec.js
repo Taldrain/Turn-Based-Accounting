@@ -2,31 +2,36 @@ import {
   // createEntry,
   // editEntry,
   // displayedRecurrentsEntries,
-  typeDisplay,
   // convertAmount,
+  getAmount,
 } from '../../src/utils/entry';
 
-describe('utils/entry.js', () => {
-  describe('typeDisplay', () => {
-    const inputs = [{
-      type: 'day',
-      res: 'Day',
-    }, {
-      type: 'week',
-      res: 'Week',
-    }, {
-      type: 'month',
-      res: 'Month',
-    }, {
-      type: 'year',
-      res: 'Year',
-    }, {
-      type: 'random',
-      res: 'Year',
-    }];
 
+describe('utils/entry.js', () => {
+  describe('getAmount', () => {
+    function createEntry(amount, isPositive, amountKey = 'amount') {
+      return ({
+        [amountKey]: amount,
+        isPositive,
+      });
+    }
+
+    const inputs = [{
+      entry: createEntry(12, true),
+      res: 12,
+    }, {
+      entry: createEntry(12, false),
+      res: -12,
+    }, {
+      entry: createEntry(12, true, 'unknown'),
+      amountKey: 'unknown',
+      res: 12,
+    }, {
+      entry: createEntry(12, false, 'unknown'),
+      amountKey: 'unknown',
+      res: -12,
+    }];
     inputs.forEach(input =>
-      test(`${input.type} => ${input.res}`, () => expect(typeDisplay(input.type)).toEqual(input.res))
-    );
+      test(`${input.entry} => ${input.res}`, () => expect(getAmount(input.entry, input.amountKey)).toEqual(input.res)));
   });
 });

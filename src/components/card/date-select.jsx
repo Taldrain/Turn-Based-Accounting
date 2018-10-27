@@ -31,7 +31,13 @@ class DateSelect extends React.Component {
   }
 
   render() {
-    const { path, type, date } = this.props;
+    const {
+      path,
+      type,
+      date,
+      disabledTypes,
+    } = this.props;
+
     return (
       <Card style={styles.root}>
         <CardContent>
@@ -42,6 +48,7 @@ class DateSelect extends React.Component {
             <Grid item xs={2}>
               <TypeMenu
                 onChange={value => this.onNewType(value)}
+                disabledTypes={disabledTypes}
                 type={type}
               />
             </Grid>
@@ -79,8 +86,13 @@ DateSelect.propTypes = {
   path: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
   type: PropTypes.oneOf(['day', 'week', 'month', 'year']).isRequired,
+  disabledTypes: PropTypes.arrayOf(PropTypes.oneOf(['day', 'week', 'month', 'year'])),
   // eslint-disable-next-line react/forbid-prop-types
   history: PropTypes.object.isRequired,
+};
+
+DateSelect.defaultProps = {
+  disabledTypes: [],
 };
 
 export default withRouter(DateSelect);
