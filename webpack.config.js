@@ -62,6 +62,7 @@ if (process.env.NODE_ENV === 'production') {
   //
   module.exports = webpackMerge(common, {
     devtool: 'source-map',
+    mode: 'development',
     output: {
       filename: '[name].[chunkhash].js',
     },
@@ -75,6 +76,7 @@ if (process.env.NODE_ENV === 'production') {
   //
   module.exports = webpackMerge(common, {
     devtool: 'cheap-module-source-map',
+    mode: 'production',
     output: {
       filename: '[name].js',
     },
