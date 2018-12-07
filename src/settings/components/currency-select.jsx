@@ -48,9 +48,7 @@ class CurrencySelect extends React.Component {
   }
 
   handleMenuItemClick(currency) {
-    const { store } = this.context;
-
-    store.dispatch(updateCurrency(currency));
+    this.props.dispatch(updateCurrency(currency));
     pushSettingsCurrency(currency);
     this.setState({ anchorEl: null });
   }
@@ -100,12 +98,7 @@ class CurrencySelect extends React.Component {
 
 CurrencySelect.propTypes = {
   currency: PropTypes.string.isRequired,
-};
-
-CurrencySelect.contextTypes = {
-  store: PropTypes.shape({
-    dispatch: PropTypes.func,
-  }).isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps)(CurrencySelect);

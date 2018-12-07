@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Switch, Route, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import ToolBarDrawer from './components/toolbar-drawer';
 
@@ -31,10 +32,10 @@ const styles = theme => ({
 });
 
 class App extends React.PureComponent {
-  constructor(props, context) {
+  constructor(props) {
     super(props);
 
-    fetchSettings().then(settings => context.store.dispatch(updateSettings(settings)));
+    fetchSettings().then(settings => props.dispatch(updateSettings(settings)));
   }
 
   render() {
@@ -61,12 +62,7 @@ class App extends React.PureComponent {
 App.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   classes: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
-App.contextTypes = {
-  store: PropTypes.shape({
-    dispatch: PropTypes.func,
-  }).isRequired,
-};
-
-export default withStyles(styles)(App);
+export default connect()(withStyles(styles)(App));
