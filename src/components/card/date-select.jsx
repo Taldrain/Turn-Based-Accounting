@@ -47,6 +47,7 @@ class DateSelect extends React.Component {
           <Grid container direction="row" justify="center" alignItems="center" spacing={16}>
             <Grid item xs={2}>
               <TypeMenu
+                id="date-select-type-menu"
                 onChange={value => this.onNewType(value)}
                 disabledTypes={disabledTypes}
                 type={type}

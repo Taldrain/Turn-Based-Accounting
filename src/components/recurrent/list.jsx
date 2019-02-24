@@ -8,10 +8,10 @@ import Add from './add';
 import Edit from './edit';
 
 const columnData = [
-  { id: 'name', numeric: false, label: 'Name' },
+  { id: 'name', label: 'Name' },
   // { id: 'tags', numeric: false, label: 'Tags' },
-  { id: 'type', numeric: false, label: 'Type' },
-  { id: 'computedAmount', numeric: true, label: 'Amount' },
+  { id: 'type', label: 'Type' },
+  { id: 'computedAmount', align: 'right', label: 'Amount' },
 ];
 
 function handleDelete(entries) {

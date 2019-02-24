@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import {
   AppBar,
@@ -17,43 +17,45 @@ import MenuIcon from '@material-ui/icons/Menu';
 
 import DrawerLink from './drawer-link';
 
-const DRAWER_WIDTH = 240;
+const DRAWER_WIDTH = 230;
 
 const styles = theme => ({
-  root: {
-    display: 'flex',
-    minHeight: '100vh',
-  },
-  appBar: {
-    position: 'absolute',
-    marginLeft: DRAWER_WIDTH,
-    [theme.breakpoints.up('md')]: {
-      width: `calc(100% - ${DRAWER_WIDTH}px)`,
-    },
-  },
-  navIconHide: {
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
-    },
-  },
   toolbar: {
     ...theme.mixins.toolbar,
-    paddingLeft: theme.spacing.unit * 3,
     display: 'flex',
-    flexGrow: 1,
-    flexDirection: 'column',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     justifyContent: 'center',
   },
-  drawerPaper: {
-    width: DRAWER_WIDTH,
-    [theme.breakpoints.up('md')]: {
-      position: 'relative',
-    },
+  link: {
+    textDecoration: 'none',
+    outline: 'none',
   },
   title: {
     color: theme.palette.text.secondary,
-    marginBottom: theme.spacing.unit / 2,
+    '&:hover': {
+      color: theme.palette.primary.main,
+    },
+  },
+  drawer: {
+    [theme.breakpoints.up('sm')]: {
+      width: DRAWER_WIDTH,
+      flexShrink: 0,
+    },
+  },
+  appBar: {
+    marginLeft: DRAWER_WIDTH,
+    [theme.breakpoints.up('sm')]: {
+      width: `calc(100% - ${DRAWER_WIDTH}px)`,
+    },
+  },
+  menuButton: {
+    marginRight: 20,
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
+  },
+  drawerPaper: {
+    width: DRAWER_WIDTH,
   },
 });
 
@@ -75,8 +77,7 @@ class ToolBarDrawer extends React.Component {
   }
 
   handleDrawerToggle() {
-    const { mobileOpen } = this.state;
-    this.setState({ mobileOpen: !mobileOpen });
+    this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   }
 
   handleDrawerClose() {
@@ -84,71 +85,66 @@ class ToolBarDrawer extends React.Component {
   }
 
   render() {
-    const { classes, location } = this.props;
-    const { mobileOpen } = this.state;
-
-    const title = pageToTitle(location.pathname);
+    const { classes } = this.props;
 
     const drawer = (
       <div>
         <div className={classes.toolbar}>
-          <Typography className={classes.title} variant="h6" color="inherit">
-            Turn-Based Accounting
-          </Typography>
+          <Link className={classes.link} to="/" onClick={this.handleDrawerClose}>
+            <Typography className={classes.title} variant="h6" color="inherit">
+              Turn-Based Accounting
+            </Typography>
+          </Link>
         </div>
         <Divider />
         <List>
           <DrawerLink to="/bilan/" text="Bilan" onClick={this.handleDrawerClose} />
           <DrawerLink to="/global/" text="Global" onClick={this.handleDrawerClose} />
+          <DrawerLink to="/user" text="User" onClick={this.handleDrawerClose} />
           <DrawerLink to="/settings" text="Settings" onClick={this.handleDrawerClose} />
         </List>
       </div>
     );
 
     return (
-      <div className={classes.root}>
-        <AppBar className={classes.appBar}>
+      <div>
+        <AppBar position="fixed" className={classes.appBar}>
           <Toolbar>
             <IconButton
               color="inherit"
               aria-label="open drawer"
               onClick={this.handleDrawerToggle}
-              className={classes.navIconHide}
+              className={classes.menuButton}
             >
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" color="inherit" noWrap>
-              { title }
+              { pageToTitle(this.props.location.pathname) }
             </Typography>
           </Toolbar>
         </AppBar>
-        <Hidden mdUp>
-          <Drawer
-            variant="temporary"
-            anchor="left"
-            open={mobileOpen}
-            onClose={this.handleDrawerToggle}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            ModalProps={{
-              keepMounted: true,
-            }}
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
-        <Hidden smDown>
-          <Drawer
-            variant="permanent"
-            open
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
+        <nav className={classes.drawer}>
+          <Hidden smUp implementation="css">
+            <Drawer
+              variant="temporary"
+              anchor="left"
+              open={this.state.mobileOpen}
+              onClose={this.handleDrawerToggle}
+              classes={{ paper: classes.drawerPaper }}
+            >
+              {drawer}
+            </Drawer>
+          </Hidden>
+          <Hidden xsDown implementation="css">
+            <Drawer
+              classes={{ paper: classes.drawerPaper }}
+              variant="permanent"
+              open
+            >
+              {drawer}
+            </Drawer>
+          </Hidden>
+        </nav>
       </div>
     );
   }
@@ -161,4 +157,4 @@ ToolBarDrawer.propTypes = {
   location: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(withRouter(ToolBarDrawer));
+export default withRouter(withStyles(styles)(ToolBarDrawer));

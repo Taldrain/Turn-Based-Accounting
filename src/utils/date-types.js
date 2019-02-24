@@ -1,35 +1,32 @@
 const TYPES = [
-  'day',
-  'week',
-  'month',
-  'year',
+  { key: 'day', label: 'Day' },
+  { key: 'week', label: 'Week' },
+  { key: 'month', label: 'Month' },
+  { key: 'year', label: 'Year' },
 ];
 
 function typeDisplay(type) {
-  switch (type) {
-    case 'day':
-      return 'Day';
-    case 'week':
-      return 'Week';
-    case 'month':
-      return 'Month';
-    default:
-      return 'Year';
+  const typeFound = TYPES.find(i => type === i.key);
+  if (typeFound === undefined) {
+    return TYPES[TYPES.length - 1].label;
   }
+
+  return typeFound.label;
 }
 
 function getGreaterTypes(type) {
+  const types = TYPES.map(i => i.key);
   switch (type) {
     case 'day':
-      return TYPES;
+      return types;
     case 'week':
-      return TYPES.slice(1);
+      return types.slice(1);
     case 'month':
-      return TYPES.slice(2);
+      return types.slice(2);
     case 'year':
-      return TYPES.slice(3);
+      return types.slice(3);
     default:
-      return TYPES;
+      return types;
   }
 }
 

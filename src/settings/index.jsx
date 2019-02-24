@@ -1,29 +1,23 @@
 import React from 'react';
 import {
-  Card,
-  CardContent,
-  Typography,
   Grid,
 } from '@material-ui/core';
 
+import PageHeader from '../components/display/page-header';
+import PageTitle from '../components/display/page-title';
+
 import CurrencySelect from './components/currency-select';
-import SignOut from './components/sign-out';
 import SettingsUpdateSnackBar from './components/settings-update-snackbar';
 
 function Settings() {
   return (
     <div>
-      <Grid container direction="column" justify="center" alignItems="stretch">
+      <PageHeader>
+        <PageTitle>Settings</PageTitle>
+      </PageHeader>
+      <Grid container direction="column" justify="center" alignItems="stretch" spacing={16}>
         <Grid item>
-          <Card>
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="h2">
-                Settings
-              </Typography>
-              <CurrencySelect />
-              <SignOut />
-            </CardContent>
-          </Card>
+          <CurrencySelect />
         </Grid>
       </Grid>
       <SettingsUpdateSnackBar />

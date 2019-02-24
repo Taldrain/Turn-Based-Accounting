@@ -2,38 +2,28 @@ import firebase from './index';
 
 import { getCurrentUser } from './auth';
 
-const DB = firebase.firestore();
-DB.settings({
-  timestampsInSnapshots: true,
-});
+import { recurrentRef, punctualRef, settingRef } from './ref';
 
-const RECURRENTS_COLLECTION = 'recurrents';
-const PUNCTUALS_COLLECTION = 'punctuals';
-const SETTINGS_COLLECTION = 'settings';
+const DB = firebase.firestore();
 
 function saveDocumentKey(doc, key) {
   return Object.assign({}, doc.data(), { [key]: doc.id });
 }
 
 function snapshotToArray(querySnapshot, key) {
-  const result = [];
-  querySnapshot.forEach(doc => result.push(saveDocumentKey(doc, key)));
-  return result;
+  return querySnapshot.docs.map(doc => saveDocumentKey(doc, key));
 }
 
 //
 // Listen
 //
 function listenAllRecurrentEntries(callback, uid) {
-  return DB
-    .collection(RECURRENTS_COLLECTION)
-    .where('authorId', '==', uid)
+  return recurrentRef(DB).where('authorId', '==', uid)
     .onSnapshot(querySnapshot => callback(snapshotToArray(querySnapshot, 'id')));
 }
 
 function listenPunctualEntries(callback, startDate, endDate, uid) {
-  return DB
-    .collection(PUNCTUALS_COLLECTION)
+  return punctualRef(DB)
     .where('date', '>=', startDate)
     .where('date', '<=', endDate)
     .where('authorId', '==', uid)
@@ -41,77 +31,51 @@ function listenPunctualEntries(callback, startDate, endDate, uid) {
 }
 
 function listenSettings(callback) {
-  return DB
-    .collection(SETTINGS_COLLECTION)
-    .doc(getCurrentUser().uid)
-    .onSnapshot(doc => callback(doc.data()));
+  return settingRef(DB, getCurrentUser().uid).onSnapshot(doc => callback(doc.data()));
 }
 
 //
 // Fetch
 //
 function fetchSettings() {
-  return DB
-    .collection(SETTINGS_COLLECTION)
-    .doc(getCurrentUser().uid)
-    .get()
-    .then(doc => doc.data());
+  return settingRef(DB, getCurrentUser().uid).get().then(doc => doc.data());
 }
 
 //
 // Push
 //
 function pushPunctualEntry(entry) {
-  return DB
-    .collection(PUNCTUALS_COLLECTION)
-    .add(entry);
+  return punctualRef(DB).add(entry);
 }
 
 function pushRecurrentEntry(entry) {
-  return DB
-    .collection(RECURRENTS_COLLECTION)
-    .add(entry);
+  return recurrentRef(DB).add(entry);
 }
 
 function pushSettingsCurrency(currency) {
-  return DB
-    .collection(SETTINGS_COLLECTION)
-    .doc(getCurrentUser().uid)
-    .set({ currency });
+  return settingRef(DB, getCurrentUser().uid).set({ currency }, { merge: true });
 }
 
 //
 // Update
 //
 function updatePunctualEntry(entryId, entry) {
-  return DB
-    .collection(PUNCTUALS_COLLECTION)
-    .doc(entryId)
-    .update(entry);
+  return punctualRef(DB, entryId).update(entry);
 }
 
 function updateRecurrentEntry(entryId, entry) {
-  return DB
-    .collection(RECURRENTS_COLLECTION)
-    .doc(entryId)
-    .update(entry);
+  return recurrentRef(DB, entryId).update(entry);
 }
 
 //
 // Delete
 //
 function deletePunctualEntry(entryId) {
-  return DB
-    .collection(PUNCTUALS_COLLECTION)
-    .doc(entryId)
-    .delete();
+  return punctualRef(DB, entryId).delete();
 }
 
 function deleteRecurrentEntry(entryId) {
-  return DB
-    .collection(RECURRENTS_COLLECTION)
-    .doc(entryId)
-    .delete();
+  return recurrentRef(DB, entryId).delete();
 }
 
 export {

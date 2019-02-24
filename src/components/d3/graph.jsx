@@ -1,6 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import * as d3 from '../../d3';
+
+import { extent } from 'd3-array';
+import { axisBottom, axisLeft } from 'd3-axis';
+import { select } from 'd3-selection';
+import { scaleLinear, scaleTime } from 'd3-scale';
+import { line } from 'd3-shape';
+import {
+  timeDay,
+  timeWeek,
+  timeMonth,
+  timeYear,
+} from 'd3-time';
+import 'd3-transition';
 
 import { convertAmount, getAmount } from '../../utils/entry';
 import {
@@ -14,31 +26,30 @@ import {
 function d3TimeScale(displayType, type) {
   if (displayType === 'day' && type === 'year') {
     // to avoid displaying to many ticks
-    return d3.timeMonth;
+    return timeMonth;
   }
 
   switch (displayType) {
     case 'day':
-      return d3.timeDay;
+      return timeDay;
     case 'week':
-      return d3.timeWeek;
+      return timeWeek;
     case 'month':
-      return d3.timeMonth;
+      return timeMonth;
     case 'year':
-      return d3.timeYear;
+      return timeYear;
     default:
-      return d3.timeDay;
+      return timeDay;
   }
 }
 
 class Graph extends React.Component {
   componentDidMount() {
-    const svg = d3.select(this.node)
+    const svg = select(this.node)
       .append('svg');
 
-    const xScale = d3.scaleTime();
-    const yScale = d3.scaleLinear();
-    const line = d3.line();
+    const xScale = scaleTime();
+    const yScale = scaleLinear();
 
     const mainContainer = svg.append('g');
     const xContainer = mainContainer.append('g');
@@ -64,7 +75,7 @@ class Graph extends React.Component {
 
     this.el = {
       svg,
-      line,
+      line: line(),
       xScale,
       yScale,
       mainContainer,
@@ -218,10 +229,10 @@ class Graph extends React.Component {
     const { amountsPerDate } = this;
     const { date, type, displayType } = this.props;
 
-    const yExtent = d3.extent(
+    const yExtent = extent(
       [].concat(
-        d3.extent(amountsPerDate, i => i.recurrent),
-        d3.extent(amountsPerDate, i => i.punctual),
+        extent(amountsPerDate, i => i.recurrent),
+        extent(amountsPerDate, i => i.punctual),
       ),
     );
     const yRange = yExtent[1] - yExtent[0];
@@ -233,10 +244,10 @@ class Graph extends React.Component {
       .domain([yExtent[0] - (yRange * 0.1), yExtent[1] + (yRange * 0.1)]);
 
     this.el.xContainer
-      .call(d3.axisBottom(this.el.xScale).ticks(d3TimeScale(displayType, type).every(1)));
+      .call(axisBottom(this.el.xScale).ticks(d3TimeScale(displayType, type).every(1)));
 
     this.el.yContainer
-      .call(d3.axisLeft(this.el.yScale));
+      .call(axisLeft(this.el.yScale));
 
     this.el.lineRecurrentContainer
       .datum(amountsPerDate)

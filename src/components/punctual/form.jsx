@@ -22,7 +22,7 @@ function Form(props) {
             value={name}
             onChange={ev => onNewValue('name', ev.target.value)}
             inputProps={{
-              autocapitalize: 'words',
+              autoCapitalize: 'words',
             }}
             autoFocus
             fullWidth

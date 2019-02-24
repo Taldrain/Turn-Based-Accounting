@@ -8,9 +8,9 @@ import Add from './add';
 import Edit from './edit';
 
 const columnData = [
-  { id: 'name', numeric: false, label: 'Name' },
+  { id: 'name', label: 'Name' },
   // { id: 'tags', numeric: false, label: 'Tags' },
-  { id: 'amount', numeric: true, label: 'Amount' },
+  { id: 'amount', align: 'right', label: 'Amount' },
 ];
 
 function handleDelete(entries) {

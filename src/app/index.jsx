@@ -5,9 +5,11 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import ToolBarDrawer from './components/toolbar-drawer';
+import ProgressWait from '../components/display/progress-wait';
 
 import Bilan from '../bilan/index';
 import Global from '../global/index';
+import User from '../user/index';
 import Settings from '../settings/index';
 
 import { fetchSettings } from '../firebase/firestore';
@@ -15,31 +17,36 @@ import { updateSettings } from '../actions/index';
 
 const styles = theme => ({
   root: {
-    flexGrow: 1,
-    zIndex: 1,
-    overflow: 'hidden',
-    position: 'relative',
     display: 'flex',
-    width: '100%',
   },
   toolbar: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
     padding: theme.spacing.unit * 3,
-    minWidth: 0,
   },
 });
 
 class App extends React.PureComponent {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
-    fetchSettings().then(settings => props.dispatch(updateSettings(settings)));
+    this.state = {
+      isReady: false,
+    };
+  }
+
+  componentDidMount() {
+    fetchSettings()
+      .then(settings => this.props.dispatch(updateSettings(settings)))
+      .then(() => this.setState({ isReady: true }));
   }
 
   render() {
     const { classes } = this.props;
+
+    if (this.state.isReady === false) {
+      return (<ProgressWait marginTop={40} />);
+    }
 
     return (
       <div className={classes.root}>
@@ -50,6 +57,7 @@ class App extends React.PureComponent {
             <Route exact path="/bilan/:type/:date?" component={Bilan} />
             <Route exact path="/global/:type/:date?" component={Global} />
             <Route exact path="/settings" component={Settings} />
+            <Route exact path="/user" component={User} />
             <Redirect from="/global" to="/global/month/" />
             <Redirect from="/" to="/bilan/day/" />
           </Switch>

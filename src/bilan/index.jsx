@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 
+import PageHeader from '../components/display/page-header';
+import PageTitle from '../components/display/page-title';
+
 import Balance from './components/balance';
 import DateSelect from '../components/card/date-select';
 import PunctualList from '../components/punctual/list';
@@ -119,6 +122,9 @@ class Bilan extends React.Component {
 
     return (
       <div>
+        <PageHeader>
+          <PageTitle>Bilan</PageTitle>
+        </PageHeader>
         <Grid
           container
           direction="row"

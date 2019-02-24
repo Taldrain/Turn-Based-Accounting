@@ -7,6 +7,9 @@ import {
   Typography,
 } from '@material-ui/core';
 
+import PageHeader from '../components/display/page-header';
+import PageTitle from '../components/display/page-title';
+
 import DateSelect from '../components/card/date-select';
 import TypeMenu from '../components/type-menu/index';
 import Graph from '../components/d3/graph';
@@ -132,39 +135,45 @@ class Global extends React.Component {
     const displayedRecurrentsEntries = getDisplayedRecurrentsEntries(recurrents, date, type);
 
     return (
-      <Grid
-        container
-        direction="row"
-        justify="center"
-        alignItems="flex-start"
-        spacing={16}
-      >
-        <Grid item xs={12}>
-          <DateSelect path="global" date={date} type={type} disabledTypes={['day']} />
+      <div>
+        <PageHeader>
+          <PageTitle>Global</PageTitle>
+        </PageHeader>
+        <Grid
+          container
+          direction="row"
+          justify="center"
+          alignItems="flex-start"
+          spacing={16}
+        >
+          <Grid item xs={12}>
+            <DateSelect path="global" date={date} type={type} disabledTypes={['day']} />
+          </Grid>
+          <Grid item xs={12}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6">
+                  Graph
+                </Typography>
+                <TypeMenu
+                  id="global-type-menu"
+                  onChange={value => this.onNewDisplayType(value)}
+                  type={displayType}
+                  disabledTypes={disabledDisplayTypes}
+                />
+                <Graph
+                  punctuals={punctuals}
+                  recurrents={displayedRecurrentsEntries}
+                  inProgress={recurrentInProgress || punctualInProgress}
+                  date={date}
+                  type={type}
+                  displayType={displayType}
+                />
+              </CardContent>
+            </Card>
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <Card>
-            <CardContent>
-              <Typography variant="h6">
-                Graph
-              </Typography>
-              <TypeMenu
-                onChange={value => this.onNewDisplayType(value)}
-                type={displayType}
-                disabledTypes={disabledDisplayTypes}
-              />
-              <Graph
-                punctuals={punctuals}
-                recurrents={displayedRecurrentsEntries}
-                inProgress={recurrentInProgress || punctualInProgress}
-                date={date}
-                type={type}
-                displayType={displayType}
-              />
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
+      </div>
     );
   }
 }

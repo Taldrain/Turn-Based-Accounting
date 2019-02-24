@@ -6,8 +6,10 @@ const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 const htmlWebpackPlugin = require('html-webpack-plugin');
 const webpackNotifierPlugin = require('webpack-notifier');
+const cleanWebpackPlugin = require('clean-webpack-plugin');
 
 const SRC_DIR = path.resolve(__dirname, 'src');
+const DIST_DIR = path.resolve(__dirname, 'dist');
 
 const commitHash = require('child_process')
   .execSync('git rev-parse --short HEAD')
@@ -62,13 +64,13 @@ if (process.env.NODE_ENV === 'production') {
   //
   module.exports = webpackMerge(common, {
     devtool: 'source-map',
-    mode: 'development',
+    mode: 'production',
     output: {
       filename: '[name].[chunkhash].js',
     },
-    entry: {
-      main: ['@babel/polyfill', srcPath('index.jsx')],
-    },
+    plugins: [
+      new cleanWebpackPlugin([ DIST_DIR ]),
+    ],
   });
 } else {
   //
@@ -76,7 +78,7 @@ if (process.env.NODE_ENV === 'production') {
   //
   module.exports = webpackMerge(common, {
     devtool: 'cheap-module-source-map',
-    mode: 'production',
+    mode: 'development',
     output: {
       filename: '[name].js',
     },

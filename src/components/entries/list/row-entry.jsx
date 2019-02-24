@@ -47,7 +47,7 @@ function RowRecord(props) {
       </TableCell>
       {
         columns.map(column => (
-          <TableCell key={column.id} numeric={column.numeric}>
+          <TableCell key={column.id} align={column.align}>
             { cellDisplay(column, entry) }
           </TableCell>
         ))
@@ -64,7 +64,7 @@ RowRecord.propTypes = {
   columns: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
     label: PropTypes.string,
-    numeric: PropTypes.bool,
+    align: PropTypes.string,
   })).isRequired,
 };
 

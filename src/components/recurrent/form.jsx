@@ -27,7 +27,7 @@ function Form(props) {
             value={name}
             onChange={ev => onNewValue('name', ev.target.value)}
             inputProps={{
-              autocapitalize: 'words',
+              autoCapitalize: 'words',
             }}
             autoFocus
             fullWidth
@@ -52,6 +52,7 @@ function Form(props) {
         </Grid>
         <Grid item>
           <TypeMenu
+            id="recurrent-form-type-menu"
             onChange={value => onNewValue('type', value)}
             type={type}
           />
