@@ -69,7 +69,7 @@ if (process.env.NODE_ENV === 'production') {
       filename: '[name].[chunkhash].js',
     },
     plugins: [
-      new cleanWebpackPlugin([ DIST_DIR ]),
+      new cleanWebpackPlugin(),
     ],
   });
 } else {
