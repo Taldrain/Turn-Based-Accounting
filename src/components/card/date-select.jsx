@@ -4,8 +4,8 @@ import { Link, withRouter } from 'react-router-dom';
 import {
   Grid,
   Card,
+  CardHeader,
   CardContent,
-  Typography,
   IconButton,
   Button,
 } from '@material-ui/core';
@@ -40,10 +40,8 @@ class DateSelect extends React.Component {
 
     return (
       <Card style={styles.root}>
+        <CardHeader title="Date selection" />
         <CardContent>
-          <Typography variant="h6">
-            Date selection
-          </Typography>
           <Grid container direction="row" justify="center" alignItems="center" spacing={16}>
             <Grid item xs={2}>
               <TypeMenu

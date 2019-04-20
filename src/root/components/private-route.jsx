@@ -4,7 +4,7 @@ import { Route, Redirect } from 'react-router-dom';
 
 import { requiresAuth } from '../../firebase/auth';
 
-function PrivateRoute({ component: Component, ...other }) {
+function PrivateRoute({ component, ...other }) {
   return (
     <Route
       {...other}
@@ -17,7 +17,7 @@ function PrivateRoute({ component: Component, ...other }) {
             }}
           />
         ) : (
-          <Component {...renderProps} />
+          React.createElement(component, renderProps)
         )
       )}
     />
@@ -25,7 +25,8 @@ function PrivateRoute({ component: Component, ...other }) {
 }
 
 PrivateRoute.propTypes = {
-  component: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  component: PropTypes.object.isRequired,
 };
 
 export default PrivateRoute;

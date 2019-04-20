@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {
   Grid,
   Card,
+  CardHeader,
   CardContent,
   Typography,
 } from '@material-ui/core';
@@ -21,10 +22,8 @@ function Balance({ punctuals, recurrents }) {
   const sumEntries = sumPunctuals + sumRecurrents;
   return (
     <Card>
+      <CardHeader title="Balance" />
       <CardContent>
-        <Typography variant="h6">
-          Balance
-        </Typography>
         <Grid container direction="row" justify="center" alignItems="center" spacing={40}>
           <Grid item>
             <BalanceDisplay variant="h6" amount={sumEntries} isPositive={sumEntries >= 0} />
