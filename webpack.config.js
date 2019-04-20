@@ -9,7 +9,6 @@ const webpackNotifierPlugin = require('webpack-notifier');
 const cleanWebpackPlugin = require('clean-webpack-plugin');
 
 const SRC_DIR = path.resolve(__dirname, 'src');
-const DIST_DIR = path.resolve(__dirname, 'dist');
 
 const commitHash = require('child_process')
   .execSync('git rev-parse --short HEAD')
@@ -69,7 +68,7 @@ if (process.env.NODE_ENV === 'production') {
       filename: '[name].[chunkhash].js',
     },
     plugins: [
-      new cleanWebpackPlugin([ DIST_DIR ]),
+      new cleanWebpackPlugin(),
     ],
   });
 } else {
