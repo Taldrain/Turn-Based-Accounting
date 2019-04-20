@@ -42,8 +42,8 @@ class DateSelect extends React.Component {
       <Card style={styles.root}>
         <CardHeader title="Date selection" />
         <CardContent>
-          <Grid container direction="row" justify="center" alignItems="center" spacing={16}>
-            <Grid item xs={2}>
+          <Grid container direction="row" justify="space-around" alignItems="center" spacing={16}>
+            <Grid item>
               <TypeMenu
                 id="date-select-type-menu"
                 onChange={value => this.onNewType(value)}
@@ -51,20 +51,20 @@ class DateSelect extends React.Component {
                 type={type}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item>
               <DateDisplay date={date} type={type} variant="subtitle1" />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item>
               <IconButton component={Link} to={`/${path}/${type}/${previousDate(date, type)}`} aria-label="previous date">
                 <PreviousIcon />
               </IconButton>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item>
               <IconButton component={Link} to={`/${path}/${type}/${nextDate(date, type)}`} aria-label="next date">
                 <NextIcon />
               </IconButton>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item>
               <Button
                 component={Link}
                 to={`/${path}/day/`}
