@@ -26,7 +26,11 @@ function PrivateRoute({ component, ...other }) {
 
 PrivateRoute.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
+<<<<<<< HEAD
   component: PropTypes.func.isRequired,
+=======
+  component: PropTypes.object.isRequired,
+>>>>>>> e1c03de21dbda26a54bab08ddfbd15780eea3d60
 };
 
 export default PrivateRoute;

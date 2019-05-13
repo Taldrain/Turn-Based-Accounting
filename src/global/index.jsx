@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import {
   Grid,
   Card,
+  CardHeader,
   CardContent,
-  Typography,
 } from '@material-ui/core';
 
 import PageHeader from '../components/display/page-header';
@@ -151,10 +151,8 @@ class Global extends React.Component {
           </Grid>
           <Grid item xs={12}>
             <Card>
+              <CardHeader title="Graph" />
               <CardContent>
-                <Typography variant="h6">
-                  Graph
-                </Typography>
                 <TypeMenu
                   id="global-type-menu"
                   onChange={value => this.onNewDisplayType(value)}

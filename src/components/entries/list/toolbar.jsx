@@ -90,7 +90,7 @@ class ListToolbar extends React.Component {
               {`${numSelected} selected`}
             </Typography>
           ) : (
-            <Typography variant="h6">
+            <Typography variant="h5">
               { title }
             </Typography>
           )}
