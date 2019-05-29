@@ -33,7 +33,7 @@ function ListTableHead(props) {
           columnData.map(column => (
             <TableCell
               key={column.id}
-              numeric={column.numeric}
+              align={column.align}
               sortDirection={orderBy === column.id ? order : false}
             >
               <TableSortLabel
@@ -61,7 +61,7 @@ ListTableHead.propTypes = {
   columnData: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
     label: PropTypes.string,
-    numeric: PropTypes.bool,
+    align: PropTypes.string,
   })).isRequired,
 };
 

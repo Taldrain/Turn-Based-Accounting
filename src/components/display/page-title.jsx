@@ -5,8 +5,8 @@ import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
   root: {
-    marginTop: theme.spacing.unit * 4,
-    marginBottom: theme.spacing.unit * 2,
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(2),
   },
 });
 

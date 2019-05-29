@@ -144,7 +144,7 @@ class Global extends React.Component {
           direction="row"
           justify="center"
           alignItems="flex-start"
-          spacing={16}
+          spacing={2}
         >
           <Grid item xs={12}>
             <DateSelect path="global" date={date} type={type} disabledTypes={['day']} />

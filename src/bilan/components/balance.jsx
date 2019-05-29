@@ -24,26 +24,30 @@ function Balance({ punctuals, recurrents }) {
     <Card>
       <CardHeader title="Balance" />
       <CardContent>
-        <Grid container direction="row" justify="center" alignItems="center" spacing={40}>
+        <Grid container direction="row" justify="center" alignItems="center" spacing={5}>
           <Grid item>
             <BalanceDisplay variant="h6" amount={sumEntries} isPositive={sumEntries >= 0} />
           </Grid>
           <Grid item>
-            <Grid container direction="column" justify="center" alignItems="flex-start" spacing={8}>
+            <Grid container direction="column" justify="center" alignItems="flex-start">
               <Grid item>
                 <Typography variant="caption">
                   Recurrents
                 </Typography>
+              </Grid>
+              <Grid item>
                 <BalanceDisplay
                   variant="caption"
                   amount={sumRecurrents}
                   isPositive={sumRecurrents >= 0}
                 />
               </Grid>
-              <Grid item>
+              <Grid item style={{ paddingTop: '8px' }}>
                 <Typography variant="caption">
                   Punctuals
                 </Typography>
+              </Grid>
+              <Grid item>
                 <BalanceDisplay
                   variant="caption"
                   amount={sumPunctuals}

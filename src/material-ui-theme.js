@@ -4,7 +4,6 @@ import { getPalette } from './utils/colors';
 
 export default createMuiTheme({
   typography: {
-    useNextVariants: true,
     allVariants: {
       letterSpacing: 0,
     },

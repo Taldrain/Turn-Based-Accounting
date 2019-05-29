@@ -130,7 +130,7 @@ class Bilan extends React.Component {
           direction="row"
           justify="center"
           alignItems="stretch"
-          spacing={16}
+          spacing={2}
         >
           <Grid item md={6} xs={12}>
             <Balance
@@ -147,7 +147,7 @@ class Bilan extends React.Component {
           direction="row"
           justify="center"
           alignItems="flex-start"
-          spacing={16}
+          spacing={2}
         >
           <Grid item md={6} xs={12}>
             <RecurrentList

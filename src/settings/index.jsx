@@ -15,7 +15,7 @@ function Settings() {
       <PageHeader>
         <PageTitle>Settings</PageTitle>
       </PageHeader>
-      <Grid container direction="column" justify="center" alignItems="stretch" spacing={16}>
+      <Grid container direction="column" justify="center" alignItems="stretch" spacing={2}>
         <Grid item>
           <CurrencySelect />
         </Grid>

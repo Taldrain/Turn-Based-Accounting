@@ -14,7 +14,7 @@ import { lighten } from '@material-ui/core/styles/colorManipulator';
 
 const styles = theme => ({
   root: {
-    paddingRight: theme.spacing.unit,
+    paddingRight: theme.spacing(1),
   },
   highlight: {
     color: theme.palette.secondary.main,
@@ -42,7 +42,7 @@ class ListToolbar extends React.Component {
 
     if (numSelected === 1) {
       return (
-        <Grid container direction="row" justify="flex-end" alignItems="center" spacing={16}>
+        <Grid container direction="row" justify="flex-end" alignItems="center" spacing={2}>
           <Grid item>
             <Button variant="contained" onClick={() => edit(selected[0])}>
               Edit

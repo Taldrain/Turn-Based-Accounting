@@ -9,7 +9,6 @@ import Edit from './edit';
 
 const columnData = [
   { id: 'name', label: 'Name' },
-  // { id: 'tags', numeric: false, label: 'Tags' },
   { id: 'type', label: 'Type' },
   { id: 'computedAmount', align: 'right', label: 'Amount' },
 ];
