@@ -6,7 +6,7 @@ const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 const htmlWebpackPlugin = require('html-webpack-plugin');
 const webpackNotifierPlugin = require('webpack-notifier');
-const cleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const SRC_DIR = path.resolve(__dirname, 'src');
 
@@ -68,7 +68,7 @@ if (process.env.NODE_ENV === 'production') {
       filename: '[name].[chunkhash].js',
     },
     plugins: [
-      new cleanWebpackPlugin(),
+      new CleanWebpackPlugin(),
     ],
   });
 } else {
