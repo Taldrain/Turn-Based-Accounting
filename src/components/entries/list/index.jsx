@@ -19,9 +19,6 @@ const styles = theme => ({
     marginTop: theme.spacing(3),
     overflowX: 'auto',
   },
-  table: {
-    minWidth: 700,
-  },
   tableWrapper: {
     overflowX: 'auto',
   },
@@ -166,7 +163,7 @@ class ListEntries extends React.Component {
           title={title}
         />
         <div className={classes.tableWrapper}>
-          <Table className={classes.table}>
+          <Table>
             <ListTableHead
               numSelected={selected.length}
               order={order}
