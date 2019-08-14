@@ -7,7 +7,7 @@ import { recurrentRef, punctualRef, settingRef } from './ref';
 const DB = firebase.firestore();
 
 function saveDocumentKey(doc, key) {
-  return Object.assign({}, doc.data(), { [key]: doc.id });
+  return ({ ...doc.data(), [key]: doc.id });
 }
 
 function snapshotToArray(querySnapshot, key) {

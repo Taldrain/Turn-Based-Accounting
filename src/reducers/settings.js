@@ -12,15 +12,11 @@ const DEFAULT_SETTINGS = {
 function updateSettings(state = DEFAULT_SETTINGS, action) {
   switch (action.type) {
     case UPDATE_SETTINGS:
-      return Object.assign({}, state, action.settings);
+      return ({ ...state, ...action.settings });
     case UPDATE_LOCALE:
-      return Object.assign({}, state, {
-        locale: action.locale,
-      });
+      return ({ ...state, locale: action.locale });
     case UPDATE_CURRENCY:
-      return Object.assign({}, state, {
-        currency: action.currency,
-      });
+      return ({ ...state, currency: action.currency });
     default:
       return state;
   }

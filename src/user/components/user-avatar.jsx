@@ -11,23 +11,19 @@ const styles = {
   },
 };
 
-function UserAvatar(props) {
-  if (props.user.photoURL) {
-    return <Avatar alt={props.user.displayName} src={props.user.photoURL} />;
+function UserAvatar({ user }) {
+  if (user.photoURL) {
+    return <Avatar alt={user.displayName} src={user.photoURL} />;
   }
 
-  const newStyle = Object.assign(
-    {},
-    styles.root,
-    { backgroundColor: getColorAvatar(props.user.displayName) },
-  );
+  const newStyle = ({ ...styles.root, backgroundColor: getColorAvatar(user.displayName) });
 
   return (
     <Avatar style={newStyle}>
       {
         // take the two first char from the first char of each name (longer
         // than the 3 char) in the display name.
-        props.user.displayName
+        user.displayName
           .split(' ')
           .map((n) => {
             if (n.length >= 3) {

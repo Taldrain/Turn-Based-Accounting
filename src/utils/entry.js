@@ -20,23 +20,19 @@ function getDisplayedRecurrentsEntries(entries, date, type) {
 }
 
 function createEntry(entry) {
-  return sanitizeEntry(Object.assign({}, entry, {
-    addedAt: new Date(),
-    authorId: getCurrentUser().uid,
-  }));
+  return sanitizeEntry({ ...entry, addedAt: new Date(), authorId: getCurrentUser().uid });
 }
 
 function editEntry(entry) {
-  return sanitizeEntry(Object.assign({}, entry, { editedAt: new Date() }));
+  return sanitizeEntry({ ...entry, editedAt: new Date() });
 }
 
 function convertAmount(entry, date, type) {
   const startDate = maxDate(getStartDate(date, type), entry.startDate);
   const endDate = minDate(getEndDate(date, type), entry.endDate);
   const diff = diffDates(startDate, endDate, entry.type);
-  // eslint-disable-next-line no-param-reassign
-  entry.computedAmount = entry.amount * diff;
-  return entry;
+
+  return ({ ...entry, computedAmount: entry.amount * diff });
 }
 
 function getAmount(entry, key = 'amount') {
