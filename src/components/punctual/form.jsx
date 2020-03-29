@@ -13,7 +13,6 @@ function Form(props) {
     isPositive,
     errors,
   } = props;
-  console.log('amount: ', amount);
   return (
     <form autoComplete="off">
       <Grid container direction="column" justify="space-around" align="stretch" spacing={4}>
