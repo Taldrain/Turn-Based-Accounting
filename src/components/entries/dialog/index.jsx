@@ -18,8 +18,9 @@ class DialogEntry extends React.Component {
 
   handleClick() {
     const { handleClick, onClose } = this.props;
-    handleClick();
-    onClose();
+    if (handleClick()) {
+      onClose();
+    }
   }
 
   render() {

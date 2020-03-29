@@ -17,6 +17,7 @@ class Edit extends React.Component {
       name: entry.name,
       amount: entry.amount,
       isPositive: entry.isPositive,
+      errors: {},
     };
 
     this.onNewValue = this.onNewValue.bind(this);
@@ -30,16 +31,39 @@ class Edit extends React.Component {
   handleEdit() {
     const { entry } = this.props;
     const { name, amount, isPositive } = this.state;
+    const errors = {};
+    const amountFloat = parseFloat(amount, 10);
+
+    if (Number.isNaN(amountFloat)) {
+      errors.amount = 'Incorrect amount';
+    }
+    if (name.length === 0) {
+      errors.name = 'Incorrect name';
+    }
+
+    this.setState({ errors });
+
+    if (Object.keys(errors).length > 0) {
+      return false;
+    }
 
     updatePunctualEntry(entry.id, editEntry({
       name,
-      amount,
+      amount: amountFloat,
       isPositive,
     }));
+
+    return true;
   }
 
   render() {
-    const { name, amount, isPositive } = this.state;
+    const {
+      name,
+      amount,
+      isPositive,
+      errors,
+    } = this.state;
+
     return (
       <Dialog
         {...this.props}
@@ -52,6 +76,7 @@ class Edit extends React.Component {
           name={name}
           amount={amount}
           isPositive={isPositive}
+          errors={errors}
         />
       </Dialog>
     );

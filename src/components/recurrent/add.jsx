@@ -14,6 +14,7 @@ const DEFAULT_STATE = {
   type: 'month',
   startDate: '',
   endDate: '',
+  error: '',
 };
 
 class Add extends React.Component {
@@ -40,16 +41,33 @@ class Add extends React.Component {
       startDate,
       endDate,
     } = this.state;
+    const errors = {};
+    const amountFloat = parseFloat(amount, 10);
+
+    if (Number.isNaN(amountFloat)) {
+      errors.amount = 'Incorrect amount';
+    }
+    if (name.length === 0) {
+      errors.name = 'Incorrect name';
+    }
+
+    this.setState({ errors });
+
+    if (Object.keys(errors).length > 0) {
+      return false;
+    }
 
     pushRecurrentEntry(createEntry({
       name,
-      amount,
+      amount: amountFloat,
       isPositive,
       type,
       startDate: startDate || undefined,
       endDate: endDate || undefined,
     }));
     this.setState(DEFAULT_STATE);
+
+    return true;
   }
 
   handleClose() {
@@ -66,6 +84,7 @@ class Add extends React.Component {
       type,
       startDate,
       endDate,
+      errors,
     } = this.state;
 
     return (
@@ -84,6 +103,7 @@ class Add extends React.Component {
           type={type}
           startDate={startDate}
           endDate={endDate}
+          errors={errors}
         />
       </Dialog>
     );

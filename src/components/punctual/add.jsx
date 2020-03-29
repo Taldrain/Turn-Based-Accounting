@@ -9,8 +9,9 @@ import { createEntry } from '../../utils/entry';
 
 const DEFAULT_STATE = {
   name: '',
-  amount: 0,
+  amount: '',
   isPositive: false,
+  errors: {},
 };
 
 class Add extends React.Component {
@@ -31,14 +32,31 @@ class Add extends React.Component {
   handleAdd() {
     const { name, amount, isPositive } = this.state;
     const { date } = this.props;
+    const errors = {};
+    const amountFloat = parseFloat(amount, 10);
+
+    if (Number.isNaN(amountFloat)) {
+      errors.amount = 'Incorrect amount';
+    }
+    if (name.length === 0) {
+      errors.name = 'Incorrect name';
+    }
+
+    this.setState({ errors });
+
+    if (Object.keys(errors).length > 0) {
+      return false;
+    }
 
     pushPunctualEntry(createEntry({
       name,
-      amount,
+      amount: amountFloat,
       isPositive,
       date,
     }));
     this.setState(DEFAULT_STATE);
+
+    return true;
   }
 
   handleClose() {
@@ -52,7 +70,9 @@ class Add extends React.Component {
       name,
       amount,
       isPositive,
+      errors,
     } = this.state;
+
 
     return (
       <Dialog
@@ -67,6 +87,7 @@ class Add extends React.Component {
           name={name}
           amount={amount}
           isPositive={isPositive}
+          errors={errors}
         />
       </Dialog>
     );

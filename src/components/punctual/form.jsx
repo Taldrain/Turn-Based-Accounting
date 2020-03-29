@@ -11,7 +11,9 @@ function Form(props) {
     amount,
     onNewValue,
     isPositive,
+    errors,
   } = props;
+  console.log('amount: ', amount);
   return (
     <form autoComplete="off">
       <Grid container direction="column" justify="space-around" align="stretch" spacing={4}>
@@ -26,17 +28,21 @@ function Form(props) {
             }}
             autoFocus
             fullWidth
+            error={errors.name !== undefined}
+            helperText={errors.name}
           />
         </Grid>
         <Grid item>
           <TextField
             id="amount"
             label="Amount"
-            value={amount ? `${amount}` : 0}
-            onChange={ev => onNewValue('amount', parseFloat(ev.target.value, 10) || undefined)}
+            value={amount}
+            onChange={ev => onNewValue('amount', ev.target.value)}
             type="number"
             min="0"
             fullWidth
+            error={errors.amount !== undefined}
+            helperText={errors.amount}
           />
         </Grid>
         <Grid item>
@@ -53,12 +59,16 @@ function Form(props) {
 Form.propTypes = {
   onNewValue: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-  amount: PropTypes.number,
+  amount: PropTypes.string.isRequired,
   isPositive: PropTypes.bool.isRequired,
+  errors: PropTypes.shape({
+    name: PropTypes.string,
+    amount: PropTypes.string,
+  }),
 };
 
 Form.defaultProps = {
-  amount: undefined,
+  errors: {},
 };
 
 export default Form;

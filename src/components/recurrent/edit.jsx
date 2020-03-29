@@ -18,6 +18,7 @@ class Edit extends React.Component {
       type: props.entry.type,
       startDate: props.entry.startDate,
       endDate: props.entry.endDate,
+      errors: {},
     };
 
     this.onNewValue = this.onNewValue.bind(this);
@@ -38,6 +39,21 @@ class Edit extends React.Component {
       endDate,
     } = this.state;
     const { entry } = this.props;
+    const errors = {};
+    const amountFloat = parseFloat(amount, 10);
+
+    if (Number.isNaN(amountFloat)) {
+      errors.amount = 'Incorrect amount';
+    }
+    if (name.length === 0) {
+      errors.name = 'Incorrect name';
+    }
+
+    this.setState({ errors });
+
+    if (Object.keys(errors).length > 0) {
+      return false;
+    }
 
     updateRecurrentEntry(entry.id, editEntry({
       name,
@@ -47,6 +63,8 @@ class Edit extends React.Component {
       startDate,
       endDate,
     }));
+
+    return true;
   }
 
   render() {
@@ -57,6 +75,7 @@ class Edit extends React.Component {
       type,
       startDate,
       endDate,
+      errors,
     } = this.state;
 
     return (
@@ -74,6 +93,7 @@ class Edit extends React.Component {
           type={type}
           startDate={startDate}
           endDate={endDate}
+          errors={errors}
         />
       </Dialog>
     );
