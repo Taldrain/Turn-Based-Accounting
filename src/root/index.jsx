@@ -9,13 +9,13 @@ import PrivateRoute from './components/private-route';
 
 function Root() {
   return (
-    <div>
+    <React.Fragment>
       <Switch>
         <Route path="/login" component={Login} />
         <PrivateRoute path="/" component={App} />
       </Switch>
       <GitHash />
-    </div>
+    </React.Fragment>
   );
 }
 

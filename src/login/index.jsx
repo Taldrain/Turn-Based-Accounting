@@ -1,83 +1,43 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import FirebaseUILogin from './components/firebase-ui-login';
-import LoginBackground from './components/login-background';
 
-import firebase from '../firebase/index';
-// import { onAuthStateChanged } from '../firebase/auth';
+import useAuth from '../utils/hooks/useAuth';
 
-const styles = {
+const useStyles = makeStyles(theme => ({
   root: {
-    marginTop: '40px',
+    marginTop: theme.spacing(5),
   },
-};
+}));
 
-class Login extends React.Component {
-  constructor(props) {
-    super(props);
+function Login({ location }) {
+  const [loggedIn, loading] = useAuth();
+  const classes = useStyles();
 
-    this.state = {
-      logged: undefined,
-    };
+  if (!loading && loggedIn) {
+    const { from } = location.state || { from: { pathname: '/' } };
+    return <Redirect to={from} />;
   }
 
-  componentDidMount() {
-    this.unsubscribe = firebase
-      .auth()
-      .onAuthStateChanged(user => this.setState({ logged: !!user }));
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-
-  render() {
-    const { logged } = this.state;
-
-    let child;
-    switch (logged) {
-      case true: {
-        const { from } = this.props.location.state || { from: { pathname: '/' } };
-        child = (
-          <div>
-            <CircularProgress />
-            <Redirect to={from} />
-          </div>
-        );
-        break;
-      }
-      case false: {
-        child = (
-          <FirebaseUILogin />
-        );
-        break;
-      }
-      default:
-        child = (
-          <CircularProgress />
-        );
-        break;
-    }
-
-    return (
-      <div>
-        <LoginBackground />
-        <Grid container direction="row" align="center" justify="center" style={styles.root}>
-          <Grid item>
-            { child }
-          </Grid>
+  return (
+    <React.Fragment>
+      <Grid container direction="row" align="center" justify="center" className={classes.root}>
+        <Grid item>
+          { loading ? <CircularProgress /> : <FirebaseUILogin /> }
         </Grid>
-      </div>
-    );
-  }
+      </Grid>
+    </React.Fragment>
+  );
 }
 
 Login.propTypes = {
   location: PropTypes.shape({
+    // eslint-disable-next-line react/forbid-prop-types
     state: PropTypes.object,
   }),
 };

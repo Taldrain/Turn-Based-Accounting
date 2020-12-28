@@ -20,7 +20,6 @@ import { getCurrentUser } from '../firebase/auth';
 import { getDisplayedRecurrentsEntries } from '../utils/entry';
 import { getGreaterTypes } from '../utils/date-types';
 
-
 class Global extends React.Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.match.params.type === prevState.type

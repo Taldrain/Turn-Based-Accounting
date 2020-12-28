@@ -5,7 +5,6 @@ import Radio from '@material-ui/core/Radio';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 
-
 function BalanceRadio({ isPositive, onChange }) {
   return (
     <Grid container direction="row" justify="space-around" alignItems="center" spacing={2}>

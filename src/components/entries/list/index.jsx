@@ -79,11 +79,6 @@ class ListEntries extends React.Component {
     this.browserEvent();
   }
 
-  isSelected(entry) {
-    const { selected } = this.state;
-    return (selected.findIndex(i => i.id === entry.id) !== -1);
-  }
-
   handleRequestSort(event, orderBy) {
     let order = 'desc';
 
@@ -123,6 +118,11 @@ class ListEntries extends React.Component {
     }
 
     this.setState({ selected: [] });
+  }
+
+  isSelected(entry) {
+    const { selected } = this.state;
+    return (selected.findIndex(i => i.id === entry.id) !== -1);
   }
 
   wrapperDelete(entries) {

@@ -24,10 +24,6 @@ class Edit extends React.Component {
     this.handleEdit = this.handleEdit.bind(this);
   }
 
-  onNewValue(type, value) {
-    this.setState({ [type]: value });
-  }
-
   handleEdit() {
     const { entry } = this.props;
     const { name, amount, isPositive } = this.state;
@@ -54,6 +50,10 @@ class Edit extends React.Component {
     }));
 
     return true;
+  }
+
+  onNewValue(type, value) {
+    this.setState({ [type]: value });
   }
 
   render() {

@@ -4,20 +4,20 @@ import { Route, Redirect } from 'react-router-dom';
 
 import { requiresAuth } from '../../firebase/auth';
 
-function PrivateRoute({ component, ...other }) {
+function PrivateRoute({ component, path }) {
   return (
     <Route
-      {...other}
-      render={renderProps => (
+      path={path}
+      render={({ location }) => (
         requiresAuth() ? (
           <Redirect
             to={{
               pathname: '/login',
-              state: { from: renderProps.location },
+              state: { from: location },
             }}
           />
         ) : (
-          React.createElement(component, renderProps)
+          React.createElement(component)
         )
       )}
     />
@@ -25,8 +25,12 @@ function PrivateRoute({ component, ...other }) {
 }
 
 PrivateRoute.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  component: PropTypes.object.isRequired,
+  component: PropTypes.oneOfType([
+    // eslint-disable-next-line react/forbid-prop-types
+    PropTypes.object,
+    PropTypes.func,
+  ]).isRequired,
+  path: PropTypes.string.isRequired,
 };
 
 export default PrivateRoute;

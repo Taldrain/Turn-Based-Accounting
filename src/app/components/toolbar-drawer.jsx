@@ -1,25 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Link, withRouter } from 'react-router-dom';
-import { withStyles } from '@material-ui/core/styles';
-import {
-  AppBar,
-  Divider,
-  Drawer,
-  Hidden,
-  IconButton,
-  List,
-  Toolbar,
-  Typography,
-} from '@material-ui/core';
-
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Divider from '@material-ui/core/Divider';
+import Drawer from '@material-ui/core/Drawer';
+import Hidden from '@material-ui/core/Hidden';
+import IconButton from '@material-ui/core/IconButton';
+import List from '@material-ui/core/List';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
 
 import DrawerLink from './drawer-link';
 
 const DRAWER_WIDTH = 230;
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   toolbar: {
     ...theme.mixins.toolbar,
     display: 'flex',
@@ -57,104 +53,85 @@ const styles = theme => ({
   drawerPaper: {
     width: DRAWER_WIDTH,
   },
-});
+}));
 
 function pageToTitle(page) {
   const title = page.split('/')[1];
   return title.charAt(0).toUpperCase() + title.slice(1);
 }
 
-class ToolBarDrawer extends React.Component {
-  constructor() {
-    super();
+function ToolBarDrawer() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const location = useLocation();
+  const classes = useStyles();
 
-    this.state = {
-      mobileOpen: false,
-    };
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
 
-    this.handleDrawerToggle = this.handleDrawerToggle.bind(this);
-    this.handleDrawerClose = this.handleDrawerClose.bind(this);
-  }
-
-  handleDrawerToggle() {
-    this.setState(state => ({ mobileOpen: !state.mobileOpen }));
-  }
-
-  handleDrawerClose() {
-    this.setState({ mobileOpen: false });
-  }
-
-  render() {
-    const { classes } = this.props;
-
-    const drawer = (
-      <div>
-        <div className={classes.toolbar}>
-          <Link className={classes.link} to="/" onClick={this.handleDrawerClose}>
-            <Typography className={classes.title} variant="h6" color="inherit">
-              Turn-Based Accounting
-            </Typography>
-          </Link>
-        </div>
-        <Divider />
-        <List>
-          <DrawerLink to="/bilan/" text="Bilan" onClick={this.handleDrawerClose} />
-          <DrawerLink to="/global/" text="Global" onClick={this.handleDrawerClose} />
-          <DrawerLink to="/user" text="User" onClick={this.handleDrawerClose} />
-          <DrawerLink to="/settings" text="Settings" onClick={this.handleDrawerClose} />
-        </List>
+  const drawer = (
+    <div>
+      <div className={classes.toolbar}>
+        <Link className={classes.link} to="/">
+          <Typography className={classes.title} variant="h6" color="inherit">
+            Turn-Based Accounting
+          </Typography>
+        </Link>
       </div>
-    );
+      <Divider />
+      <List>
+        <DrawerLink to="/bilan/" text="Bilan" />
+        <DrawerLink to="/global/" text="Global" />
+        <DrawerLink to="/user" text="User" />
+        <DrawerLink to="/settings" text="Settings" />
+      </List>
+    </div>
+  );
 
-    return (
-      <div>
-        <AppBar position="fixed" className={classes.appBar}>
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={this.handleDrawerToggle}
-              className={classes.menuButton}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" color="inherit" noWrap>
-              { pageToTitle(this.props.location.pathname) }
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <nav className={classes.drawer}>
-          <Hidden smUp implementation="css">
-            <Drawer
-              variant="temporary"
-              anchor="left"
-              open={this.state.mobileOpen}
-              onClose={this.handleDrawerToggle}
-              classes={{ paper: classes.drawerPaper }}
-            >
-              {drawer}
-            </Drawer>
-          </Hidden>
-          <Hidden xsDown implementation="css">
-            <Drawer
-              classes={{ paper: classes.drawerPaper }}
-              variant="permanent"
-              open
-            >
-              {drawer}
-            </Drawer>
-          </Hidden>
-        </nav>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <AppBar position="fixed" className={classes.appBar}>
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerToggle}
+            className={classes.menuButton}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" color="inherit" noWrap>
+            { pageToTitle(location.pathname) }
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <nav className={classes.drawer}>
+        <Hidden smUp implementation="css">
+          <Drawer
+            variant="temporary"
+            anchor="left"
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            classes={{ paper: classes.drawerPaper }}
+            ModalProps={{
+              keepMounted: true,
+            }}
+          >
+            {drawer}
+          </Drawer>
+        </Hidden>
+        <Hidden xsDown implementation="css">
+          <Drawer
+            classes={{ paper: classes.drawerPaper }}
+            variant="permanent"
+            open
+          >
+            {drawer}
+          </Drawer>
+        </Hidden>
+      </nav>
+    </div>
+  );
 }
 
-ToolBarDrawer.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  classes: PropTypes.object.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
-  location: PropTypes.object.isRequired,
-};
-
-export default withRouter(withStyles(styles)(ToolBarDrawer));
+export default ToolBarDrawer;

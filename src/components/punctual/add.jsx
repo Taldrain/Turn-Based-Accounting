@@ -25,10 +25,6 @@ class Add extends React.Component {
     this.handleClose = this.handleClose.bind(this);
   }
 
-  onNewValue(type, value) {
-    this.setState({ [type]: value });
-  }
-
   handleAdd() {
     const { name, amount, isPositive } = this.state;
     const { date } = this.props;
@@ -65,6 +61,10 @@ class Add extends React.Component {
     this.setState(DEFAULT_STATE);
   }
 
+  onNewValue(type, value) {
+    this.setState({ [type]: value });
+  }
+
   render() {
     const {
       name,
@@ -72,7 +72,6 @@ class Add extends React.Component {
       isPositive,
       errors,
     } = this.state;
-
 
     return (
       <Dialog

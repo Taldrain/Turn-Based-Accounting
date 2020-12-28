@@ -7,6 +7,7 @@ function getConfig() {
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       firebase.auth.EmailAuthProvider.PROVIDER_ID,
     ],
+    credentialHelper: 'none',
     callbacks: {
       // avoid redirects after sign-in
       signInSuccessWithAuthResult: () => false,

@@ -28,10 +28,6 @@ class Add extends React.Component {
     this.handleClose = this.handleClose.bind(this);
   }
 
-  onNewValue(type, value) {
-    this.setState({ [type]: value });
-  }
-
   handleAdd() {
     const {
       name,
@@ -74,6 +70,10 @@ class Add extends React.Component {
     const { onClose } = this.props;
     onClose();
     this.setState(DEFAULT_STATE);
+  }
+
+  onNewValue(type, value) {
+    this.setState({ [type]: value });
   }
 
   render() {

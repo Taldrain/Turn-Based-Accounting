@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { ListItem, ListItemText } from '@material-ui/core';
 
-function DrawerLink(props) {
-  const { onClick, to, text } = props;
+function DrawerLink({ to, text }) {
   return (
-    <ListItem button component={Link} to={to} onClick={onClick}>
+    <ListItem button component={Link} to={to}>
       <ListItemText primary={text} />
     </ListItem>
   );
@@ -15,7 +14,6 @@ function DrawerLink(props) {
 DrawerLink.propTypes = {
   to: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
 };
 
 export default DrawerLink;

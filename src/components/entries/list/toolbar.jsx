@@ -28,7 +28,6 @@ const styles = theme => ({
   },
 });
 
-
 class ListToolbar extends React.Component {
   getButtons() {
     const {

@@ -3,7 +3,7 @@
 const path = require('path');
 
 const webpack = require('webpack');
-const webpackMerge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const htmlWebpackPlugin = require('html-webpack-plugin');
 const webpackNotifierPlugin = require('webpack-notifier');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -35,9 +35,6 @@ const common = {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
   },
-  entry: {
-    main: srcPath('index.jsx'),
-  },
   module: {
     rules: [
       { test: /\.jsx?$/, include: SRC_DIR, use: [
@@ -61,7 +58,7 @@ if (process.env.NODE_ENV === 'production') {
   //
   // Production configuration
   //
-  module.exports = webpackMerge(common, {
+  module.exports = merge(common, {
     devtool: 'source-map',
     mode: 'production',
     output: {
@@ -75,12 +72,9 @@ if (process.env.NODE_ENV === 'production') {
   //
   // Development configuration
   //
-  module.exports = webpackMerge(common, {
+  module.exports = merge(common, {
     devtool: 'cheap-module-source-map',
     mode: 'development',
-    output: {
-      filename: '[name].js',
-    },
     devServer: {
       quiet: false,
       noInfo: false,

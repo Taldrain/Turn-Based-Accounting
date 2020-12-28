@@ -15,7 +15,6 @@ import { listenAllRecurrentEntries, listenPunctualEntries } from '../firebase/fi
 import { getCurrentUser } from '../firebase/auth';
 import { getDisplayedRecurrentsEntries, convertAmount } from '../utils/entry';
 
-
 class Bilan extends React.Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.match.params.type === prevState.type
