@@ -24,12 +24,12 @@ function Balance({ punctuals, recurrents }) {
     <Card>
       <CardHeader title="Balance" />
       <CardContent>
-        <Grid container direction="row" justify="center" alignItems="center" spacing={5}>
+        <Grid container direction="row" justifyContent="center" alignItems="center" spacing={5}>
           <Grid item>
             <BalanceDisplay variant="h6" amount={sumEntries} isPositive={sumEntries >= 0} />
           </Grid>
           <Grid item>
-            <Grid container direction="column" justify="center" alignItems="flex-start">
+            <Grid container direction="column" justifyContent="center" alignItems="flex-start">
               <Grid item>
                 <Typography variant="caption">
                   Recurrents

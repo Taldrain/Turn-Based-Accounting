@@ -40,7 +40,7 @@ function User() {
             {`ID: ${user.uid}`}
           </Typography>
 
-          <Grid container direction="row" justify="flex-end" alignItems="center">
+          <Grid container direction="row" justifyContent="flex-end" alignItems="center">
             <Grid item>
               <SignOut />
             </Grid>

@@ -7,9 +7,9 @@ import RemoveIcon from '@material-ui/icons/Remove';
 
 function BalanceRadio({ isPositive, onChange }) {
   return (
-    <Grid container direction="row" justify="space-around" alignItems="center" spacing={2}>
+    <Grid container direction="row" justifyContent="space-around" alignItems="center" spacing={2}>
       <Grid item>
-        <Grid container direction="row" justify="space-around" alignItems="center">
+        <Grid container direction="row" justifyContent="space-around" alignItems="center">
           <Grid item>
             <Radio
               checked={isPositive}
@@ -24,7 +24,7 @@ function BalanceRadio({ isPositive, onChange }) {
         </Grid>
       </Grid>
       <Grid item>
-        <Grid container direction="row" justify="space-around" alignItems="center">
+        <Grid container direction="row" justifyContent="space-around" alignItems="center">
           <Grid item>
             <Radio
               checked={!isPositive}

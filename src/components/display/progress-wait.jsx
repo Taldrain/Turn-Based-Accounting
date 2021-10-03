@@ -7,7 +7,7 @@ import {
 
 function ProgressWait({ marginTop }) {
   return (
-    <Grid container direction="row" align="center" justify="center" style={{ marginTop }}>
+    <Grid container direction="row" align="center" justifyContent="center" style={{ marginTop }}>
       <Grid item>
         <CircularProgress />
       </Grid>

@@ -29,7 +29,7 @@ class SignOut extends React.Component {
     const res = userAsSignedOut ? (
       <Redirect to="/login" />
     ) : (
-      <Grid container direction="column" justify="center" alignItems="flex-end">
+      <Grid container direction="column" justifyContent="center" alignItems="flex-end">
         <Grid item>
           <Button variant="contained" onClick={this.handleSignOut}>
             Sign out

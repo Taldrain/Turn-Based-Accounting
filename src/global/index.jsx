@@ -141,7 +141,7 @@ class Global extends React.Component {
         <Grid
           container
           direction="row"
-          justify="center"
+          justifyContent="center"
           alignItems="flex-start"
           spacing={2}
         >

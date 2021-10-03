@@ -41,7 +41,7 @@ class ListToolbar extends React.Component {
 
     if (numSelected === 1) {
       return (
-        <Grid container direction="row" justify="flex-end" alignItems="center" spacing={2}>
+        <Grid container direction="row" justifyContent="flex-end" alignItems="center" spacing={2}>
           <Grid item>
             <Button variant="contained" onClick={() => edit(selected[0])}>
               Edit

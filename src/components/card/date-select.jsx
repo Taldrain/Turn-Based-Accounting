@@ -42,7 +42,7 @@ class DateSelect extends React.Component {
       <Card style={styles.root}>
         <CardHeader title="Date selection" />
         <CardContent>
-          <Grid container direction="row" justify="space-around" alignItems="center" spacing={2}>
+          <Grid container direction="row" justifyContent="space-around" alignItems="center" spacing={2}>
             <Grid item>
               <TypeMenu
                 id="date-select-type-menu"

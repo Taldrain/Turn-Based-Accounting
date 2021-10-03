@@ -19,7 +19,7 @@ function Form(props) {
 
   return (
     <form autoComplete="off">
-      <Grid container direction="column" justify="space-around" align="stretch" spacing={4}>
+      <Grid container direction="column" justifyContent="space-around" align="stretch" spacing={4}>
         <Grid item>
           <TextField
             id="name"

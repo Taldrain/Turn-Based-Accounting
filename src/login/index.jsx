@@ -26,7 +26,7 @@ function Login({ location }) {
 
   return (
     <React.Fragment>
-      <Grid container direction="row" align="center" justify="center" className={classes.root}>
+      <Grid container direction="row" align="center" justifyContent="center" className={classes.root}>
         <Grid item>
           { loading ? <CircularProgress /> : <LoginForm /> }
         </Grid>
