@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Grid,
-  CircularProgress,
-} from '@material-ui/core';
+import CircularProgress from '@mui/material/CircularProgress';
+import Grid from '@mui/material/Grid';
 
 function ProgressWait({ marginTop }) {
   return (

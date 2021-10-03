@@ -1,9 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import {
-  Button,
-  Grid,
-} from '@material-ui/core';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
 
 import { signOut } from '../../firebase/auth';
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { ThemeProvider } from '@material-ui/core/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
@@ -15,15 +15,17 @@ import reducers from './reducers/index';
 const store = createStore(reducers);
 
 ReactDOM.render(
-  <ThemeProvider theme={theme}>
-    <CssBaseline />
-    <Provider store={store}>
-      <BrowserRouter>
-        <React.StrictMode>
-          <Root />
-        </React.StrictMode>
-      </BrowserRouter>
-    </Provider>
-  </ThemeProvider>,
+  <StyledEngineProvider injectFirst>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Provider store={store}>
+        <BrowserRouter>
+          <React.StrictMode>
+            <Root />
+          </React.StrictMode>
+        </BrowserRouter>
+      </Provider>
+    </ThemeProvider>
+  </StyledEngineProvider>,
   document.getElementById('tba-app'),
 );

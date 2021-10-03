@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Checkbox,
-  TableCell,
-  TableRow,
-} from '@material-ui/core';
+import Checkbox from '@mui/material/Checkbox';
+import TableCell from '@mui/material/TableCell';
+import TableRow from '@mui/material/TableRow';
 
 import BalanceDisplay from '../../display/balance';
 

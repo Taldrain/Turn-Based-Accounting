@@ -1,61 +1,54 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
-  withMobileDialog,
-} from '@material-ui/core/';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
-class DialogEntry extends React.Component {
-  constructor() {
-    super();
+function DialogEntry(props) {
+  const {
+    open,
+    handleClick,
+    onClose,
+    title,
+    children,
+    validateButton,
+  } = props;
 
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick() {
-    const { handleClick, onClose } = this.props;
+  const onClick = () => {
     if (handleClick()) {
       onClose();
     }
-  }
+  };
 
-  render() {
-    const {
-      open,
-      onClose,
-      fullScreen,
-      title,
-      children,
-      validateButton,
-    } = this.props;
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-    return (
-      <Dialog
-        open={open}
-        onClose={onClose}
-        fullScreen={fullScreen}
-      >
-        <DialogTitle>
-          { title}
-        </DialogTitle>
-        <DialogContent>
-          { children }
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={onClose}>
-            Cancel
-          </Button>
-          <Button onClick={this.handleClick}>
-            { validateButton }
-          </Button>
-        </DialogActions>
-      </Dialog>
-    );
-  }
+  return (
+    <Dialog
+      open={open}
+      onClose={onClose}
+      fullScreen={fullScreen}
+    >
+      <DialogTitle>
+        { title}
+      </DialogTitle>
+      <DialogContent>
+        { children }
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose}>
+          Cancel
+        </Button>
+        <Button onClick={onClick}>
+          { validateButton }
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
 }
 
 DialogEntry.propTypes = {
@@ -65,7 +58,6 @@ DialogEntry.propTypes = {
   validateButton: PropTypes.string.isRequired,
   handleClick: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,
-  fullScreen: PropTypes.bool.isRequired,
 };
 
-export default withMobileDialog()(DialogEntry);
+export default DialogEntry;

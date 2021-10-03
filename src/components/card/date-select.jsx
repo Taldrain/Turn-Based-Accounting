@@ -1,17 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
-import {
-  Grid,
-  Card,
-  CardHeader,
-  CardContent,
-  IconButton,
-  Button,
-} from '@material-ui/core';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
 
-import PreviousIcon from '@material-ui/icons/KeyboardArrowLeft';
-import NextIcon from '@material-ui/icons/KeyboardArrowRight';
+import PreviousIcon from '@mui/icons-material/KeyboardArrowLeft';
+import NextIcon from '@mui/icons-material/KeyboardArrowRight';
 
 import DateDisplay from '../display/date';
 import TypeMenu from '../type-menu/index';
@@ -55,12 +53,22 @@ class DateSelect extends React.Component {
               <DateDisplay date={date} type={type} variant="subtitle1" />
             </Grid>
             <Grid item>
-              <IconButton component={Link} to={`/${path}/${type}/${previousDate(date, type)}`} aria-label="previous date">
+              <IconButton
+                component={Link}
+                to={`/${path}/${type}/${previousDate(date, type)}`}
+                aria-label="previous date"
+                size="large"
+              >
                 <PreviousIcon />
               </IconButton>
             </Grid>
             <Grid item>
-              <IconButton component={Link} to={`/${path}/${type}/${nextDate(date, type)}`} aria-label="next date">
+              <IconButton
+                component={Link}
+                to={`/${path}/${type}/${nextDate(date, type)}`}
+                aria-label="next date"
+                size="large"
+              >
                 <NextIcon />
               </IconButton>
             </Grid>

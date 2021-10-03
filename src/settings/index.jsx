@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  Grid,
-} from '@material-ui/core';
+import Grid from '@mui/material/Grid';
 
 import PageHeader from '../components/display/page-header';
 import PageTitle from '../components/display/page-title';
