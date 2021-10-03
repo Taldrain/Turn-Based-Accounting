@@ -1,3 +1,5 @@
+import { collection, doc } from 'firebase/firestore';
+
 const RECURRENTS = 'recurrents';
 const PUNCTUALS = 'punctuals';
 const SETTINGS = 'settings';
@@ -7,11 +9,11 @@ function checkDoc(ref, id = null) {
     return ref;
   }
 
-  return ref.doc(id);
+  return doc(ref, id);
 }
 
-function accessCollection(ref, collection, id) {
-  return checkDoc(ref.collection(collection), id);
+function accessCollection(ref, col, id) {
+  return checkDoc(collection(ref, col), id);
 }
 
 //
