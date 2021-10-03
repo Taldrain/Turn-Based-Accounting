@@ -30,6 +30,10 @@ function getCurrentUser() {
   return currentUser;
 }
 
+function googleLogin() {
+  return firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
+}
+
 function signOut() {
   return firebase.auth().signOut();
 }
@@ -38,5 +42,6 @@ export {
   requiresAuth,
   getCurrentUser,
   isLoggedIn,
+  googleLogin,
   signOut,
 };

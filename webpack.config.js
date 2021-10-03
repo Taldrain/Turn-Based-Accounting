@@ -76,8 +76,6 @@ if (process.env.NODE_ENV === 'production') {
     devtool: 'cheap-module-source-map',
     mode: 'development',
     devServer: {
-      quiet: false,
-      noInfo: false,
       historyApiFallback: true,
       port: 3000,
     },

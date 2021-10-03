@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import FirebaseUILogin from './components/firebase-ui-login';
+import LoginForm from './components/form';
 
 import useAuth from '../utils/hooks/useAuth';
 
@@ -28,7 +28,7 @@ function Login({ location }) {
     <React.Fragment>
       <Grid container direction="row" align="center" justify="center" className={classes.root}>
         <Grid item>
-          { loading ? <CircularProgress /> : <FirebaseUILogin /> }
+          { loading ? <CircularProgress /> : <LoginForm /> }
         </Grid>
       </Grid>
     </React.Fragment>
