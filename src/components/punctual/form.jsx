@@ -27,6 +27,7 @@ function Form(props) {
             }}
             autoFocus
             fullWidth
+            variant="standard"
             error={errors.name !== undefined}
             helperText={errors.name}
           />
@@ -40,6 +41,7 @@ function Form(props) {
             type="number"
             min="0"
             fullWidth
+            variant="standard"
             error={errors.amount !== undefined}
             helperText={errors.amount}
           />

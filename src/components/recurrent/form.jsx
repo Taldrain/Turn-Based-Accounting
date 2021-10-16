@@ -30,6 +30,7 @@ function Form(props) {
               autoCapitalize: 'words',
             }}
             autoFocus
+            variant="standard"
             fullWidth
           />
         </Grid>
@@ -41,6 +42,7 @@ function Form(props) {
             onChange={ev => onNewValue('amount', parseFloat(ev.target.value, 10) || undefined)}
             type="number"
             min="0"
+            variant="standard"
             fullWidth
           />
         </Grid>
@@ -64,6 +66,7 @@ function Form(props) {
             value={startDate}
             onChange={ev => onNewValue('startDate', ev.target.value)}
             type="date"
+            variant="standard"
             fullWidth
           />
         </Grid>
@@ -74,6 +77,7 @@ function Form(props) {
             value={endDate}
             onChange={ev => onNewValue('endDate', ev.target.value)}
             type="date"
+            variant="standard"
             fullWidth
           />
         </Grid>
