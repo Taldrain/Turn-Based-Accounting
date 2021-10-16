@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
 
 import BalanceRadio from '../balance-radio/index';
 
@@ -15,7 +15,7 @@ function Form(props) {
   } = props;
   return (
     <form autoComplete="off">
-      <Grid container direction="column" justify="space-around" align="stretch" spacing={4}>
+      <Grid container direction="column" justifyContent="space-around" align="stretch" spacing={4}>
         <Grid item>
           <TextField
             id="name"
@@ -27,6 +27,7 @@ function Form(props) {
             }}
             autoFocus
             fullWidth
+            variant="standard"
             error={errors.name !== undefined}
             helperText={errors.name}
           />
@@ -40,6 +41,7 @@ function Form(props) {
             type="number"
             min="0"
             fullWidth
+            variant="standard"
             error={errors.amount !== undefined}
             helperText={errors.amount}
           />

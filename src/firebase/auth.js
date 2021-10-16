@@ -1,9 +1,19 @@
-import firebase from './index';
+import {
+  getAuth,
+  signOut,
+  signInWithPopup,
+  onAuthStateChanged,
+  GoogleAuthProvider,
+} from 'firebase/auth';
+
+import firebaseApp from './index';
 
 let currentUser;
 let isSignedIn = false;
 
-firebase.auth().onAuthStateChanged((user) => {
+const auth = getAuth(firebaseApp);
+
+onAuthStateChanged(auth, (user) => {
   if (user) {
     isSignedIn = true;
     currentUser = user;
@@ -14,12 +24,11 @@ firebase.auth().onAuthStateChanged((user) => {
 });
 
 function isLoggedIn() {
-  const { current } = firebase.auth();
-  if (!current) {
+  if (!auth.currentUser) {
     return isSignedIn;
   }
 
-  return current;
+  return auth.currentUser;
 }
 
 function requiresAuth() {
@@ -30,13 +39,19 @@ function getCurrentUser() {
   return currentUser;
 }
 
-function signOut() {
-  return firebase.auth().signOut();
+function googleLogin() {
+  return signInWithPopup(auth, new GoogleAuthProvider());
+}
+
+function signOutUser() {
+  return signOut(auth);
 }
 
 export {
+  auth,
   requiresAuth,
   getCurrentUser,
   isLoggedIn,
-  signOut,
+  googleLogin,
+  signOutUser as signOut,
 };

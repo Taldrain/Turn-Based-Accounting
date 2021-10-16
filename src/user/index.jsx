@@ -1,11 +1,9 @@
 import React from 'react';
-import {
-  Card,
-  CardHeader,
-  CardContent,
-  Typography,
-  Grid,
-} from '@material-ui/core';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 
 import PageHeader from '../components/display/page-header';
 import PageTitle from '../components/display/page-title';
@@ -40,7 +38,7 @@ function User() {
             {`ID: ${user.uid}`}
           </Typography>
 
-          <Grid container direction="row" justify="flex-end" alignItems="center">
+          <Grid container direction="row" justifyContent="flex-end" alignItems="center">
             <Grid item>
               <SignOut />
             </Grid>

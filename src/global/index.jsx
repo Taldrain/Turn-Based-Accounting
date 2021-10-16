@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Grid,
-  Card,
-  CardHeader,
-  CardContent,
-} from '@material-ui/core';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
+import Grid from '@mui/material/Grid';
 
 import PageHeader from '../components/display/page-header';
 import PageTitle from '../components/display/page-title';
@@ -141,7 +139,7 @@ class Global extends React.Component {
         <Grid
           container
           direction="row"
-          justify="center"
+          justifyContent="center"
           alignItems="flex-start"
           spacing={2}
         >

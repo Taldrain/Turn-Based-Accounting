@@ -1,16 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { withStyles } from '@material-ui/core/styles';
-import {
-  Button,
-  Grid,
-  IconButton,
-  Toolbar,
-  Typography,
-} from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
-import { lighten } from '@material-ui/core/styles/colorManipulator';
+import { lighten } from '@mui/material/styles';
+import withStyles from '@mui/styles/withStyles';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import AddIcon from '@mui/icons-material/Add';
 
 const styles = theme => ({
   root: {
@@ -41,7 +39,7 @@ class ListToolbar extends React.Component {
 
     if (numSelected === 1) {
       return (
-        <Grid container direction="row" justify="flex-end" alignItems="center" spacing={2}>
+        <Grid container direction="row" justifyContent="flex-end" alignItems="center" spacing={2}>
           <Grid item>
             <Button variant="contained" onClick={() => edit(selected[0])}>
               Edit
@@ -67,7 +65,7 @@ class ListToolbar extends React.Component {
     }
 
     return (
-      <IconButton aria-label="add entry" onClick={add}>
+      <IconButton aria-label="add entry" onClick={add} size="large">
         <AddIcon />
       </IconButton>
     );

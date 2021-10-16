@@ -1,9 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import {
-  Button,
-  Grid,
-} from '@material-ui/core';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
 
 import { signOut } from '../../firebase/auth';
 
@@ -29,7 +27,7 @@ class SignOut extends React.Component {
     const res = userAsSignedOut ? (
       <Redirect to="/login" />
     ) : (
-      <Grid container direction="column" justify="center" alignItems="flex-end">
+      <Grid container direction="column" justifyContent="center" alignItems="flex-end">
         <Grid item>
           <Button variant="contained" onClick={this.handleSignOut}>
             Sign out

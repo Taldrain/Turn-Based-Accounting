@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  Grid,
-} from '@material-ui/core';
+import Grid from '@mui/material/Grid';
 
 import PageHeader from '../components/display/page-header';
 import PageTitle from '../components/display/page-title';
@@ -15,7 +13,7 @@ function Settings() {
       <PageHeader>
         <PageTitle>Settings</PageTitle>
       </PageHeader>
-      <Grid container direction="column" justify="center" alignItems="stretch" spacing={2}>
+      <Grid container direction="column" justifyContent="center" alignItems="stretch" spacing={2}>
         <Grid item>
           <CurrencySelect />
         </Grid>

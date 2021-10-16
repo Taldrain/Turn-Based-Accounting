@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
 
 import BalanceRadio from '../balance-radio/index';
 import TypeMenu from '../type-menu/index';
@@ -19,7 +19,7 @@ function Form(props) {
 
   return (
     <form autoComplete="off">
-      <Grid container direction="column" justify="space-around" align="stretch" spacing={4}>
+      <Grid container direction="column" justifyContent="space-around" align="stretch" spacing={4}>
         <Grid item>
           <TextField
             id="name"
@@ -30,6 +30,7 @@ function Form(props) {
               autoCapitalize: 'words',
             }}
             autoFocus
+            variant="standard"
             fullWidth
           />
         </Grid>
@@ -41,6 +42,7 @@ function Form(props) {
             onChange={ev => onNewValue('amount', parseFloat(ev.target.value, 10) || undefined)}
             type="number"
             min="0"
+            variant="standard"
             fullWidth
           />
         </Grid>
@@ -64,6 +66,7 @@ function Form(props) {
             value={startDate}
             onChange={ev => onNewValue('startDate', ev.target.value)}
             type="date"
+            variant="standard"
             fullWidth
           />
         </Grid>
@@ -74,6 +77,7 @@ function Form(props) {
             value={endDate}
             onChange={ev => onNewValue('endDate', ev.target.value)}
             type="date"
+            variant="standard"
             fullWidth
           />
         </Grid>

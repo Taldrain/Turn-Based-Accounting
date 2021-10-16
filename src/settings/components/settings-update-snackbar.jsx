@@ -1,5 +1,5 @@
 import React from 'react';
-import Snackbar from '@material-ui/core/Snackbar';
+import Snackbar from '@mui/material/Snackbar';
 
 import { listenSettings } from '../../firebase/firestore';
 
@@ -78,11 +78,11 @@ class SettingsUpdateSnackBar extends React.Component {
         open={open}
         autoHideDuration={1500}
         onClose={this.handleClose}
-        onExited={this.handleExited}
         ContentProps={{
           'aria-describedby': 'message-id',
         }}
         message={<div id="message-id">Settings updated</div>}
+        TransitionProps={{ onExited: this.handleExited }}
       />
     );
   }

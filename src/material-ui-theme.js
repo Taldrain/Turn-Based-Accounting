@@ -1,12 +1,12 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createTheme, adaptV4Theme } from '@mui/material/styles';
 
 import { getPalette } from './utils/colors';
 
-export default createMuiTheme({
+export default createTheme(adaptV4Theme({
   typography: {
     allVariants: {
       letterSpacing: 0,
     },
   },
   palette: getPalette(),
-});
+}));

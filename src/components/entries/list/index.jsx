@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { withStyles } from '@material-ui/core/styles';
-import {
-  LinearProgress,
-  Paper,
-  Table,
-  TableBody,
-} from '@material-ui/core';
+import withStyles from '@mui/styles/withStyles';
+import LinearProgress from '@mui/material/LinearProgress';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import Paper from '@mui/material/Paper';
 
 import ListToolbar from './toolbar';
 import ListTableHead from './table-head';

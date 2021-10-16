@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 
 import PageHeader from '../components/display/page-header';
 import PageTitle from '../components/display/page-title';
@@ -127,7 +127,7 @@ class Bilan extends React.Component {
         <Grid
           container
           direction="row"
-          justify="center"
+          justifyContent="center"
           alignItems="stretch"
           spacing={2}
         >
@@ -144,7 +144,7 @@ class Bilan extends React.Component {
         <Grid
           container
           direction="row"
-          justify="center"
+          justifyContent="center"
           alignItems="flex-start"
           spacing={2}
         >

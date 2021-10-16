@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Grid,
-  Card,
-  CardHeader,
-  CardContent,
-  Typography,
-} from '@material-ui/core';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 
 import BalanceDisplay from '../../components/display/balance';
 
@@ -24,12 +22,12 @@ function Balance({ punctuals, recurrents }) {
     <Card>
       <CardHeader title="Balance" />
       <CardContent>
-        <Grid container direction="row" justify="center" alignItems="center" spacing={5}>
+        <Grid container direction="row" justifyContent="center" alignItems="center" spacing={5}>
           <Grid item>
             <BalanceDisplay variant="h6" amount={sumEntries} isPositive={sumEntries >= 0} />
           </Grid>
           <Grid item>
-            <Grid container direction="column" justify="center" alignItems="flex-start">
+            <Grid container direction="column" justifyContent="center" alignItems="flex-start">
               <Grid item>
                 <Typography variant="caption">
                   Recurrents

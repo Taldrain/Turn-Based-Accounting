@@ -16,7 +16,7 @@ import {
   brown,
   grey,
   blueGrey,
-} from '@material-ui/core/colors';
+} from '@mui/material/colors';
 
 const avatarColors = [
   red,

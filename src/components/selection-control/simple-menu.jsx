@@ -1,11 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import {
-  Button,
-  Menu,
-  MenuItem,
-} from '@material-ui/core';
+import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 class SimpleMenu extends React.Component {
   constructor() {

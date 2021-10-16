@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import makeStyles from '@mui/styles/makeStyles';
+import Grid from '@mui/material/Grid';
+import CircularProgress from '@mui/material/CircularProgress';
 
-import FirebaseUILogin from './components/firebase-ui-login';
+import LoginForm from './components/form';
 
 import useAuth from '../utils/hooks/useAuth';
 
@@ -26,9 +26,9 @@ function Login({ location }) {
 
   return (
     <React.Fragment>
-      <Grid container direction="row" align="center" justify="center" className={classes.root}>
+      <Grid container direction="row" align="center" justifyContent="center" className={classes.root}>
         <Grid item>
-          { loading ? <CircularProgress /> : <FirebaseUILogin /> }
+          { loading ? <CircularProgress /> : <LoginForm /> }
         </Grid>
       </Grid>
     </React.Fragment>
