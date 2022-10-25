@@ -1,13 +1,3 @@
 {
-  "extends": "airbnb",
-  "env": {
-    "browser": true,
-  },
-  "rules": {
-    "react/destructuring-assignment": "off",
-    "react/state-in-constructor": "off",
-    "react/jsx-fragments": "off",
-    "react/jsx-props-no-spreading": ["error", { "html": "enforce", "custom": "ignore" }],
-    "arrow-parens": ["error", "as-needed", { "requireForBlockBody": true }],
-  }
+  "extends": ["@remix-run/eslint-config", "@remix-run/eslint-config/node"]
 }
