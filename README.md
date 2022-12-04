@@ -1,9 +1,10 @@
 Turn-Based Accounting
 =====================
 
+Full rewrite using Remix, Tailwind, SQlite and more.
+
 
 From the ideas of the [Bennedetto project](https://github.com/arecker/bennedetto)
-
 
 ### About
 
@@ -11,8 +12,7 @@ Turn-Based Accounting allows you to track how much money do you earn/spend per d
 
 You can check the product [here](https://turn-based-accounting.firebaseapp.com/).
 
-
-### Requirements
+# Requirements
 
 The project uses firebase (for now) for database, hosting, authentication...
 

@@ -28,7 +28,7 @@ const Document = ({ children }: { children: ReactNode }) => {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="bg-gray-100">
         { children }
         <ScrollRestoration />
         <Scripts />
