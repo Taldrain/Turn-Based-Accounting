@@ -3,6 +3,16 @@ import { Link } from "@remix-run/react";
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon, UserCircleIcon } from '@heroicons/react/24/outline'
 
+function Logout() {
+  return (
+    <form action="/logout" method="post">
+      <button type="submit" className="w-full text-left">
+        Logout
+      </button>
+    </form>
+  );
+}
+
 function AppBar() {
   return (
     <Disclosure as="nav" className="bg-white shadow">
@@ -38,9 +48,9 @@ function AppBar() {
                   >
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <Menu.Item>
-                        <span className="block px-4 py-2 text-sm text-gray-700">
-                          TODO - logout
-                        </span>
+                        <div className="px-4 py-2">
+                          <Logout />
+                        </div>
                       </Menu.Item>
                     </Menu.Items>
                   </Transition>
@@ -64,9 +74,9 @@ function AppBar() {
           { /* mobile dropdown menu */ }
           <Disclosure.Panel className="sm:hidden">
             <div className="space-y-1 pt-2 pb-3">
-              <span className="block px-4 py-2 text-sm text-gray-700">
-                TODO - logout
-              </span>
+              <div className="px-4 py-2">
+                <Logout />
+              </div>
             </div>
           </Disclosure.Panel>
         </Fragment>

@@ -51,8 +51,18 @@ async function requireUserId(request: Request, redirectTo: string = new URL(requ
   return userId;
 }
 
+async function deleteSession(request: Request) {
+  const session = await getUserSession(request);
+  return redirect('/login', {
+    headers: {
+      'Set-Cookie': await storage.destroySession(session),
+    },
+  });
+}
+
 export {
   createUserSession,
   getUserId,
   requireUserId,
+  deleteSession,
 };
