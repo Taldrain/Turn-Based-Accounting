@@ -1,6 +1,14 @@
-import format from 'date-fns/format'
-import sub from 'date-fns/sub'
-import add from 'date-fns/add'
+import {
+  add,
+  endOfDay,
+  endOfMonth,
+  endOfYear,
+  format,
+  startOfDay,
+  startOfMonth,
+  startOfYear,
+  sub,
+} from 'date-fns';
 
 function formatDate(date: Date): string {
   return format(date, 'yyyy-MM-dd');
@@ -44,9 +52,27 @@ function nextDate(date: string): string {
   return formatDate(add(new Date(date), { days: 1 }));
 }
 
+function startOf(date: Date, type: string): Date {
+  switch (type) {
+    case 'year': return startOfYear(date);
+    case 'month': return startOfMonth(date);
+    default: return startOfDay(date);
+  }
+}
+
+function endOf(date: Date, type: string): Date {
+  switch (type) {
+    case 'year': return endOfYear(date);
+    case 'month': return endOfMonth(date);
+    default: return endOfDay(date);
+  }
+}
+
 export {
+  endOf,
   isInvalidDateParam,
+  nextDate,
   parseDateParam,
   previousDate,
-  nextDate,
+  startOf,
 }

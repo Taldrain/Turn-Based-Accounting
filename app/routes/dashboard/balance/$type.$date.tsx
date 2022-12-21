@@ -1,6 +1,6 @@
 import type { LoaderFunction } from "@remix-run/node";
-import { redirect } from '@remix-run/node';
-import { useParams } from "@remix-run/react";
+import { redirect, json } from '@remix-run/node';
+import { useLoaderData, useParams } from "@remix-run/react";
 import invariant from "tiny-invariant";
 
 import BalanceCard from '~/components/Balance';
@@ -9,10 +9,16 @@ import RecurrentCard from '~/components/RecurrentCard';
 import PunctualCard from '~/components/PunctualCard';
 
 import { requireUserId } from '~/utils/session.server';
-import { parseDateParam, isInvalidDateParam } from '~/utils/date';
+import { getPunctuals } from '~/utils/queries.server';
+import {
+  endOf,
+  isInvalidDateParam,
+  parseDateParam,
+  startOf,
+} from '~/utils/date';
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-  await requireUserId(request);
+  const userId = await requireUserId(request);
   invariant(params.type, 'Expected params.type');
   invariant(params.date, 'Expected params.date');
 
@@ -24,10 +30,15 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     return redirect('/dashboard/balance/day/today');
   }
 
-  return null;
+  const date = new Date(parseDateParam(params.date));
+  const punctuals = await getPunctuals(userId, startOf(date, params.type), endOf(date, params.type));
+
+
+  return json({ punctuals });
 }
 
 export default function Balance() {
+  const data = useLoaderData<typeof loader>();
   const params = useParams();
   invariant(params.date, 'Expected params.date');
   invariant(params.type, 'Expected params.type');
@@ -43,7 +54,7 @@ export default function Balance() {
         <BalanceCard />
       </div>
       <div className="grow md:basis-[calc(50%-0.5rem)] md:order-4">
-        <PunctualCard />
+        <PunctualCard punctuals={data.punctuals} />
       </div>
       <div className="grow md:basis-[calc(50%-0.5rem)] md:order-3">
         <RecurrentCard />

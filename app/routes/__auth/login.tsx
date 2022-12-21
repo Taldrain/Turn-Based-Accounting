@@ -74,7 +74,7 @@ export default function Login() {
 
   if (actionData?.mailSent === true) {
     return (
-      <p>Email sent</p>
+      <p>Email sent to {actionData?.fields?.email}</p>
     )
   }
 
