@@ -1,24 +1,22 @@
+import type { Punctual } from '@prisma/client';
 import { PlusIcon } from '@heroicons/react/24/outline';
 
+import Card from '~/components/Card';
 import PunctualList from '~/components/PunctualList';
 
-function PunctualCard({ punctuals }) {
+function PunctualCard({ punctuals }: { punctuals: Punctual[] }) {
   return (
-    <div className="sm:rounded bg-white shadow px-4 py-5 sm:p-6">
-      <div className="flex justify-between">
-        <div className="text-lg font-medium leading-6 text-gray-900 pb-4">
+    <Card>
+      <div className="flex justify-between items-center pb-4">
+        <div className="text-lg font-medium leading-6 text-gray-900">
           Punctual
         </div>
-        <div>
-          <button>
-            <PlusIcon className="block h-8 w-8"/>
-          </button>
-        </div>
+        <button>
+          <PlusIcon className="block h-8 w-8"/>
+        </button>
       </div>
-      <div>
-        <PunctualList punctuals={punctuals} />
-      </div>
-    </div>
+      <PunctualList punctuals={punctuals} />
+    </Card>
   );
 }
 

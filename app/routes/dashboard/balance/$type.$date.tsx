@@ -1,6 +1,7 @@
-import type { LoaderFunction } from "@remix-run/node";
-import { redirect, json } from '@remix-run/node';
+import type { LoaderArgs } from "@remix-run/node";
+import { redirect } from '@remix-run/node';
 import { useLoaderData, useParams } from "@remix-run/react";
+import { typedjson } from 'remix-typedjson';
 import invariant from "tiny-invariant";
 
 import BalanceCard from '~/components/Balance';
@@ -17,7 +18,7 @@ import {
   startOf,
 } from '~/utils/date';
 
-export const loader: LoaderFunction = async ({ request, params }) => {
+export const loader = async ({ request, params }: LoaderArgs) => {
   const userId = await requireUserId(request);
   invariant(params.type, 'Expected params.type');
   invariant(params.date, 'Expected params.date');
@@ -34,7 +35,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   const punctuals = await getPunctuals(userId, startOf(date, params.type), endOf(date, params.type));
 
 
-  return json({ punctuals });
+  return typedjson({ punctuals });
 }
 
 export default function Balance() {

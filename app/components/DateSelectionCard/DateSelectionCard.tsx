@@ -1,6 +1,7 @@
 import { Link } from "@remix-run/react";
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 
+import Card from '~/components/Card';
 import DateTypeSelect from '~/components/DateTypeSelect';
 import DateDisplay from '~/components/DateDisplay';
 
@@ -13,7 +14,7 @@ type DateSelectionCardProps = {
 
 function DateSelectionCard({ date, type }: DateSelectionCardProps) {
   return (
-    <div className="sm:rounded bg-white shadow px-4 py-5 sm:p-6">
+    <Card>
       <div className="text-lg font-medium leading-6 text-gray-900 pb-4">
         Date selection
       </div>
@@ -38,7 +39,7 @@ function DateSelectionCard({ date, type }: DateSelectionCardProps) {
           </Link>
         </div>
       </div>
-    </div>
+    </Card>
   );
 }
 
