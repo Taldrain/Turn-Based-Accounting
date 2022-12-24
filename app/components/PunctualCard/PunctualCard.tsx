@@ -1,4 +1,5 @@
 import type { Punctual } from '@prisma/client';
+import { Link } from '@remix-run/react';
 import { PlusIcon } from '@heroicons/react/24/outline';
 
 import Card from '~/components/Card';
@@ -11,9 +12,9 @@ function PunctualCard({ punctuals }: { punctuals: Punctual[] }) {
         <div className="text-lg font-medium leading-6 text-gray-900">
           Punctual
         </div>
-        <button>
+        <Link to="?new=punctual">
           <PlusIcon className="block h-8 w-8"/>
-        </button>
+        </Link>
       </div>
       <PunctualList punctuals={punctuals} />
     </Card>

@@ -1,6 +1,7 @@
+import { Fragment } from 'react';
 import type { LoaderArgs } from "@remix-run/node";
 import { redirect } from '@remix-run/node';
-import { useLoaderData, useParams } from "@remix-run/react";
+import { useLoaderData, useParams, useSearchParams } from "@remix-run/react";
 import { typedjson } from 'remix-typedjson';
 import invariant from "tiny-invariant";
 
@@ -8,6 +9,7 @@ import BalanceCard from '~/components/Balance';
 import DateSelectionCard from '~/components/DateSelectionCard';
 import RecurrentCard from '~/components/RecurrentCard';
 import PunctualCard from '~/components/PunctualCard';
+import AddPunctual from '~/components/AddPunctual';
 
 import { requireUserId } from '~/utils/session.server';
 import { getPunctuals } from '~/utils/queries.server';
@@ -40,26 +42,36 @@ export const loader = async ({ request, params }: LoaderArgs) => {
 
 export default function Balance() {
   const data = useLoaderData<typeof loader>();
+  const [searchParams, setSearchParams] = useSearchParams();
   const params = useParams();
+
   invariant(params.date, 'Expected params.date');
   invariant(params.type, 'Expected params.type');
 
   const date = parseDateParam(params.date);
 
+  const handleCloseDialog = () => {
+    searchParams.delete('new');
+    setSearchParams(searchParams);
+  };
+
   return (
-    <div className="flex flex-col gap-4 md:flex-row md:flex-wrap">
-      <div className="grow md:basis-[calc(50%-0.5rem)] md:order-2">
-        <DateSelectionCard date={date} type={params.type} />
+    <Fragment>
+      <div className="flex flex-col gap-4 md:flex-row md:flex-wrap">
+        <div className="grow md:basis-[calc(50%-0.5rem)] md:order-2">
+          <DateSelectionCard date={date} type={params.type} />
+        </div>
+        <div className="grow md:basis-[calc(50%-0.5rem)] md:order-1">
+          <BalanceCard />
+        </div>
+        <div className="grow md:basis-[calc(50%-0.5rem)] md:order-4">
+          <PunctualCard punctuals={data.punctuals} />
+        </div>
+        <div className="grow md:basis-[calc(50%-0.5rem)] md:order-3">
+          <RecurrentCard />
+        </div>
       </div>
-      <div className="grow md:basis-[calc(50%-0.5rem)] md:order-1">
-        <BalanceCard />
-      </div>
-      <div className="grow md:basis-[calc(50%-0.5rem)] md:order-4">
-        <PunctualCard punctuals={data.punctuals} />
-      </div>
-      <div className="grow md:basis-[calc(50%-0.5rem)] md:order-3">
-        <RecurrentCard />
-      </div>
-    </div>
+      { (searchParams.get('new') === 'punctual') && <AddPunctual onCloseDialog={handleCloseDialog} /> }
+    </Fragment>
   );
 }
