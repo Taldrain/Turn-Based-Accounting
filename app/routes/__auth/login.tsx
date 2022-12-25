@@ -84,7 +84,7 @@ export default function Login() {
         type="hidden"
         name="redirectTo"
         value={searchParams.get("redirectTo") ?? undefined}
-        />
+      />
       <EmailField
         defaultValue={actionData?.fields?.email}
         aria-invalid={Boolean(actionData?.fieldErrors?.email)}

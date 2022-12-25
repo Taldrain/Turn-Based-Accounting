@@ -70,6 +70,7 @@ function endOf(date: Date, type: string): Date {
 
 export {
   endOf,
+  formatDate,
   isInvalidDateParam,
   nextDate,
   parseDateParam,

@@ -20,8 +20,21 @@ function getPunctuals(userId: string, start: Date, end: Date) {
   });
 }
 
+function createPunctual(userId: string, name: string, amount: number, isPositive: boolean, date: Date) {
+  return db.punctual.create({
+    data: {
+      userId,
+      name,
+      amount,
+      isPositive,
+      date,
+    },
+  });
+}
+
 export {
   getUser,
   createUser,
   getPunctuals,
+  createPunctual,
 };

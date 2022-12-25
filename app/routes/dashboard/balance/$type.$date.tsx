@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderArgs, ActionArgs } from "@remix-run/node";
 import { redirect } from '@remix-run/node';
 import { useLoaderData, useParams, useSearchParams } from "@remix-run/react";
 import { typedjson } from 'remix-typedjson';
@@ -12,13 +12,62 @@ import PunctualCard from '~/components/PunctualCard';
 import AddPunctual from '~/components/AddPunctual';
 
 import { requireUserId } from '~/utils/session.server';
-import { getPunctuals } from '~/utils/queries.server';
+import { badRequest } from '~/utils/request.server';
+import { getPunctuals, createPunctual } from '~/utils/queries.server';
 import {
   endOf,
   isInvalidDateParam,
   parseDateParam,
   startOf,
 } from '~/utils/date';
+import { validateEntryName, validateEntryAmount, validateEntryDate } from '~/utils/entry';
+
+export const action = async ({ request }: ActionArgs) => {
+  const formData = Object.fromEntries(await request.formData());
+  const userId = await requireUserId(request);
+  const url = new URL(request.url);
+  const newEntry = url.searchParams.get('new');
+
+  // adding a new punctual entry:
+  if (newEntry === 'punctual') {
+    const name = formData.name;
+    const amount = Number(formData.amount);
+    const isPositive = formData.isPositive === 'gain';
+    const date = new Date(formData.date.toString());
+
+    // XXX: why this check if we do a second validate after
+    if (typeof name !== 'string') {
+      return badRequest({
+        fieldErrors: null,
+        fields: null,
+      });
+    }
+
+    const fields = { name, amount, isPositive, date };
+    const fieldErrors = {
+      name: validateEntryName(name),
+      amount: validateEntryAmount(amount),
+      date: validateEntryDate(date),
+    };
+
+    if (Object.values(fieldErrors).some(Boolean)) {
+      return badRequest({
+        fieldErrors,
+        fields,
+      });
+    }
+
+    await createPunctual(userId, name, amount, isPositive, date);
+    return redirect('');
+  }
+
+  // add punctual
+  // edit punctual
+  // add recurrent
+  // edit recurrent
+
+  return null;
+};
 
 export const loader = async ({ request, params }: LoaderArgs) => {
   const userId = await requireUserId(request);
@@ -38,7 +87,7 @@ export const loader = async ({ request, params }: LoaderArgs) => {
 
 
   return typedjson({ punctuals });
-}
+};
 
 export default function Balance() {
   const data = useLoaderData<typeof loader>();
