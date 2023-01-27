@@ -12,8 +12,8 @@ function PunctualCard({ punctuals }: { punctuals: Punctual[] }) {
         <div className="text-lg font-medium leading-6 text-gray-900">
           Punctual
         </div>
-        <Link to="?new=punctual">
-          <PlusIcon className="block h-8 w-8"/>
+        <Link to="?new=punctual" className="rounded-full p-1 hover:bg-orange-100">
+          <PlusIcon className="block h-8 w-8" />
         </Link>
       </div>
       <PunctualList punctuals={punctuals} />

@@ -1,4 +1,7 @@
+import { useLoaderData } from "@remix-run/react";
+
 import { formatBalance } from '~/utils/number';
+import { getUserCurrency } from '~/utils/userSettings';
 
 interface AmountDisplayType {
   amount: number,
@@ -6,10 +9,13 @@ interface AmountDisplayType {
 }
 
 function AmountDisplay({ amount, isPositive }: AmountDisplayType) {
+  const { userSettings } = useLoaderData();
+
   const color = isPositive ? 'text-green-500' : 'text-red-500';
+
   return (
     <span className={color}>
-      { formatBalance('fr-FR', 'EUR', (isPositive ? 1 : -1) * amount) }
+      { formatBalance('fr-FR', getUserCurrency(userSettings), (isPositive ? 1 : -1) * amount) }
     </span>
   );
 }

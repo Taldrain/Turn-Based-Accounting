@@ -1,5 +1,3 @@
-import { Fragment } from 'react';
-
 type DateDisplayProps = {
   date: Date,
   type: string,
@@ -14,9 +12,9 @@ function DateDisplay({ date, type }: DateDisplayProps) {
   }
 
   return (
-    <Fragment>
+    <div className="text-orange-500 font-medium">
       { date.toLocaleDateString(undefined, options) }
-    </Fragment>
+    </div>
   );
 }
 

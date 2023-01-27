@@ -5,7 +5,7 @@ import Card from '~/components/Card';
 import DateTypeSelect from '~/components/DateTypeSelect';
 import DateDisplay from '~/components/DateDisplay';
 
-import { previousDate, nextDate } from '~/utils/date';
+import { previousDate, nextDate, formatDate } from '~/utils/date';
 
 type DateSelectionCardProps = {
   date: string,
@@ -13,6 +13,8 @@ type DateSelectionCardProps = {
 }
 
 function DateSelectionCard({ date, type }: DateSelectionCardProps) {
+  const isToday = (formatDate(new Date()) === date);
+
   return (
     <Card>
       <div className="text-lg font-medium leading-6 text-gray-900 pb-4">
@@ -22,22 +24,23 @@ function DateSelectionCard({ date, type }: DateSelectionCardProps) {
         <DateTypeSelect type={type} />
 
         <div className="grow flex items-center justify-center">
-          <Link to={`/dashboard/balance/day/${previousDate(date)}`}>
+          <Link to={`/dashboard/balance/${type}/${previousDate(date, type)}`} className="rounded-full p-1 hover:bg-orange-100">
             <ChevronLeftIcon className="block h-8 w-8"/>
           </Link>
           <div className="shrink px-4">
             <DateDisplay date={new Date(date)} type={type} />
           </div>
-          <Link to={`/dashboard/balance/day/${nextDate(date)}`}>
+          <Link to={`/dashboard/balance/${type}/${nextDate(date, type)}`} className="rounded-full p-1 hover:bg-orange-100">
             <ChevronRightIcon className="block h-8 w-8"/>
           </Link>
         </div>
 
-        <div className="text-gray-900">
-          <Link to="/dashboard/balance/day/today">
-            Today
-          </Link>
-        </div>
+        <Link
+          to="/dashboard/balance/day/today"
+          className={`inline-flex items-center rounded border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 uppercase ${isToday && 'opacity-50'}`}
+        >
+          Today
+        </Link>
       </div>
     </Card>
   );

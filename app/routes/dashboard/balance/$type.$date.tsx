@@ -1,5 +1,6 @@
 import { Fragment } from 'react';
 import type { LoaderArgs, ActionArgs } from "@remix-run/node";
+import type { Punctual } from '@prisma/client';
 import { redirect } from '@remix-run/node';
 import { useLoaderData, useParams, useSearchParams } from "@remix-run/react";
 import { typedjson } from 'remix-typedjson';
@@ -10,10 +11,19 @@ import DateSelectionCard from '~/components/DateSelectionCard';
 import RecurrentCard from '~/components/RecurrentCard';
 import PunctualCard from '~/components/PunctualCard';
 import AddPunctual from '~/components/AddPunctual';
+import EditPunctual from '~/components/EditPunctual';
+import AddRecurrent from '~/components/AddRecurrent';
 
 import { requireUserId } from '~/utils/session.server';
 import { badRequest } from '~/utils/request.server';
-import { getPunctuals, createPunctual } from '~/utils/queries.server';
+import {
+  getPunctuals,
+  createPunctual,
+  updatePunctual,
+  deletePunctual,
+  getRecurrents,
+  getSettings,
+} from '~/utils/queries.server';
 import {
   endOf,
   isInvalidDateParam,
@@ -27,9 +37,12 @@ export const action = async ({ request }: ActionArgs) => {
   const userId = await requireUserId(request);
   const url = new URL(request.url);
   const newEntry = url.searchParams.get('new');
+  const editEntry = url.searchParams.get('edit');
+  const deleteEntry = url.searchParams.get('delete');
+  const id = url.searchParams.get('id');
 
   // adding a new punctual entry:
-  if (newEntry === 'punctual') {
+  if (newEntry === 'punctual' || editEntry === 'punctual') {
     const name = formData.name;
     const amount = Number(formData.amount);
     const isPositive = formData.isPositive === 'gain';
@@ -57,7 +70,24 @@ export const action = async ({ request }: ActionArgs) => {
       });
     }
 
-    await createPunctual(userId, name, amount, isPositive, date);
+    if (newEntry !== null) {
+      await createPunctual(userId, name, amount, isPositive, date);
+    } else {
+      if (id === null) {
+        return badRequest({
+          fieldErrors: null,
+          fields: null,
+        });
+      }
+      // TODO: validate the userId match the id of the entry (ie: only allow
+      //       user to update his own entries)
+      await updatePunctual(id, name, amount, isPositive, date);
+    }
+    return redirect('');
+  }
+
+  if (deleteEntry === 'punctual' && id !== null) {
+    await deletePunctual(id);
     return redirect('');
   }
 
@@ -84,13 +114,15 @@ export const loader = async ({ request, params }: LoaderArgs) => {
 
   const date = new Date(parseDateParam(params.date));
   const punctuals = await getPunctuals(userId, startOf(date, params.type), endOf(date, params.type));
+  const recurrents = await getRecurrents(userId, startOf(date, params.type), endOf(date, params.type))
+  const userSettings = await getSettings(userId);
 
 
-  return typedjson({ punctuals });
+  return typedjson({ punctuals, recurrents, userSettings });
 };
 
 export default function Balance() {
-  const data = useLoaderData<typeof loader>();
+  const { punctuals, recurrents } = useLoaderData<typeof loader>();
   const [searchParams, setSearchParams] = useSearchParams();
   const params = useParams();
 
@@ -100,7 +132,10 @@ export default function Balance() {
   const date = parseDateParam(params.date);
 
   const handleCloseDialog = () => {
+    // delete all URLSearchParams that are linked to the dialog forms
     searchParams.delete('new');
+    searchParams.delete('edit');
+    searchParams.delete('id');
     setSearchParams(searchParams);
   };
 
@@ -114,13 +149,20 @@ export default function Balance() {
           <BalanceCard />
         </div>
         <div className="grow md:basis-[calc(50%-0.5rem)] md:order-4">
-          <PunctualCard punctuals={data.punctuals} />
+          <PunctualCard punctuals={punctuals} />
         </div>
         <div className="grow md:basis-[calc(50%-0.5rem)] md:order-3">
-          <RecurrentCard />
+          <RecurrentCard recurrents={recurrents} />
         </div>
       </div>
-      { (searchParams.get('new') === 'punctual') && <AddPunctual onCloseDialog={handleCloseDialog} /> }
+      { (searchParams.get('new') === 'punctual') && <AddPunctual onCloseDialog={handleCloseDialog} />}
+      { (searchParams.get('edit') === 'punctual') && (
+        <EditPunctual
+          onCloseDialog={handleCloseDialog}
+          punctual={punctuals.find((i: Punctual) => i.id === searchParams.get('id'))}
+        />
+      )}
+      { (searchParams.get('new') === 'recurrent') && <AddRecurrent onCloseDialog={handleCloseDialog} />}
     </Fragment>
   );
 }

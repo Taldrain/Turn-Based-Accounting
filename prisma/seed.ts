@@ -33,6 +33,14 @@ async function seed() {
     },
   });
 
+  await db.settings.create({
+    data: {
+      locale: 'fr-FR',
+      userId: user.id,
+      currency: 'EUR',
+    },
+  });
+
   await Promise.all([
     ...getPunctuals().map((punctual) => {
       const data = { userId: user.id, ...punctual };

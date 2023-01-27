@@ -44,12 +44,21 @@ function parseDateParam(input: string): string {
   return formatDate(new Date(input));
 }
 
-function previousDate(date: string): string {
-  return formatDate(sub(new Date(date), { days: 1 }));
+// transform a date type (eg: `day`) to a date-fns duration (eg: `days`)
+function typeToDuration(type: string): string {
+  switch (type) {
+    case 'year': return 'years';
+    case 'month': return 'months';
+    default: return 'days';
+  }
 }
 
-function nextDate(date: string): string {
-  return formatDate(add(new Date(date), { days: 1 }));
+function previousDate(date: string, type: string): string {
+  return formatDate(sub(new Date(date), { [typeToDuration(type)]: 1 }));
+}
+
+function nextDate(date: string, type: string): string {
+  return formatDate(add(new Date(date), { [typeToDuration(type)]: 1 }));
 }
 
 function startOf(date: Date, type: string): Date {

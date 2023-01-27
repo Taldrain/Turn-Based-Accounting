@@ -32,9 +32,57 @@ function createPunctual(userId: string, name: string, amount: number, isPositive
   });
 }
 
+function updatePunctual(id: string, name: string, amount: number, isPositive: boolean, date: Date) {
+  return db.punctual.update({
+    where: {
+      id,
+    },
+    data: {
+      name,
+      amount,
+      isPositive,
+      date,
+    },
+  });
+}
+
+function deletePunctual(id: string) {
+  return db.punctual.delete({
+    where: {
+      id,
+    },
+  });
+}
+
+function getRecurrents(userId: string, start: Date, end: Date) {
+  return db.recurrent.findMany({
+    where: {
+      userId,
+      startDate: {
+        gte: start,
+      },
+      endDate: {
+        lte: end,
+      },
+    },
+  });
+}
+
+function getSettings(userId: string) {
+  return db.settings.findUnique({
+    where: {
+      userId,
+    }
+  });
+}
+
 export {
   getUser,
   createUser,
   getPunctuals,
   createPunctual,
+  updatePunctual,
+  deletePunctual,
+  getRecurrents,
+  getSettings,
 };
