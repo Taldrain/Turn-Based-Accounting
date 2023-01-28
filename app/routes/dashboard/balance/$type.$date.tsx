@@ -6,7 +6,7 @@ import { useLoaderData, useParams, useSearchParams } from "@remix-run/react";
 import { typedjson } from 'remix-typedjson';
 import invariant from "tiny-invariant";
 
-import BalanceCard from '~/components/Balance';
+import BalanceCard from '~/components/BalanceCard';
 import DateSelectionCard from '~/components/DateSelectionCard';
 import RecurrentCard from '~/components/RecurrentCard';
 import PunctualCard from '~/components/PunctualCard';
@@ -188,8 +188,6 @@ export default function Balance() {
     setSearchParams(searchParams);
   };
 
-  console.log({ recurrents });
-
   return (
     <Fragment>
       <div className="flex flex-col gap-4 md:flex-row md:flex-wrap">
@@ -197,7 +195,7 @@ export default function Balance() {
           <DateSelectionCard date={date} type={params.type} />
         </div>
         <div className="grow md:basis-[calc(50%-0.5rem)] md:order-1">
-          <BalanceCard />
+          <BalanceCard punctuals={punctuals} recurrents={recurrents} />
         </div>
         <div className="grow md:basis-[calc(50%-0.5rem)] md:order-4">
           <PunctualCard punctuals={punctuals} />

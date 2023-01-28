@@ -66,12 +66,6 @@ function computeNewAmount(entry: Recurrent, date: Date, type: string) {
     diff = 1 / 12;
   }
 
-  console.log('----------------');
-  console.log({ startDate });
-  console.log({ endDate });
-  console.log({ type });
-  console.log({ diff });
-
   return ({ ...entry, computedAmount: Math.abs(entry.amount * diff) });
 }
 

@@ -65,7 +65,6 @@ function previousDate(date: string, type: string): string {
 }
 
 function nextDate(date: string, type: string): string {
-  console.log({ type });
   return formatDate(add(new Date(date), { [typeToDuration(type)]: 1 }));
 }
 

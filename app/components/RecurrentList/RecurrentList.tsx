@@ -33,17 +33,17 @@ function RecurrentList({ recurrents }: RecurrentListProps) {
               <th scope="col" className="py-3.5 px-3 text-right text-sm font-semibold text-gray-900">
                 Amount
               </th>
-              <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
+              <th scope="col" className="relative w-16 py-3.5 px-4">
                 <span className="sr-only">Edit</span>
               </th>
-              <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
+              <th scope="col" className="relative w-16 py-3.5 px-4">
                 <span className="sr-only">Delete</span>
               </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-y-gray-200">
             { recurrents.map((recurrent) => (
-              <tr key={recurrent.id}>
+              <tr key={recurrent.id} className="hover:bg-gray-50">
                 <td className="whitespace-nowrap py-4 px-3 text-sm text-gray-500 truncate">
                   { recurrent.name }
                 </td>
@@ -53,12 +53,12 @@ function RecurrentList({ recurrents }: RecurrentListProps) {
                 <td className="whitespace-nowrap py-4 px-3 text-sm text-gray-500 text-right">
                   <AmountDisplay amount={recurrent.computedAmount} isPositive={recurrent.isPositive} />
                 </td>
-                <td className="relative py-4 pl-3 pr-4 text-right sm:pr-6">
+                <td className="relative py-4 px-4 text-center">
                   <Link to={`?edit=recurrent&id=${recurrent.id}`}>
                     <PencilIcon className="inline-block w-4 h-4" />
                   </Link>
                 </td>
-                <td className="relative py-4 pl-3 pr-4 text-right sm:pr-6">
+                <td className="relative py-4 px-4 text-center">
                   <form method="post" action={`?delete=recurrent&id=${recurrent.id}`}>
                     <button type="submit">
                       <TrashIcon className="inline-block w-4 h-4" />
