@@ -4,8 +4,10 @@ import { Form, useActionData, useSearchParams } from "@remix-run/react";
 
 import EmailField from '~/components/EmailField'
 
-import { getUserId } from "~/utils/session.server";
+import { getUserId } from '~/utils/session.server';
 import { badRequest } from '~/utils/request.server';
+import { sendMail } from '~/utils/mail.server';
+import { getUser } from '~/utils/queries.server';
 import { signLoginToken } from '~/utils/jwt.server';
 
 const EMAIL_REGEXP = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
@@ -25,6 +27,7 @@ export async function loader({ request }: LoaderArgs) {
   return {};
 }
 
+// most of the login process is inspired from the kentcdodds.com website
 export async function action({ request }: ActionArgs) {
   const form = await request.formData();
   const email = form.get('email');
@@ -54,12 +57,42 @@ export async function action({ request }: ActionArgs) {
   const token = signLoginToken(email, redirectTo);
   const searchParams = new URLSearchParams([['token', token]]);
 
+  const magicLink = `https://tba.taldra.in/magic?${searchParams}`;
+  let userExists = true
+  try {
+    await getUser(email);
+  } catch (err) {
+    userExists = false;
+  }
+
+  const text = `
+  Here's your sign-in link for tba.taldra.in:
+
+  ${magicLink}
+
+  ${
+    userExists
+      ? `Welcome back ${email}!`
+      : `Clicking the link above will create a *new* account on tba.taldra.in with the email ${email}. Welcome!`
+  }
+
+  -- 
+  Turn-based Accounting
+  `.trim()
+
+
   if (process.env.NODE_ENV !== 'production') {
-    // TODO only show this console on local dev
     console.log(`url: http://localhost:3000/magic?${searchParams}`);
   }
 
-  // TODO: send email
+  await sendMail(new URLSearchParams({
+    from: 'TBA team <hello@tba.taldra.in>',
+    to: email,
+    subject: 'Magic sign-in link for TBA',
+    text,
+  }));
+
+  console.log('sent?')
 
   return json({
     mailSent: true,

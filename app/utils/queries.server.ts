@@ -12,6 +12,14 @@ function createUser(email: string) {
   return db.user.create({ data: { email }});
 }
 
+function getPunctual(id: string) {
+  return db.punctual.findUnique({
+    where: {
+      id,
+    },
+  });
+}
+
 function getPunctuals(userId: string, start: Date, end: Date) {
   return db.punctual.findMany({
     where: {
@@ -36,7 +44,12 @@ function createPunctual(userId: string, name: string, amount: number, isPositive
   });
 }
 
-function updatePunctual(id: string, name: string, amount: number, isPositive: boolean, date: Date) {
+async function updatePunctual(userId: string, id: string, name: string, amount: number, isPositive: boolean, date: Date) {
+  const punctual = await getPunctual(id);
+  if (punctual?.userId !== userId) {
+    throw new Error('UserId does not match');
+  }
+
   return db.punctual.update({
     where: {
       id,
@@ -52,6 +65,14 @@ function updatePunctual(id: string, name: string, amount: number, isPositive: bo
 
 function deletePunctual(id: string) {
   return db.punctual.delete({
+    where: {
+      id,
+    },
+  });
+}
+
+function getRecurrent(id: string) {
+  return db.recurrent.findUnique({
     where: {
       id,
     },
@@ -103,7 +124,15 @@ function getRecurrents(userId: string, start: Date, end: Date) {
   });
 }
 
-function createRecurrent(userId: string, name: string, amount: number, isPositive: boolean, recurrence: string, startDate: Date, endDate: Date | null) {
+function createRecurrent(
+  userId: string,
+  name: string,
+  amount: number,
+  isPositive: boolean,
+  recurrence: string,
+  startDate: Date,
+  endDate: Date | null,
+) {
   return db.recurrent.create({
     data: {
       userId,
@@ -117,7 +146,20 @@ function createRecurrent(userId: string, name: string, amount: number, isPositiv
   });
 }
 
-function updateRecurrent(id: string, name: string, amount: number, isPositive: boolean, recurrence: string, startDate: Date, endDate: Date | null) {
+async function updateRecurrent(
+  userId: string,
+  id: string,
+  name: string,
+  amount: number,
+  isPositive: boolean,
+  recurrence: string,
+  startDate: Date,
+  endDate: Date | null,
+) {
+  const recurrent = await getRecurrent(id);
+  if (recurrent?.userId !== userId) {
+    throw new Error('UserId does not match');
+  }
   return db.recurrent.update({
     where: {
       id,

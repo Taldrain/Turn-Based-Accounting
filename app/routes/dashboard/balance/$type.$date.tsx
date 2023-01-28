@@ -95,9 +95,7 @@ export const action = async ({ request }: ActionArgs) => {
           fields: null,
         });
       }
-      // TODO: validate the userId match the id of the entry (ie: only allow
-      //       user to update his own entries)
-      await updatePunctual(id, name, amount, isPositive, date);
+      await updatePunctual(userId, id, name, amount, isPositive, date);
     }
 
     return redirect('');
@@ -120,7 +118,7 @@ export const action = async ({ request }: ActionArgs) => {
       startDate: validateEntryDate(startDate),
       endDate: validateEntryEndDate(startDate, endDate),
     };
- 
+
     if (Object.values(fieldErrors).some(Boolean)) {
       return badRequest({
         fieldErrors,
@@ -137,7 +135,7 @@ export const action = async ({ request }: ActionArgs) => {
           fields: null,
         });
       }
-      await updateRecurrent(id, name, amount, isPositive, recurrence, startDate, endDate);
+      await updateRecurrent(userId, id, name, amount, isPositive, recurrence, startDate, endDate);
     }
 
     return redirect('');

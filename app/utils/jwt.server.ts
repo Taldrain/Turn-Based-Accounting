@@ -15,7 +15,7 @@ function verifyLoginToken(token: string) {
 }
 
 export {
-  signLoginToken, 
+  signLoginToken,
   verifyLoginToken,
 
   JsonWebTokenError,
