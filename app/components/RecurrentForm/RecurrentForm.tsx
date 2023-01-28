@@ -9,9 +9,9 @@ interface RecurrentFormType {
   name?: string,
   amount?: string,
   startDate: string,
-  endDate: string,
+  endDate?: string | null,
   isPositive?: boolean,
-  recurrence: string,
+  recurrence?: string,
 }
 
 function RecurrentForm(props: RecurrentFormType) {
@@ -45,7 +45,7 @@ function RecurrentForm(props: RecurrentFormType) {
           defaultValue={amount}
         />
       </div>
-      <RecurrenceSelect />
+      <RecurrenceSelect defaultValue={recurrence} />
       <TextField
         label="Start date*"
         name="startDate"
@@ -59,7 +59,7 @@ function RecurrentForm(props: RecurrentFormType) {
         type="date"
         defaultValue={endDate}
       />
-      <div className="flex flex-row justify-between pt-6">
+      <div className="flex flex-row justify-end pt-6">
         <Button onClick={onCancel}>
           Cancel
         </Button>

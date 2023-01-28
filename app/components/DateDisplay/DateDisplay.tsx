@@ -4,6 +4,7 @@ type DateDisplayProps = {
 }
 
 function DateDisplay({ date, type }: DateDisplayProps) {
+  // `day` and `week` date type share the same display
   let options: any = { dateStyle: 'full' };
   if (type === 'year') {
     options = { year: 'numeric' };

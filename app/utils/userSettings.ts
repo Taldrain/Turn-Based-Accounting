@@ -4,7 +4,7 @@
 
 import type { Settings } from "@prisma/client";
 
-function getUserCurrency(userSettings: Settings) {
+function getUserCurrency(userSettings: Settings | null): string {
   if (userSettings && userSettings.currency) {
     return userSettings.currency;
   }
@@ -12,7 +12,7 @@ function getUserCurrency(userSettings: Settings) {
   return 'EUR';
 }
 
-function getUserLocale(userSettings: Settings) {
+function getUserLocale(userSettings: Settings | null): string {
   if (userSettings && userSettings.locale) {
     return userSettings.locale;
   }

@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import type { LoaderArgs, ActionArgs } from "@remix-run/node";
-import type { Punctual } from '@prisma/client';
+import type { Punctual, Recurrent } from '@prisma/client';
 import { redirect } from '@remix-run/node';
 import { useLoaderData, useParams, useSearchParams } from "@remix-run/react";
 import { typedjson } from 'remix-typedjson';
@@ -13,6 +13,7 @@ import PunctualCard from '~/components/PunctualCard';
 import AddPunctual from '~/components/AddPunctual';
 import EditPunctual from '~/components/EditPunctual';
 import AddRecurrent from '~/components/AddRecurrent';
+import EditRecurrent from '~/components/EditRecurrent';
 
 import { requireUserId } from '~/utils/session.server';
 import { badRequest } from '~/utils/request.server';
@@ -22,6 +23,9 @@ import {
   updatePunctual,
   deletePunctual,
   getRecurrents,
+  createRecurrent,
+  updateRecurrent,
+  deleteRecurrent,
   getSettings,
 } from '~/utils/queries.server';
 import {
@@ -30,7 +34,14 @@ import {
   parseDateParam,
   startOf,
 } from '~/utils/date';
-import { validateEntryName, validateEntryAmount, validateEntryDate } from '~/utils/entry';
+import {
+  validateEntryName,
+  validateEntryAmount,
+  validateEntryDate,
+  validateEntryEndDate,
+  validateEntryRecurrence,
+  computeNewAmount,
+} from '~/utils/entry';
 
 export const action = async ({ request }: ActionArgs) => {
   const formData = Object.fromEntries(await request.formData());
@@ -41,21 +52,26 @@ export const action = async ({ request }: ActionArgs) => {
   const deleteEntry = url.searchParams.get('delete');
   const id = url.searchParams.get('id');
 
-  // adding a new punctual entry:
+  // delete a punctual entry
+  if (deleteEntry === 'punctual' && id !== null) {
+    await deletePunctual(id);
+    return redirect('');
+  }
+
+  // delete a recurrent entry
+  if (deleteEntry === 'recurrent' && id !== null) {
+    await deleteRecurrent(id);
+    return redirect('');
+  }
+
+  // share fields between a punctual and recurrent entry
+  const name = String(formData.name);
+  const amount = Number(formData.amount);
+  const isPositive = formData.isPositive === 'gain';
+
+  // create or update a punctual entry
   if (newEntry === 'punctual' || editEntry === 'punctual') {
-    const name = formData.name;
-    const amount = Number(formData.amount);
-    const isPositive = formData.isPositive === 'gain';
     const date = new Date(formData.date.toString());
-
-    // XXX: why this check if we do a second validate after
-    if (typeof name !== 'string') {
-      return badRequest({
-        fieldErrors: null,
-        fields: null,
-      });
-    }
-
     const fields = { name, amount, isPositive, date };
     const fieldErrors = {
       name: validateEntryName(name),
@@ -83,18 +99,49 @@ export const action = async ({ request }: ActionArgs) => {
       //       user to update his own entries)
       await updatePunctual(id, name, amount, isPositive, date);
     }
+
     return redirect('');
   }
 
-  if (deleteEntry === 'punctual' && id !== null) {
-    await deletePunctual(id);
+  // create or update a punctual entry
+  if (newEntry === 'recurrent' || editEntry === 'recurrent') {
+    const recurrence = String(formData.recurrence);
+    const startDate = new Date(formData.startDate.toString());
+    let endDate: Date | null = new Date(formData.endDate.toString());
+    if (endDate.toString() === 'Invalid Date') {
+      endDate = null;
+    }
+
+    const fields = { name, amount, isPositive, recurrence, startDate, endDate };
+    const fieldErrors = {
+      name: validateEntryName(name),
+      amount: validateEntryAmount(amount),
+      recurrence: validateEntryRecurrence(recurrence),
+      startDate: validateEntryDate(startDate),
+      endDate: validateEntryEndDate(startDate, endDate),
+    };
+ 
+    if (Object.values(fieldErrors).some(Boolean)) {
+      return badRequest({
+        fieldErrors,
+        fields,
+      });
+    }
+
+    if (newEntry !== null) {
+      await createRecurrent(userId, name, amount, isPositive, recurrence, startDate, endDate);
+    } else {
+      if (id === null) {
+        return badRequest({
+          fieldErrors: null,
+          fields: null,
+        });
+      }
+      await updateRecurrent(id, name, amount, isPositive, recurrence, startDate, endDate);
+    }
+
     return redirect('');
   }
-
-  // add punctual
-  // edit punctual
-  // add recurrent
-  // edit recurrent
 
   return null;
 };
@@ -104,7 +151,7 @@ export const loader = async ({ request, params }: LoaderArgs) => {
   invariant(params.type, 'Expected params.type');
   invariant(params.date, 'Expected params.date');
 
-  if (params.type !== 'day' && params.type !== 'month' && params.type !== 'year') {
+  if (params.type !== 'day' && params.type !== 'week' && params.type !== 'month' && params.type !== 'year') {
     return redirect('/dashboard/balance/day/today');
   }
 
@@ -118,14 +165,16 @@ export const loader = async ({ request, params }: LoaderArgs) => {
   const userSettings = await getSettings(userId);
 
 
-  return typedjson({ punctuals, recurrents, userSettings });
+  return typedjson({
+    punctuals,
+    recurrents: recurrents.map(entry => computeNewAmount(entry, date, params.type)),
+    userSettings });
 };
 
 export default function Balance() {
   const { punctuals, recurrents } = useLoaderData<typeof loader>();
   const [searchParams, setSearchParams] = useSearchParams();
   const params = useParams();
-
   invariant(params.date, 'Expected params.date');
   invariant(params.type, 'Expected params.type');
 
@@ -138,6 +187,8 @@ export default function Balance() {
     searchParams.delete('id');
     setSearchParams(searchParams);
   };
+
+  console.log({ recurrents });
 
   return (
     <Fragment>
@@ -163,6 +214,12 @@ export default function Balance() {
         />
       )}
       { (searchParams.get('new') === 'recurrent') && <AddRecurrent onCloseDialog={handleCloseDialog} />}
+      { (searchParams.get('edit') === 'recurrent') && (
+        <EditRecurrent
+          onCloseDialog={handleCloseDialog}
+          recurrent={recurrents.find((i: Recurrent) => i.id === searchParams.get('id'))}
+        />
+      )}
     </Fragment>
   );
 }

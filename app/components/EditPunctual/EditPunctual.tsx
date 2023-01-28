@@ -20,7 +20,7 @@ function EditPunctual({ onCloseDialog, punctual }: EditPunctualType) {
       <PunctualForm
         onCancel={onCloseDialog}
         name={punctual.name}
-        amount={punctual.amount}
+        amount={punctual.amount.toString()}
         date={formatDate(new Date(punctual.date))}
         isPositive={punctual.isPositive}
       />

@@ -23,7 +23,7 @@ function AddRecurrent({ onCloseDialog }: AddRecurrentType) {
 
       <RecurrentForm
         onCancel={onCloseDialog}
-        date={urlDate}
+        startDate={urlDate}
         isAdd
       />
     </Dialog>

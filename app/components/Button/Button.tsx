@@ -1,6 +1,6 @@
 type ButtonProps = {
   children: React.ReactNode,
-  className: string,
+  className?: string,
   [x:string]: any,
 };
 
@@ -13,7 +13,7 @@ export default function Button(props: ButtonProps) {
 
   return (
     <button
-      className={`uppercase rounded font-medium px-4 py-2 ${className}`}
+      className={`uppercase rounded text-xs font-medium px-4 py-2 ${className}`}
       {...rest}
     >
       { children }

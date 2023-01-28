@@ -9,6 +9,7 @@ type DateTypeProps = {
 
 const OPTIONS = [
   { label: 'Day', to: '/dashboard/balance/day/today' },
+  { label: 'Week', to: '/dashboard/balance/week/today' },
   { label: 'Month', to: '/dashboard/balance/month/today' },
   { label: 'Year', to: '/dashboard/balance/year/today' },
 ];

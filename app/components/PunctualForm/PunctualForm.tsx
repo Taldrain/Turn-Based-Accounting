@@ -48,7 +48,7 @@ function PunctualForm(props: PunctualFormType) {
         defaultValue={date}
         required
         />
-      <div className="flex flex-row justify-between pt-6">
+      <div className="flex flex-row justify-end pt-6">
         <Button onClick={onCancel}>
           Cancel
         </Button>

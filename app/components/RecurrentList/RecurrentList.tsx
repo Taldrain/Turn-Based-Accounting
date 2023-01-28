@@ -6,14 +6,18 @@ import AmountDisplay from '~/components/AmountDisplay';
 
 function typeDisplay(type: string): string {
   switch (type) {
-    case 'year': return 'Yearly';
-    case 'month': return 'Montly';
-    case 'week': return 'Weekly';
-    default: return 'Daily';
+    case 'year': return 'Year';
+    case 'month': return 'Month';
+    case 'week': return 'Week';
+    default: return 'Day';
   }
 }
 
-function RecurrentList({ recurrents }: { recurrents: Recurrent[] }) {
+type RecurrentListProps = {
+  recurrents: (Recurrent & { computedAmount: number })[],
+}
+
+function RecurrentList({ recurrents }: RecurrentListProps) {
   return (
     <div className="pt-8 flex flex-col -mx-4 -my-5 sm:-m-6">
       <div className="inline block min-w-full align-middle">
@@ -26,7 +30,7 @@ function RecurrentList({ recurrents }: { recurrents: Recurrent[] }) {
               <th scope="col" className="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">
                 Type
               </th>
-              <th scope="col" className="py-3.5 px-3 text-left text-sm font-semibold text-gray-900">
+              <th scope="col" className="py-3.5 px-3 text-right text-sm font-semibold text-gray-900">
                 Amount
               </th>
               <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
@@ -43,14 +47,14 @@ function RecurrentList({ recurrents }: { recurrents: Recurrent[] }) {
                 <td className="whitespace-nowrap py-4 px-3 text-sm text-gray-500 truncate">
                   { recurrent.name }
                 </td>
-                <td className="whitespace-nowrap py-4 px-3 text-sm text-gray-500 text-right">
+                <td className="whitespace-nowrap py-4 px-3 text-sm text-gray-500 text-left">
                   { typeDisplay(recurrent.recurrence) }
                 </td>
                 <td className="whitespace-nowrap py-4 px-3 text-sm text-gray-500 text-right">
-                  <AmountDisplay amount={recurrent.amount} isPositive={recurrent.isPositive} />
+                  <AmountDisplay amount={recurrent.computedAmount} isPositive={recurrent.isPositive} />
                 </td>
                 <td className="relative py-4 pl-3 pr-4 text-right sm:pr-6">
-                  <Link to={`?edit=punctual&id=${recurrent.id}`}>
+                  <Link to={`?edit=recurrent&id=${recurrent.id}`}>
                     <PencilIcon className="inline-block w-4 h-4" />
                   </Link>
                 </td>
