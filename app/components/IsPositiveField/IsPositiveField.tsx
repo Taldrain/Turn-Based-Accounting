@@ -5,11 +5,15 @@ const options = [
 
 interface IsPositiveFieldType {
   defaultChecked?: 'gain' | 'loss',
+  disabled?: boolean,
 }
 
-function IsPositiveField({ defaultChecked = 'loss' }: IsPositiveFieldType) {
+function IsPositiveField({ defaultChecked = 'loss', disabled = false }: IsPositiveFieldType) {
   return (
-    <fieldset className="mt-4">
+    <fieldset
+      className="mt-4"
+      disabled={disabled}
+    >
       <legend className="sr-only">gain or loss</legend>
       <div className="space-y-4 md:flex sm:items-center sm:space-y-0 sm:space-x-2">
         { options.map(option => (

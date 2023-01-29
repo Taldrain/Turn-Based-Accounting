@@ -1,6 +1,7 @@
+import type { Punctual } from '@prisma/client';
+
 import { Link } from '@remix-run/react';
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
-import type { Punctual } from '@prisma/client';
 
 import AmountDisplay from '~/components/AmountDisplay';
 

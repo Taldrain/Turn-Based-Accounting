@@ -1,5 +1,5 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { Form, useTransition, useLoaderData } from "@remix-run/react";
 
 import Button from '~/components/Button';
 import Card from '~/components/Card';
@@ -58,6 +58,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 
 export default function Balance() {
   const { settings, email } = useLoaderData<typeof loader>();
+  const transition = useTransition();
 
   return (
     <div className="m-auto w-[36rem]">
@@ -67,19 +68,28 @@ export default function Balance() {
         </h1>
 
 
-        <form method="post" className="flex flex-col items-stretch gap-4">
+        <Form method="post" className="flex flex-col items-stretch gap-4">
           <EmailField label="Email" disabled defaultValue={email} />
-          <LocaleSelect defaultValue={getUserLocale(settings)} />
-          <CurrencySelect defaultValue={getUserCurrency(settings)} />
+          <LocaleSelect
+            defaultValue={getUserLocale(settings)}
+            disabled={transition.state === 'submitting'}
+          />
+          <CurrencySelect
+            defaultValue={getUserCurrency(settings)}
+            disabled={transition.state === 'submitting'}
+          />
           <div className="flex flex-row justify-end pt-6">
             <Button type="reset">
               Cancel
             </Button>
             <Button type="submit" className="text-orange-500 hover:bg-orange-50">
-              Save
+              { transition.state === 'submitting'
+                ? 'Saving...'
+                : 'Save'
+              }
             </Button>
           </div>
-        </form>
+        </Form>
       </Card>
     </div>
   );

@@ -1,3 +1,5 @@
+import { Form, useTransition } from "@remix-run/react";
+
 import TextField from '~/components/TextField';
 import IsPositiveField from '~/components/IsPositiveField';
 import RecurrenceSelect from '~/components/RecurrenceSelect';
@@ -23,19 +25,24 @@ function RecurrentForm(props: RecurrentFormType) {
     startDate,
     endDate,
     isPositive,
-    recurrence,
+    recurrence = 'day',
   } = props;
+  const transition = useTransition();
 
   return (
-    <form method="post" className="flex flex-col items-stretch gap-4">
+    <Form method="post" className="flex flex-col items-stretch gap-4">
       <TextField
         label="Name*"
         name="name"
         required
         defaultValue={name}
+        disabled={transition.state === 'submitting'}
       />
       <div className="flex flex-row items-center gap-4">
-        <IsPositiveField defaultChecked={isPositive ? 'gain' : 'loss'} />
+        <IsPositiveField
+          defaultChecked={isPositive ? 'gain' : 'loss'}
+          disabled={transition.state === 'submitting'}
+        />
         <TextField
           label="Amount*"
           name="amount"
@@ -43,6 +50,7 @@ function RecurrentForm(props: RecurrentFormType) {
           step="0.01"
           required
           defaultValue={amount}
+          disabled={transition.state === 'submitting'}
         />
       </div>
       <RecurrenceSelect defaultValue={recurrence} />
@@ -50,14 +58,16 @@ function RecurrentForm(props: RecurrentFormType) {
         label="Start date*"
         name="startDate"
         type="date"
-        defaultValue={startDate}
         required
+        defaultValue={startDate}
+        disabled={transition.state === 'submitting'}
       />
       <TextField
         label="End date"
         name="endDate"
         type="date"
         defaultValue={endDate}
+        disabled={transition.state === 'submitting'}
       />
       <div className="flex flex-row justify-end pt-6">
         <Button onClick={onCancel}>
@@ -67,7 +77,7 @@ function RecurrentForm(props: RecurrentFormType) {
           { isAdd ? "Add" : "Edit" }
         </Button>
       </div>
-    </form>
+    </Form>
   );
 }
 

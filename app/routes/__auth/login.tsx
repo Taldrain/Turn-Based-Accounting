@@ -1,6 +1,6 @@
 import type { LoaderArgs, ActionArgs } from '@remix-run/node';
 import { json, redirect } from "@remix-run/node";
-import { Form, useActionData, useSearchParams } from "@remix-run/react";
+import { Form, useTransition, useActionData, useSearchParams } from "@remix-run/react";
 
 import EmailField from '~/components/EmailField'
 
@@ -85,14 +85,12 @@ export async function action({ request }: ActionArgs) {
     console.log(`url: http://localhost:3000/magic?${searchParams}`);
   }
 
-  await sendMail(new URLSearchParams({
-    from: 'TBA team <hello@tba.taldra.in>',
-    to: email,
-    subject: 'Magic sign-in link for TBA',
-    text,
-  }));
-
-  console.log('sent?')
+  // await sendMail(new URLSearchParams({
+  //   from: 'TBA team <hello@tba.taldra.in>',
+  //   to: email,
+  //   subject: 'Magic sign-in link for TBA',
+  //   text,
+  // }));
 
   return json({
     mailSent: true,
@@ -103,6 +101,7 @@ export async function action({ request }: ActionArgs) {
 
 export default function Login() {
   const actionData = useActionData<typeof action>();
+  const transition = useTransition();
   const [searchParams] = useSearchParams();
 
   if (actionData?.mailSent === true) {
@@ -112,7 +111,7 @@ export default function Login() {
   }
 
   return (
-    <Form reloadDocument method="post" action="/login" className="space-y-6">
+    <Form method="post" action="/login" className="space-y-6">
       <input
         type="hidden"
         name="redirectTo"
@@ -122,7 +121,8 @@ export default function Login() {
         defaultValue={actionData?.fields?.email}
         aria-invalid={Boolean(actionData?.fieldErrors?.email)}
         aria-errormessage={actionData?.fieldErrors?.email ? "email-error" : undefined}
-        />
+        disabled={transition.state === 'submitting'}
+      />
       { actionData?.fieldErrors?.email && (
         <p role="alert" id="email-error">
           { actionData.fieldErrors.email }
@@ -132,7 +132,10 @@ export default function Login() {
         type="submit"
         className="flex w-full justify-center rounded-md border border-transparent bg-orange-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
       >
-        Send a magic link
+        { transition.state === "submitting"
+          ? 'Sending link...'
+          : 'Send a magic link'
+        }
       </button>
     </Form>
   );
