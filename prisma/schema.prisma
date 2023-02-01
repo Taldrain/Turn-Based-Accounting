@@ -10,13 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// enum Recurrence {
-//   DAY
-//   WEEK
-//   MONTH
-//   YEAR
-// }
-
 model User {
   id        String      @id @default(uuid())
   createdAt DateTime    @default(now())

@@ -58,12 +58,7 @@ export async function action({ request }: ActionArgs) {
   const searchParams = new URLSearchParams([['token', token]]);
 
   const magicLink = `https://tba.taldra.in/magic?${searchParams}`;
-  let userExists = true
-  try {
-    await getUser(email);
-  } catch (err) {
-    userExists = false;
-  }
+  let userExists = (await getUser(email)) !== null;
 
   const text = `
   Here's your sign-in link for tba.taldra.in:
@@ -85,12 +80,18 @@ export async function action({ request }: ActionArgs) {
     console.log(`url: http://localhost:3000/magic?${searchParams}`);
   }
 
-  // await sendMail(new URLSearchParams({
-  //   from: 'TBA team <hello@tba.taldra.in>',
-  //   to: email,
-  //   subject: 'Magic sign-in link for TBA',
-  //   text,
-  // }));
+  const res = await sendMail(JSON.stringify({
+    from: {
+      email: 'hello@tba.taldra.in',
+      name: 'Turn-Based Accounting team',
+    },
+    to: [{ email }],
+    subject: 'Magic sign-in link for TBA',
+    text,
+    category: "magic link"
+  }));
+
+  await res.text();
 
   return json({
     mailSent: true,
