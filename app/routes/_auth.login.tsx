@@ -65,18 +65,18 @@ export async function action({ request }: ActionArgs) {
     let userExists = (await getUser(email)) !== null;
 
     const text = `
-    Here's your sign-in link for tba.taldra.in:
+Here's your sign-in link for tba.taldra.in:
 
-    ${magicLink}
+${magicLink}
 
-    ${
-      userExists
-        ? `Welcome back ${email}!`
-        : `Clicking the link above will create a *new* account on tba.taldra.in with the email ${email}. Welcome!`
-    }
+${
+userExists
+? `Welcome back ${email}!`
+: `Clicking the link above will create a *new* account on tba.taldra.in with the email ${email}. Welcome!`
+}
 
-    -- 
-    Turn-based Accounting
+-- 
+Turn-based Accounting
     `.trim();
 
     const res = await sendMail(JSON.stringify({
