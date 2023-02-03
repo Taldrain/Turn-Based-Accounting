@@ -57,41 +57,41 @@ export async function action({ request }: ActionArgs) {
   const token = signLoginToken(email, redirectTo);
   const searchParams = new URLSearchParams([['token', token]]);
 
-  const magicLink = `https://tba.taldra.in/magic?${searchParams}`;
-  let userExists = (await getUser(email)) !== null;
-
-  const text = `
-  Here's your sign-in link for tba.taldra.in:
-
-  ${magicLink}
-
-  ${
-    userExists
-      ? `Welcome back ${email}!`
-      : `Clicking the link above will create a *new* account on tba.taldra.in with the email ${email}. Welcome!`
-  }
-
-  -- 
-  Turn-based Accounting
-  `.trim()
-
 
   if (process.env.NODE_ENV !== 'production') {
     console.log(`url: http://localhost:3000/magic?${searchParams}`);
+  } else {
+    const magicLink = `https://tba.taldra.in/magic?${searchParams}`;
+    let userExists = (await getUser(email)) !== null;
+
+    const text = `
+    Here's your sign-in link for tba.taldra.in:
+
+    ${magicLink}
+
+    ${
+      userExists
+        ? `Welcome back ${email}!`
+        : `Clicking the link above will create a *new* account on tba.taldra.in with the email ${email}. Welcome!`
+    }
+
+    -- 
+    Turn-based Accounting
+    `.trim();
+
+    const res = await sendMail(JSON.stringify({
+      from: {
+        email: 'hello@tba.taldra.in',
+        name: 'Turn-Based Accounting team',
+      },
+      to: [{ email }],
+      subject: 'Magic sign-in link for TBA',
+      text,
+      category: "magic link"
+    }));
+
+    await res.text();
   }
-
-  const res = await sendMail(JSON.stringify({
-    from: {
-      email: 'hello@tba.taldra.in',
-      name: 'Turn-Based Accounting team',
-    },
-    to: [{ email }],
-    subject: 'Magic sign-in link for TBA',
-    text,
-    category: "magic link"
-  }));
-
-  await res.text();
 
   return json({
     mailSent: true,

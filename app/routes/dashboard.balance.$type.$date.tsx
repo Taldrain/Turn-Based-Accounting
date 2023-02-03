@@ -65,7 +65,7 @@ export const action = async ({ request }: ActionArgs) => {
   }
 
   // share fields between a punctual and recurrent entry
-  const name = String(formData.name);
+  const name = String(formData.name).trim();
   const amount = Number(formData.amount);
   const isPositive = formData.isPositive === 'gain';
 

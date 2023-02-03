@@ -21,7 +21,7 @@ function RecurrenceSelect(props: RecurrenceSelectProps) {
       >
         <option value="day">Daily</option>
         <option value="week">Weekly</option>
-        <option value="month">Montly</option>
+        <option value="month">Monthly</option>
         <option value="year">Yearly</option>
       </select>
     </label>
