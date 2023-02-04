@@ -1,6 +1,6 @@
 {
   "name": "turn-based-accounting",
-  "version": "2.0.0-new-archi.0",
+  "version": "2.0.0",
   "main": "index.js",
   "license": "MIT",
   "sideEffects": false,
