@@ -3,6 +3,8 @@ import type { Punctual, Recurrent } from '@prisma/client';
 import AmountDisplay from '~/components/AmountDisplay';
 import Card from '~/components/Card';
 
+import { getAmount } from '~/utils/number';
+
 type BalanceCardProps = {
   punctuals: Punctual[],
   recurrents: (Recurrent & { computedAmount: number })[],
@@ -11,10 +13,10 @@ type BalanceCardProps = {
 function BalanceCard({ punctuals, recurrents }: BalanceCardProps) {
 
   const sumPunctual = punctuals
-    .reduce((acc, cur) => acc + (cur.isPositive ? 1 : -1) * cur.amount, 0);
+    .reduce((acc, cur) => acc + getAmount(cur.amount, cur.isPositive), 0);
 
   const sumRecurrent = recurrents
-    .reduce((acc, cur) => acc + (cur.isPositive ? 1 : -1) * cur.computedAmount, 0);
+    .reduce((acc, cur) => acc + getAmount(cur.computedAmount, cur.isPositive), 0);
 
   const sumEntries = sumPunctual + sumRecurrent;
 

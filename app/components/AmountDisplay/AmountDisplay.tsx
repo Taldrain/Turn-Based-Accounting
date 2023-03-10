@@ -1,6 +1,6 @@
 import { useLoaderData } from "@remix-run/react";
 
-import { formatBalance } from '~/utils/number';
+import { formatBalance, getAmount } from '~/utils/number';
 import { getUserLocale, getUserCurrency } from '~/utils/userSettings';
 
 interface AmountDisplayType {
@@ -18,7 +18,7 @@ function AmountDisplay({ amount, isPositive }: AmountDisplayType) {
       { formatBalance(
         getUserLocale(userSettings),
         getUserCurrency(userSettings),
-        (isPositive ? 1 : -1) * amount,
+        getAmount(amount, isPositive),
       )}
     </span>
   );
