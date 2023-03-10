@@ -166,7 +166,8 @@ export const loader = async ({ request, params }: LoaderArgs) => {
   return typedjson({
     punctuals,
     recurrents: recurrents.map(entry => computeNewAmount(entry, date, params.type)),
-    userSettings });
+    userSettings,
+  });
 };
 
 export default function Balance() {
