@@ -1,4 +1,4 @@
-import { Form, useTransition } from "@remix-run/react";
+import { Form, useNavigation } from "@remix-run/react";
 
 import TextField from '~/components/TextField';
 import IsPositiveField from '~/components/IsPositiveField';
@@ -27,7 +27,7 @@ function RecurrentForm(props: RecurrentFormType) {
     isPositive,
     recurrence = 'day',
   } = props;
-  const transition = useTransition();
+  const navigation = useNavigation();
 
   return (
     <Form method="post" className="flex flex-col items-stretch gap-4">
@@ -36,12 +36,12 @@ function RecurrentForm(props: RecurrentFormType) {
         name="name"
         required
         defaultValue={name}
-        disabled={transition.state === 'submitting'}
+        disabled={navigation.state === 'submitting'}
       />
       <div className="flex flex-row items-center gap-4">
         <IsPositiveField
           defaultChecked={isPositive ? 'gain' : 'loss'}
-          disabled={transition.state === 'submitting'}
+          disabled={navigation.state === 'submitting'}
         />
         <TextField
           label="Amount*"
@@ -50,7 +50,7 @@ function RecurrentForm(props: RecurrentFormType) {
           step="0.01"
           required
           defaultValue={amount}
-          disabled={transition.state === 'submitting'}
+          disabled={navigation.state === 'submitting'}
         />
       </div>
       <RecurrenceSelect defaultValue={recurrence} />
@@ -60,14 +60,14 @@ function RecurrentForm(props: RecurrentFormType) {
         type="date"
         required
         defaultValue={startDate}
-        disabled={transition.state === 'submitting'}
+        disabled={navigation.state === 'submitting'}
       />
       <TextField
         label="End date"
         name="endDate"
         type="date"
         defaultValue={endDate}
-        disabled={transition.state === 'submitting'}
+        disabled={navigation.state === 'submitting'}
       />
       <div className="flex flex-row justify-end pt-6">
         <Button onClick={onCancel}>
