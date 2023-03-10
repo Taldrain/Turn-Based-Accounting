@@ -1,9 +1,14 @@
+import { useLoaderData } from "@remix-run/react";
+
+import { getUserLocale } from '~/utils/userSettings';
+
 type DateDisplayProps = {
   date: Date,
   type: string,
 }
 
 function DateDisplay({ date, type }: DateDisplayProps) {
+  const { userSettings } = useLoaderData();
   // `day` and `week` date type share the same display
   let options: any = { dateStyle: 'full' };
   if (type === 'year') {
@@ -14,7 +19,7 @@ function DateDisplay({ date, type }: DateDisplayProps) {
 
   return (
     <div className="text-orange-500 font-medium">
-      { date.toLocaleDateString(undefined, options) }
+      { date.toLocaleDateString(getUserLocale(userSettings), options) }
     </div>
   );
 }

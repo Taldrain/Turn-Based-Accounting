@@ -4,7 +4,9 @@
 module.exports = {
   ignoredRouteFiles: ["**/.*"],
   future: {
+    unstable_dev: false,
     v2_routeConvention: true,
+    unstable_tailwind: true,
   },
   // appDirectory: "app",
   // assetsBuildDirectory: "public/build",

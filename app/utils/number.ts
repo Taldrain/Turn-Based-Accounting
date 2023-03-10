@@ -5,6 +5,11 @@ function formatBalance(locale: string, currency: string, value: number) {
   }).format(value);
 }
 
+function getAmount(amount: number, isPositive: boolean): number {
+  return (isPositive ? 1 : -1) * amount;
+}
+
 export {
   formatBalance,
+  getAmount,
 };

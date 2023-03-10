@@ -1,6 +1,6 @@
 import type { LoaderArgs, ActionArgs } from '@remix-run/node';
 import { json, redirect } from "@remix-run/node";
-import { Form, useTransition, useActionData, useSearchParams } from "@remix-run/react";
+import { Form, useNavigation, useActionData, useSearchParams } from "@remix-run/react";
 
 import EmailField from '~/components/EmailField'
 
@@ -102,7 +102,7 @@ Turn-based Accounting
 
 export default function Login() {
   const actionData = useActionData<typeof action>();
-  const transition = useTransition();
+  const navigation = useNavigation();
   const [searchParams] = useSearchParams();
 
   if (actionData?.mailSent === true) {
@@ -122,7 +122,7 @@ export default function Login() {
         defaultValue={actionData?.fields?.email}
         aria-invalid={Boolean(actionData?.fieldErrors?.email)}
         aria-errormessage={actionData?.fieldErrors?.email ? "email-error" : undefined}
-        disabled={transition.state === 'submitting'}
+        disabled={navigation.state === 'submitting'}
       />
       { actionData?.fieldErrors?.email && (
         <p role="alert" id="email-error">
@@ -133,7 +133,7 @@ export default function Login() {
         type="submit"
         className="flex w-full justify-center rounded-md border border-transparent bg-orange-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
       >
-        { transition.state === "submitting"
+        { navigation.state === "submitting"
           ? 'Sending link...'
           : 'Send a magic link'
         }

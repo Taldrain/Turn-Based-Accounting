@@ -1,5 +1,5 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
-import { Form, useTransition, useLoaderData } from "@remix-run/react";
+import { Form, useNavigation, useLoaderData } from "@remix-run/react";
 
 import Button from '~/components/Button';
 import Card from '~/components/Card';
@@ -58,7 +58,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 
 export default function Balance() {
   const { settings, email } = useLoaderData<typeof loader>();
-  const transition = useTransition();
+  const navigation = useNavigation();
 
   return (
     <div className="m-auto w-[36rem]">
@@ -72,18 +72,18 @@ export default function Balance() {
           <EmailField label="Email" disabled defaultValue={email} />
           <LocaleSelect
             defaultValue={getUserLocale(settings)}
-            disabled={transition.state === 'submitting'}
+            disabled={navigation.state === 'submitting'}
           />
           <CurrencySelect
             defaultValue={getUserCurrency(settings)}
-            disabled={transition.state === 'submitting'}
+            disabled={navigation.state === 'submitting'}
           />
           <div className="flex flex-row justify-end pt-6">
             <Button type="reset">
               Cancel
             </Button>
             <Button type="submit" className="text-orange-500 hover:bg-orange-50">
-              { transition.state === 'submitting'
+              { navigation.state === 'submitting'
                 ? 'Saving...'
                 : 'Save'
               }
