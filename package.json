@@ -1,16 +1,16 @@
 {
   "name": "turn-based-accounting",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "main": "index.js",
   "license": "MIT",
   "sideEffects": false,
   "scripts": {
     "upgrade-interactive": "npm-check --update",
-    "build": "remix",
-    "dev": "run-p dev:*",
-    "dev:build": "cross-env NODE_ENV=development remix dev",
-    "dev:serve": "cross-env NODE_ENV=development nodemon --watch build node_modules/.bin/remix-serve build",
-    "start": "remix-serve build"
+    "build": "remix build",
+    "dev": "cross-env NODE_ENV=development remix dev",
+    "start": "remix-serve build",
+    "typecheck": "tsc",
+    "test": "vitest"
   },
   "prisma": {
     "seed": "node --require esbuild-register prisma/seed.ts"
@@ -33,22 +33,26 @@
   },
   "devDependencies": {
     "@babel/core": "7.21.0",
+    "@faker-js/faker": "7.6.0",
     "@remix-run/dev": "1.14.1",
     "@remix-run/eslint-config": "1.14.1",
     "@tailwindcss/forms": "0.5.3",
     "@types/jsonwebtoken": "9.0.1",
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.11",
+    "@vitejs/plugin-react": "3.1.0",
     "babel-loader": "9.1.2",
     "cross-env": "7.0.3",
     "esbuild-register": "3.4.2",
     "eslint": "8.35.0",
+    "jsdom": "21.1.1",
     "nodemon": "2.0.21",
     "npm-check": "6.0.1",
     "npm-run-all": "4.1.5",
     "prisma": "4.11.0",
     "tailwindcss": "3.2.7",
-    "typescript": "4.9.5"
+    "typescript": "4.9.5",
+    "vitest": "0.29.2"
   },
   "engines": {
     "node": ">=14"

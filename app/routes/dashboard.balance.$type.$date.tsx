@@ -4,7 +4,7 @@ import type { Punctual, Recurrent } from '@prisma/client';
 import { redirect } from '@remix-run/node';
 import { useLoaderData, useParams, useSearchParams } from "@remix-run/react";
 import { typedjson } from 'remix-typedjson';
-import invariant from "tiny-invariant";
+import invariant from 'tiny-invariant';
 
 import BalanceCard from '~/components/BalanceCard';
 import DateSelectionCard from '~/components/DateSelectionCard';
@@ -162,10 +162,9 @@ export const loader = async ({ request, params }: LoaderArgs) => {
   const recurrents = await getRecurrents(userId, startOf(date, params.type), endOf(date, params.type))
   const userSettings = await getSettings(userId);
 
-
   return typedjson({
     punctuals,
-    recurrents: recurrents.map(entry => computeNewAmount(entry, date, params.type)),
+    recurrents: recurrents.map(entry => computeNewAmount(entry, date, params.type!)),
     userSettings,
   });
 };

@@ -24,8 +24,8 @@ function validateEntryAmount(amount: unknown) {
 }
 
 function validateEntryDate(date: Date) {
-  if (date.toString() === 'Invalid Date' || date.getFullYear() < 1970) {
-    return "Date should be a valid date (>1970)";
+  if (date.toString() === 'Invalid Date') {
+    return "Date should be a valid date";
   }
 }
 
