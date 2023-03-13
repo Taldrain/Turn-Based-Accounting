@@ -18,7 +18,6 @@ export default function Landing() {
   return (
     <div className="bg-white h-screen flex flex-col">
       <main className="grow">
-        {/* Hero section */}
         <div className="overflow-hidden pt-8 sm:pt-12 lg:relative lg:py-48">
           <div className="mx-auto max-w-md px-6 sm:max-w-3xl lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-24 lg:px-8">
             <div>
