@@ -28,4 +28,4 @@ From the ideas of the [Bennedetto project](https://github.com/arecker/bennedetto
 
 3. Seed the database (optional)
 
-`npx prisma seed`
+`npx prisma db seed`

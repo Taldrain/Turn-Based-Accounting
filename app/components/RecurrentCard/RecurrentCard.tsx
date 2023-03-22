@@ -5,7 +5,7 @@ import { PlusIcon } from '@heroicons/react/24/outline';
 import Card from '~/components/Card';
 import RecurrentList from '~/components/RecurrentList';
 
-function RecurrentCard({ recurrents }: { recurrents: Recurrent[] }) {
+function RecurrentCard({ recurrents }: { recurrents: (Recurrent & { computedAmount: number})[] }) {
   return (
     <Card>
       <div className="flex justify-between items-center pb-4">

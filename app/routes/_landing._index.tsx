@@ -1,12 +1,23 @@
-import { Link } from '@remix-run/react';
+import type { LoaderArgs } from "@remix-run/node";
+import { Link, useLoaderData } from '@remix-run/react';
 
+import{ getUserId } from '~/utils/session.server';
 import landing from "~/images/landing.png";
 
+export const loader = async({ request }: LoaderArgs) => {
+  const userId = await getUserId(request);
+
+  return ({
+    isLoggedIn: userId !== null,
+  });
+}
+
 export default function Landing() {
+  const { isLoggedIn } = useLoaderData<typeof loader>();
+
   return (
     <div className="bg-white h-screen flex flex-col">
       <main className="grow">
-        {/* Hero section */}
         <div className="overflow-hidden pt-8 sm:pt-12 lg:relative lg:py-48">
           <div className="mx-auto max-w-md px-6 sm:max-w-3xl lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-24 lg:px-8">
             <div>
@@ -24,7 +35,7 @@ export default function Landing() {
                     to="/dashboard/"
                     className="rounded-md border border-transparent inline-flex bg-orange-500 px-5 py-3 text-base font-medium text-white shadow hover:bg-orange-600 sm:px-10"
                   >
-                    Sign-in
+                    { isLoggedIn ? "Go to dashboard" : "Sign-in" }
                   </Link>
                 </div>
               </div>

@@ -28,8 +28,8 @@ export const action = async ({ request }: ActionArgs) => {
   const formData = Object.fromEntries(await request.formData());
   const userId = await requireUserId(request);
 
-  const currency = formData.currency;
-  const locale = formData.locale;
+  const currency = String(formData.currency);
+  const locale = String(formData.locale);
 
   const fields = { currency, locale };
   const fieldErrors = {

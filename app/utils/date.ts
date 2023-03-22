@@ -14,6 +14,8 @@ import {
   startOfWeek,
   startOfYear,
   sub,
+
+  intervalToDuration,
 } from 'date-fns';
 
 function formatDate(date: Date): string {
@@ -86,15 +88,6 @@ function endOf(date: Date, type: string): Date {
   }
 }
 
-function diffDate(startDate: Date, endDate: Date, type: string): number {
-  switch (type) {
-    case 'year': return differenceInCalendarYears(startDate, endDate);
-    case 'month': return differenceInCalendarMonths(startDate, endDate);
-    case 'week': return differenceInCalendarWeeks(startDate, endDate);
-    default: return differenceInCalendarDays(startDate, endDate);
-  }
-}
-
 function maxDate(date1: Date, date2?: Date): Date {
   if (date2 === undefined) {
     return date1;
@@ -112,7 +105,6 @@ function minDate(date1: Date, date2?: Date | null): Date {
 }
 
 export {
-  diffDate,
   endOf,
   formatDate,
   isInvalidDateParam,

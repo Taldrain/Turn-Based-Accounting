@@ -1,13 +1,15 @@
 import type { Recurrent } from "@prisma/client";
 
-import { getWeeksInMonth, getDaysInMonth, getDaysInYear } from 'date-fns';
+import {
+  getDaysInMonth,
+  getDaysInYear,
+  differenceInCalendarDays,
+} from 'date-fns';
 
 import {
-  diffDate,
   endOf,
   maxDate,
   minDate,
-  nextDate,
   startOf,
 } from '~/utils/date';
 
@@ -24,8 +26,8 @@ function validateEntryAmount(amount: unknown) {
 }
 
 function validateEntryDate(date: Date) {
-  if (date.toString() === 'Invalid Date' || date.getFullYear() < 1970) {
-    return "Date should be a valid date (>1970)";
+  if (date.toString() === 'Invalid Date') {
+    return "Date should be a valid date";
   }
 }
 
@@ -45,26 +47,29 @@ function validateEntryRecurrence(recurrence: unknown) {
   }
 }
 
-
+// we assume the date is in the entry interval
 function computeNewAmount(entry: Recurrent, date: Date, type: string) {
-  const startDate = maxDate(startOf(date, type), entry.startDate);
-  const endDate = minDate(endOf(date, type), entry.endDate);
+  // number of days part of the entry, with intersection of the view interval
+  const startEntryDate = maxDate(startOf(date, type), entry.startDate);
+  const endEntryDate = minDate(endOf(date, type), entry.endDate);
+  const entryDays = Math.abs(differenceInCalendarDays(startEntryDate, endEntryDate)) + 1;
 
-  let diff = diffDate(startDate, new Date(nextDate(endDate.toString(), 'day')), entry.recurrence);
-  // date-fns does not support fraction result for date difference
-  if (entry.recurrence === 'week' && type === 'day') {
-    diff = 1 / 7;
-  } else if (entry.recurrence === 'month' && type === 'day') {
-    diff = 1 / getDaysInMonth(date)
-  } else if (entry.recurrence === 'month' && type === 'week') {
-    diff = 1 / getWeeksInMonth(date);
-  } else if (entry.recurrence === 'year' && type === 'day') {
-    diff = 1 / getDaysInYear(date)
-  } else if (entry.recurrence === 'year' && type === 'week') {
-    diff = 1 / 52.143
-  } else if (entry.recurrence === 'year' && type === 'month') {
-    diff = 1 / 12;
+  let entryDaysRecurrency = 1;
+  if (entry.recurrence === 'year') {
+    // TODO: here we should also remove the days already passed if the start
+    // date of the entry is the same year but does not start of the year
+    entryDaysRecurrency = getDaysInYear(date);
+  } else if (entry.recurrence === 'month') {
+    // TODO: here we should also remove the days already passed if the start
+    // date of the entry is the same month but does not start of the month
+    // TODO: it is also not perfect when the `type` is `year`, we will use the
+    // same number of month for each month
+    entryDaysRecurrency = getDaysInMonth(date);
+  } else if (entry.recurrence === 'week') {
+    entryDaysRecurrency = 7;
   }
+
+  const diff = entryDays / entryDaysRecurrency;
 
   return ({ ...entry, computedAmount: Math.abs(entry.amount * diff) });
 }
