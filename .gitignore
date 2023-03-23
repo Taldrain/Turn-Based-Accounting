@@ -5,8 +5,3 @@ node_modules/
 /public/build
 /prisma/data.db
 .env
-
-/app/tailwind.css
-
-
-/src/
