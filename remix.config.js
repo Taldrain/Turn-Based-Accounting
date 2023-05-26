@@ -3,13 +3,13 @@
  */
 module.exports = {
   ignoredRouteFiles: ["**/.*"],
+  tailwind: true,
+  // serverModuleFormat: "esm",
   future: {
     unstable_dev: false,
     v2_routeConvention: true,
-    unstable_tailwind: true,
+    v2_meta: true,
+    v2_errorBoundary: true,
+    v2_normalizeFormMethod: true,
   },
-  // appDirectory: "app",
-  // assetsBuildDirectory: "public/build",
-  // serverBuildPath: "build/index.js",
-  // publicPath: "/build/",
 };
