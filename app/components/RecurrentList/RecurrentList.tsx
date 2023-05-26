@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from '@remix-run/react';
+import { Form, Link } from '@remix-run/react';
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import type { Recurrent } from "@prisma/client";
 
@@ -113,11 +113,11 @@ function RecurrentList({ recurrents }: RecurrentListProps) {
                   </Link>
                 </td>
                 <td className="relative py-4 px-4 text-center">
-                  <form method="post" action={`?delete=recurrent&id=${recurrent.id}`}>
+                  <Form method="post" action={`?delete=recurrent&id=${recurrent.id}`}>
                     <button type="submit">
                       <TrashIcon className="inline-block w-4 h-4" />
                     </button>
-                  </form>
+                  </Form>
                 </td>
               </tr>
             ))}

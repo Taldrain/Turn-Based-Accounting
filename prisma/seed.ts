@@ -8,7 +8,7 @@ function getPunctuals(nb: number, userId: string) {
     amount: parseInt(faker.commerce.price(), 10),
     name: faker.commerce.productName(),
     isPositive: faker.datatype.boolean(),
-    date: faker.date.recent(5),
+    date: faker.date.recent({ days: 5 }),
     userId,
   }));
 }
@@ -18,7 +18,7 @@ function getRecurrents(nb: number, userId: string) {
     amount: parseInt(faker.commerce.price(), 10),
     name: faker.commerce.productName(),
     isPositive: faker.datatype.boolean(),
-    startDate: faker.date.recent(20),
+    startDate: faker.date.recent({ days: 20 }),
     recurrence: faker.helpers.arrayElement(['day', 'week', 'month', 'year']),
     userId,
   }));
