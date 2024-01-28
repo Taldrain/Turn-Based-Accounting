@@ -9,7 +9,7 @@ type DateDisplayProps = {
 }
 
 function DateDisplay({ date, type }: DateDisplayProps) {
-  const { userSettings } = useLoaderData() as { userSettings: Settings }
+  const { userSettings } = useLoaderData() as { userSettings: Settings };
   // `day` and `week` date type share the same display
   let options: any = { dateStyle: 'full' };
   if (type === 'year') {

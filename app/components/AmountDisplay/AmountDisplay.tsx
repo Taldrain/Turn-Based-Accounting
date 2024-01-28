@@ -10,7 +10,7 @@ interface AmountDisplayType {
 }
 
 function AmountDisplay({ amount, isPositive }: AmountDisplayType) {
-  const { userSettings } = useLoaderData() as { userSettings: Settings }
+  const { userSettings } = useLoaderData() as { userSettings: Settings };
 
   const color = isPositive ? 'text-green-500' : 'text-red-500';
 
