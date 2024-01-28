@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
 
 import AppBar from '~/components/AppBar';
@@ -9,7 +9,7 @@ import { getSettings } from '~/utils/queries.server';
 import { getUserLocale } from '~/utils/userSettings';
 import { localizeDateFns } from '~/utils/l10n';
 
-export const loader = async ({ request }: LoaderArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const userId = await requireUserId(request);
   const settings = await getSettings(userId);
 

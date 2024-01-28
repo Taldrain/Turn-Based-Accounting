@@ -1,10 +1,10 @@
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "@remix-run/node";
 import { Link, useLoaderData } from '@remix-run/react';
 
 import{ getUserId } from '~/utils/session.server';
 import landing from "~/images/landing.png";
 
-export const loader = async({ request }: LoaderArgs) => {
+export const loader = async({ request }: LoaderFunctionArgs) => {
   const userId = await getUserId(request);
 
   return ({

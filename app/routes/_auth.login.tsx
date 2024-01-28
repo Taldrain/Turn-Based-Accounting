@@ -1,4 +1,4 @@
-import type { LoaderArgs, ActionArgs } from '@remix-run/node';
+import type { LoaderFunctionArgs, ActionFunctionArgs } from '@remix-run/node';
 import { json, redirect } from "@remix-run/node";
 import { Form, useNavigation, useActionData, useSearchParams } from "@remix-run/react";
 
@@ -18,7 +18,7 @@ function validateEmail(email: unknown) {
   }
 }
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const userId = await getUserId(request);
   if (userId !== null) {
     throw redirect('/dashboard/');
@@ -28,7 +28,7 @@ export async function loader({ request }: LoaderArgs) {
 }
 
 // most of the login process is inspired from the kentcdodds.com website
-export async function action({ request }: ActionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const form = await request.formData();
   const email = form.get('email');
   const redirectTo = `${form.get('redirectTo')}` || '/dashboard/';

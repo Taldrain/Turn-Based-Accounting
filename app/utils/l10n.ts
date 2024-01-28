@@ -1,14 +1,14 @@
 import { setDefaultOptions } from 'date-fns';
 
-function localizeDateFns(locale: string) {
+async function localizeDateFns(locale: string) {
   if (locale === 'fr-FR') {
-    const { fr } = require('date-fns/locale');
+    const { fr } = await import('date-fns/locale');
     setDefaultOptions({ locale: fr });
 
     return;
   }
 
-  const { enUS } = require('date-fns/locale');
+  const { enUS } = await import('date-fns/locale');
   setDefaultOptions({ locale: enUS });
 }
 

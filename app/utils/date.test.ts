@@ -12,9 +12,9 @@ import {
 
 import { localizeDateFns } from './l10n';
 
-beforeAll(() => {
+beforeAll(async () => {
   // the week will start a monday
-  localizeDateFns('fr-FR');
+  await localizeDateFns('fr-FR');
 });
 
 test('formatDate returns a date in the yyyy-MM-dd format', () => {

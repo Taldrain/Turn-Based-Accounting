@@ -12,9 +12,9 @@ import {
 
 import { localizeDateFns } from './l10n';
 
-beforeAll(() => {
+beforeAll(async () => {
   // the week will start a monday
-  localizeDateFns('fr-FR');
+  await localizeDateFns('fr-FR');
 });
 
 function dummyRecurrentEntry(startDate: Date, endDate: Date | null, amount: number, isPositive: boolean, recurrence: string): Recurrent {

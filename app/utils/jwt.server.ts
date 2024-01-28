@@ -1,5 +1,6 @@
 import type { JwtPayload } from 'jsonwebtoken'
-import { sign, verify, JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
+import pkg from 'jsonwebtoken'
+const { sign, verify, JsonWebTokenError, TokenExpiredError } = pkg;
 
 const jwtSecret = process.env.JWT_SECRET;
 if (!jwtSecret) {

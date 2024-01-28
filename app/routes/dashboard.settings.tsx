@@ -1,4 +1,4 @@
-import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { Form, useNavigation, useLoaderData } from "@remix-run/react";
 
 import Button from '~/components/Button';
@@ -24,7 +24,7 @@ function validateLocale(locale: unknown) {
   }
 }
 
-export const action = async ({ request }: ActionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = Object.fromEntries(await request.formData());
   const userId = await requireUserId(request);
 
@@ -48,7 +48,7 @@ export const action = async ({ request }: ActionArgs) => {
   return null;
 }
 
-export const loader = async ({ request }: LoaderArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const userId = await requireUserId(request);
   const settings = await getSettings(userId);
   const user = await getUserById(userId);
