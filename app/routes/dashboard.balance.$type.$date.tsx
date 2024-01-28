@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import type { LoaderArgs, ActionArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs, ActionFunctionArgs } from "@remix-run/node";
 import type { Punctual, Recurrent } from '@prisma/client';
 import { redirect } from '@remix-run/node';
 import { useLoaderData, useParams, useSearchParams } from "@remix-run/react";
@@ -43,7 +43,7 @@ import {
   computeNewAmount,
 } from '~/utils/entry';
 
-export const action = async ({ request }: ActionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = Object.fromEntries(await request.formData());
   const userId = await requireUserId(request);
   const url = new URL(request.url);
@@ -144,7 +144,7 @@ export const action = async ({ request }: ActionArgs) => {
   return null;
 };
 
-export const loader = async ({ request, params }: LoaderArgs) => {
+export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const userId = await requireUserId(request);
   invariant(params.type, 'Expected params.type');
   invariant(params.date, 'Expected params.date');

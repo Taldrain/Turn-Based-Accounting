@@ -1,3 +1,4 @@
+import type { Settings } from "@prisma/client";
 import { useLoaderData } from "@remix-run/react";
 
 import { formatBalance, getAmount } from '~/utils/number';
@@ -9,7 +10,7 @@ interface AmountDisplayType {
 }
 
 function AmountDisplay({ amount, isPositive }: AmountDisplayType) {
-  const { userSettings } = useLoaderData();
+  const { userSettings } = useLoaderData() as { userSettings: Settings }
 
   const color = isPositive ? 'text-green-500' : 'text-red-500';
 

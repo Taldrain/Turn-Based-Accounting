@@ -1,4 +1,4 @@
-import type { LoaderArgs } from '@remix-run/node';
+import type { LoaderFunctionArgs } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import { Link, useLoaderData } from '@remix-run/react';
 
@@ -6,7 +6,7 @@ import { verifyLoginToken, TokenExpiredError } from '~/utils/jwt.server';
 import { getUser, createUser } from '~/utils/queries.server';
 import { createUserSession } from '~/utils/session.server';
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
   const token = url.searchParams.get('token');
 
