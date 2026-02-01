@@ -1,5 +1,7 @@
 # Turn-Based Accounting
 
+> **This project is no longer maintained.** It hasn't been updated since 2024, though it was used weekly until early 2026. I've since switched to [beancount](https://github.com/beancount/beancount) for personal accounting.
+
 Full rewrite using Remix, Prisma and Tailwind.
 
 [tba.taldra.in](https://tba.taldra.in)
